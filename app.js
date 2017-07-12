@@ -29,7 +29,7 @@ var router = require('./routes/index');
 router(app);
 
 //链接数据库
-var mongoose = require('./model/utils/mongodb_utils').getConnection();
+require('./model/utils/mongodb_utils').getConnection();
 
 
 //启动服务器端口
