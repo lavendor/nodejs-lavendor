@@ -25,7 +25,7 @@ app.engine('.html',hbs.__express);
 app.use(express.static(path.join(__dirname,'public')));
 
 //挂载路由
-var router = require('./routes/index');
+var router = require('./routes/routes');
 router(app);
 
 //链接数据库

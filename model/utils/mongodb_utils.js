@@ -12,7 +12,7 @@ var $mongoose = null;
  * 一个应用只能有一个mongodb的数据库连接
  */
 exports.getConnection = function(){
-    var mongoose;
+    var mongoose = null;
 
     if($mongoose == null){
         /**
@@ -21,30 +21,30 @@ exports.getConnection = function(){
          */
         mongoose = mongodb.createConnection(URL);
 
+
+        /**
+         * 链接成功
+         */
+        mongoose.on('connected',function(){
+            console.log('mongoose connected on '+URL);
+        });
+
+        /**
+         * 断开连接
+         */
+        mongoose.on('disconnected',function(){
+            console.warn('mongoose disconnected');
+        });
+
+        /**
+         * 连接失败
+         */
+        mongoose.on('error',function(error){
+            console.warn('mongoose connect error:'+error);
+        });
+
         $mongoose = mongoose;
     }
-
-    /**
-     * 链接成功
-     */
-    mongoose.on('connected',function(){
-        console.log('mongoose connected on '+URL);
-    });
-
-    /**
-     * 断开连接
-     */
-    mongoose.on('disconnected',function(){
-        console.warn('mongoose disconnected');
-    });
-
-    /**
-     * 连接失败
-     */
-    mongoose.on('error',function(error){
-        console.warn('mongoose connect error:'+error);
-    });
-
     return $mongoose;
 };
 
