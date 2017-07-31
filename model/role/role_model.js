@@ -6,14 +6,15 @@ var $mongoose = require('../utils/mongodb_utils').getConnection();
 var Schema = mongoose.Schema;
 
 /**
- * 创建一个角色表的model
+ * 角色model
  * @type {*|Schema}
  */
 var roleSchema = new Schema({
-    role_name:String,
-    role_code:String,
-    role_type:String
+    role_code:String,           //角色编码
+    role_name:String,           //角色名称
+    role_type:String,           //角色类型
+    role_status:Number          //角色状态
 },{
-    collection:'tb_role'
+    collection:'tb_role_info'
 });
 exports.$role = $mongoose.model('role',roleSchema);

@@ -6,16 +6,20 @@ var $mongoose = require('../utils/mongodb_utils').getConnection();
 var Schema = mongoose.Schema;
 
 /**
- * 创建一个用户model
+ * 用户model
  * @type {*|Schema}
  */
 var userSchema = new Schema({
-    user_name:String,
-    user_code:String,
-    user_password:String,
-    create_time:Date,
-    update_time:Date
+    user_no:String,         //用户编号
+    user_name:String,       //用户姓名
+    user_account:String,    //登录账号
+    user_password:String,   //登录密码
+    user_role:String,       //用户角色
+    user_sys:String,        //所属系统
+    user_status:Number,     //用户状态
+    create_time:Date,       //创建时间
+    update_time:Date        //更新时间
 },{
-    collection:'tb_user'
+    collection:'tb_user_info'
 });
 exports.$user = $mongoose.model('user',userSchema);
