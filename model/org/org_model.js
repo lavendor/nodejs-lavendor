@@ -1,8 +1,7 @@
 /**
  * Created by yanghao on 2017/7/31.
  */
-var mongoose = require('mongoose');
-var $mongoose = require('./utils/mongodb_utils').getConnection();
+var mongoose = require('./utils/mongodb_utils').getConnection();
 var Schema = mongoose.Schema;
 
 /**
@@ -18,4 +17,4 @@ var orgSchema = new Schema({
 },{
     collection:"tb_org_info"
 });
-exports.$org = $mongoose.model('org',orgSchema);
+exports.$org = mongoose.model('org',orgSchema);

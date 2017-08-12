@@ -1,8 +1,7 @@
 /**
  * Created by yanghao on 2017/7/12.
  */
-var mongoose = require('mongoose');
-var $mongoose = require('../utils/mongodb_utils').getConnection();
+var mongoose = require('../utils/mongodb_utils').getConnection();
 var Schema = mongoose.Schema;
 
 /**
@@ -22,4 +21,5 @@ var userSchema = new Schema({
 },{
     collection:'tb_user_info'
 });
-exports.$user = $mongoose.model('user',userSchema);
+
+exports.$user = mongoose.model('user',userSchema);

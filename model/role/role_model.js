@@ -1,8 +1,7 @@
 /**
  * Created by yanghao on 2017/7/12.
  */
-var mongoose = require('mongoose');
-var $mongoose = require('../utils/mongodb_utils').getConnection();
+var mongoose = require('../utils/mongodb_utils').getConnection();
 var Schema = mongoose.Schema;
 
 /**
@@ -17,4 +16,4 @@ var roleSchema = new Schema({
 },{
     collection:'tb_role_info'
 });
-exports.$role = $mongoose.model('role',roleSchema);
+exports.$role = mongoose.model('role',roleSchema);
