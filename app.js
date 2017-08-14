@@ -24,6 +24,9 @@ app.engine('.html',hbs.__express);
 //引入静态资源
 app.use(express.static(path.join(__dirname,'public')));
 
+//注册partials路径
+hbs.registerPartials(__dirname+'/views/partials');
+
 //挂载路由
 var router = require('./routes');
 router(app);
