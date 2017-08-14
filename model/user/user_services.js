@@ -1,7 +1,6 @@
 /**
  * Created by yanghao on 2017/7/12.
  */
-
 var userModel = require('./user_model');
 
 /**
@@ -17,3 +16,19 @@ exports.addUser = function(params,callback){
         callback('添加用户成功！');
     });
 };
+
+/**
+ * 获取用户列表
+ * @param req
+ * @param res
+ * @param callback
+ */
+exports.getUserList = function(req,res,callback){
+    userModel.$user.find(function(err,users){
+        if(err){
+            callback('获取用户列表失败！',null);
+        }else{
+            callback(null,users);
+        }
+    })
+}

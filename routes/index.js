@@ -3,14 +3,15 @@
  */
 
 module.exports = function(app){
+    //默认到index页面
+    app.get('/',function(req,res){
+        res.redirect('/index');
+    })
     //路由配置
     app.use('/index',function(req,res){
-        res.render('index',{name:'yanghao',title:'HandlerBar'});
+        res.render('index',{name:'yanghao',title:'HandlerBar',main:'user/login'});
     });
-
     app.use('/login',require('./login/login'));
-
     app.use('/user',require('./user/user_route'));
-
     app.use('/role',require('./role/role_route'));
 }
