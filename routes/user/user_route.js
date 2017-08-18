@@ -40,7 +40,7 @@ router.post('/getUserList',function(req,res){
         if(err){
             res.send({success:false,msg:err,data:null});
         }else{
-            res.send({success:true,msg:"获取用户列表成功",rows:users});
+            res.send({'success':true,'msg':"获取用户列表成功",'total':users.length,'rows':users});
         }
     });
 });
