@@ -23,7 +23,7 @@ module.exports = function(app){
 
     /**测试bootstrap-table**/
     app.use('/table',function(req,res){
-        res.render('user/table',{layout:'layout/layout2'});//指定模板
+        res.render('user/table');//指定模板
     });
 
     app.use('/login',require('./login/login'));
