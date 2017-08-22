@@ -22,8 +22,8 @@ router.get('/login',function(req,res){
  */
 router.post('/addUser',function(req,res){
     var params = {
-        user_name:req.body.user_name,
         user_no:req.body.user_code,
+        user_name:req.body.user_name,
         user_password:req.body.user_password,
         create_time:new Date()
     };

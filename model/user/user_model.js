@@ -11,6 +11,7 @@ var Schema = mongoose.Schema;
 var userSchema = new Schema({
     user_no:String,         //用户编号
     user_name:String,       //用户姓名
+    user_sex:Number,        //用户性别
     user_account:String,    //登录账号
     user_password:String,   //登录密码
     user_role:String,       //用户角色

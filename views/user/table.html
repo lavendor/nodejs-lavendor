@@ -4,27 +4,104 @@
 
 <!--当前页中 引入bootstrap-table的js-->
 <script src="static/plugins/bootstrap-table/js/bootstrap-table.js"></script>
-<!--当前页中 引入bootstrap-table的本地化文件-->
 <script src="static/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
 
+<!--用户新增修改modal框-->
+<div id="userInfo" class="modal fade" tabindex="-1">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title">用户信息</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 form">
+                <form id="userForm" class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户编码</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="user_no" placeholder="用户编码······"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户姓名</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="user_name" placeholder="用户姓名······"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户性别</label>
+                            <div class="col-md-9">
+                                <div class="mt-radio-inline">
+                                    <label class="mt-radio">
+                                        <input type="radio" name="user_sex" value="1" checked> 男
+                                        <span></span>
+                                    </label>
+                                    <label class="mt-radio">
+                                        <input type="radio" name="user_sex" value="2" checked> 女
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">登陆账号</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="user_account" placeholder="登陆账号······"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">登陆密码</label>
+                            <div class="col-md-9">
+                                <input type="password" class="form-control" name="user_password" placeholder="登陆密码······"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户角色</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="user_role" placeholder="用户角色······"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">所属系统</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="user_sys" placeholder="所属系统······"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-md-8">
+                <button type="button" class="btn btn-primary">确定</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--主要显示页面-->
 <div class="row">
     <div class="col-md-12 col-sm-12">
-        <div class="portlet light">
+        <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
                     <span>用户列表</span>
                 </div>
                 <!--工具栏-->
                 <div id="toolbar" class="actions">
-                    <button id="btn_add" type="button" class="btn btn-primary">
-                        <span class="fa fa-plus" aria-hidden="true"></span>新增
-                    </button>
-                    <button id="btn_edit" type="button" class="btn btn-success">
-                        <span class="fa fa-edit" aria-hidden="true"></span>修改
-                    </button>
-                    <button id="btn_delete" type="button" class="btn btn-danger">
-                        <span class="fa fa-trash" aria-hidden="true"></span>删除
-                    </button>
+                    <a id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#userInfo">
+                        <i class="fa fa-plus"></i> 新增
+                    </a>
+                    <a id="btn_edit" class="btn btn-success" data-toggle="modal">
+                        <i class="fa fa-edit"></i> 修改
+                    </a>
+                    <a id="btn_delete" class="btn btn-danger">
+                        <i class="fa fa-trash"></i> 删除
+                    </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -34,11 +111,11 @@
         </div>
     </div>
 </div>
+
 <script>
-    $(function(){
+    $(function() {
         initTable();
     });
-
     /**
      * 初始化表格
      */
