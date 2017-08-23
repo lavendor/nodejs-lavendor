@@ -11,7 +11,7 @@ module.exports = function(app){
 
     //路由配置
     app.use('/index',function(req,res){
-        res.render('index',{name:'yanghao',title:'HandlerBar'});
+        res.render('index');
     });
 
     /**
@@ -21,12 +21,6 @@ module.exports = function(app){
         res.render('index/dashboard');
     });
 
-    /**测试bootstrap-table**/
-    app.use('/table',function(req,res){
-        res.render('user/table');//指定模板
-    });
-
-    app.use('/login',require('./login/login'));
-    app.use('/user',require('./user/user_route'));
+    app.use('/user',require('./user/user_route'));//user
     app.use('/role',require('./role/role_route'));
 }

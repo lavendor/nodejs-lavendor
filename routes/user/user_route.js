@@ -7,24 +7,25 @@ var router = express.Router();
 var userServices = require('../../model/user/user_services');
 
 /**
- * 登陆页面
+ * 用户列表页
  */
 router.get('/',function(req,res){
     res.render('user/user_list');
-});
-
-router.get('/login',function(req,res){
-    res.render('user/login');
 });
 
 /**
  * 添加用户信息的方法
  */
 router.post('/addUser',function(req,res){
+    var body = req.body;
     var params = {
-        user_no:req.body.user_code,
-        user_name:req.body.user_name,
-        user_password:req.body.user_password,
+        user_no:body.user_no,
+        user_name:body.user_name,
+        user_sex:body.user_sex,
+        user_role:body.user_role,
+        user_sys:body.user_sys,
+        user_status:'1',//默认为启动状态
+        user_password:body.user_password,
         create_time:new Date()
     };
     userServices.addUser(params,function(msg){

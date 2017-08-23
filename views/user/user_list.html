@@ -1,89 +1,188 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>用户列表</title>
-    <!-- 引入jquery文件 -->
-    <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap-responsive.css">
-    <link rel="stylesheet" type="text/css" href="static/jquery-easyui-1.4.4//themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="static/jquery-easyui-1.4.4//themes/icon.css">
-    <script type="text/javascript" src="static/common/js/jquery-1.8.3.js"></script>
-    <script type="text/javascript" src="static/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
-</head>
-<body>
-    <h2>用户表单</h2>
-    <div>
-        <form id="userform">
-            <div>
-                <label>姓名</label>
-                <input type="text" name="user_name" data-options="required:true" />
-            </div>
-            <div>
-                <label>编码</label>
-                <input type="text" name="user_code" data-options="require:true'" />
-            </div>
-            <div>
-                <label>密码</label>
-                <input type="password" name="user_password" data-options="require:true"/>
-            </div>
-            <div>
-                <input type="submit" id="submit" value="提交">
-            </div>
-        </form>
-    </div>
 
-    <div id="userList"></div>
-</body>
+<!--当前页中 引入bootstrap-table样式-->
+<link href="static/plugins/bootstrap-table/css/bootstrap-table.css" rel="stylesheet">
+<link href="static/plugins/bootstrap-switch/css/bootstrap-switch.css" rel="stylesheet">
+
+<!--当前页中 引入bootstrap-table的js-->
+<script src="static/plugins/bootstrap-table/js/bootstrap-table.js"></script>
+<script src="static/plugins/bootstrap-switch/js/bootstrap-switch.js"></script>
+<script src="static/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+
+<!--用户新增修改modal框-->
+<div id="userInfo" class="modal fade" tabindex="-1">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title">用户信息</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 form">
+                <form id="userForm" class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="required"></span>用户编码</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_no"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group has-success">
+                            <label class="col-md-3 control-label">用户姓名</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa fa-check"></i>
+                                    <input type="text" class="form-control" name="user_name"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户性别</label>
+                            <div class="col-md-9">
+                                <div class="mt-radio-inline">
+                                    <label class="mt-radio">
+                                        <input type="radio" name="user_sex" value="1" checked> 男
+                                        <span></span>
+                                    </label>
+                                    <label class="mt-radio">
+                                        <input type="radio" name="user_sex" value="2" checked> 女
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">登陆账号</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_account"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">登陆密码</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="password" class="form-control" name="user_password"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户角色</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_role" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">所属系统</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_sys"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-md-8">
+                <button id="submit" type="button" class="btn btn-primary">确定</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--主要显示页面-->
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span>用户列表</span>
+                </div>
+                <!--工具栏-->
+                <div id="toolbar" class="actions">
+                    <a id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#userInfo">
+                        <i class="fa fa-plus"></i> 新增
+                    </a>
+                    <a id="btn_edit" class="btn btn-success" data-toggle="modal">
+                        <i class="fa fa-edit"></i> 修改
+                    </a>
+                    <a id="btn_delete" class="btn btn-danger">
+                        <i class="fa fa-trash"></i> 删除
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <!--数据列表-->
+                <table id="gridList"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    $("#submit").click(function(){
-        var dataObj = $('#userform').serializeArray();
-        $.ajax({
-            url:'/user/addUser',
-            type:'post',
-            dataType:'json',
-            data:dataObj,
-            success:function(data){
-                if(data.success){
-                    $.messager.show({
-                        title:'提交成功',
-                        msg:data.msg
-                    })
+    $(function() {
+        initTable();
+
+        /**
+         * 提交表单
+         */
+        $("#submit").click(function(){
+            var dataObj = $('#userForm').serializeArray();
+            $.ajax({
+                url:'/user/addUser',
+                type:'post',
+                dataType:'json',
+                data:dataObj,
+                success:function(data){
+                    if(data.success){
+                        alert(data.msg);
+                    }
                 }
-            }
+            });
         });
     });
 
-    //加载数据列表
-    $("#userList").datagrid({
-        idField:'_id',
-        url:'/user/getUserList',
-        title:'用户列表',
-        width:800,
-        height:600,
-        striped:true,
-        fitColumns:true,
-        loadMsg:'加载数据中······',
-        columns:[[
-            {field:'_id',checkbox:true},
-            {field:'user_no',title:'编码',width:80},
-            {field:'user_name',title:'姓名',width:80},
-            {field:'user_password',title:'密码',width:80},
-            {field:'create_time',title:'创建时间',width:80}
-        ]],
-        onLoadSuccess:function(result){
-            if(!result.success){
-                $.messager.alert('错误',result.msg,'error');
-            }else{
-                $.messager.show({
-                    title:'获取数据成功',
-                    msg:result.msg,
-                    timeout:3000,
-                    showType:'slide'
-                })
-            }
-        }
-    });
+    /**
+     * 初始化表格
+     */
+    function initTable(){
+        $("#gridList").bootstrapTable({
+            url:'/user/getUserList',
+            method:'post',
+            cache:false,
+            pagination:true,
+            queryParams:'',
+            sidePagination:'server',
+            pageNumber:1,
+            pageSize:10,
+            pageList:[10,20,30,40,50],
+            uniqueId:'_id',
+            toolbar:'#toolbar',
+            showColumns:true,
+            showRefresh:true,
+            showToggle:true,
+            search:true,
+            columns:[
+                {checkbox:true},
+                {field:'user_no',title:'编码',width:'30%'},
+                {field:'user_name',title:'姓名',width:'20%'},
+                {field:'user_password',title:'密码',width:'20%'},
+                {field:'create_time',title:'创建时间',width:'20%'}
+            ]
+        });
+    }
+
 </script>
-</html>
