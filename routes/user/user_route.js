@@ -25,6 +25,7 @@ router.post('/addUser',function(req,res){
         user_role:body.user_role,
         user_sys:body.user_sys,
         user_status:'1',//默认为启动状态
+        user_account:body.user_account,
         user_password:body.user_password,
         create_time:new Date()
     };
@@ -36,12 +37,12 @@ router.post('/addUser',function(req,res){
 /**
  * 获取用户列表
  */
-router.post('/getUserList',function(req,res){
+router.get('/getUserList',function(req,res){
     userServices.getUserList(req,res,function(err,users){
         if(err){
             res.send({success:false,msg:err,data:null});
         }else{
-            res.send({'success':true,'msg':"获取用户列表成功",'total':users.length,'rows':users});
+            res.send({'success':true,'msg':"获取用户列表成功",'total':users.length,'data':users});
         }
     });
 });
