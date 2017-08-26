@@ -47,5 +47,29 @@ router.get('/getUserList',function(req,res){
     });
 });
 
+/**
+ * 后台分页获取数据列表
+ */
+router.get('/getUserListPagination',function(req,res){
+    var queryParams = req.query;
+    var params= {
+        page:queryParams.page,
+        size:queryParams.size
+    };
+    userServices.getUserListPagination(params,function(err,users){//根据分页条件查询数据条数
+        if(err){
+            res.send({success:false,msg:err,data:null});
+        }else{
+            userServices.getUserList(req,res,function(err,allUsers){//查询所有数据总条数
+                if(err){
+                    res.send({success:false,msg:err,data:null});
+                }else{
+                    res.send({'success':true,'msg':"获取用户列表成功",'total':allUsers.length,'rows':users});
+                }
+            });
+        }
+    });
+});
+
 
 module.exports = router;
