@@ -46,3 +46,23 @@ exports.getUserList = function(req,res,callback){
         }
     })
 }
+
+/**
+ * 分页查询
+ * @param params
+ * @param callback
+ */
+exports.getUserListPagination = function(params,callback){
+
+    var index = (params.page-1)*params.size;//设置分页起点下标
+    var size = parseInt(params.size);
+    //设置分页条件
+    var query = userModel.$user.find({});
+    query.limit(size);//条数
+    query.skip(index);//下标
+
+    //执行查询
+    query.exec(function(err,users){
+        callback(err,users);
+    });
+}
