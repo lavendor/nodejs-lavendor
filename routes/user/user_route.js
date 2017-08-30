@@ -35,6 +35,31 @@ router.post('/addUser',function(req,res){
 });
 
 /**
+ * 修改用户信息
+ */
+router.post('/editUserById',function(req,res){
+    var body = req.body;
+    var _id = body._id;
+    var params = {
+        user_no:body.user_no,
+        user_name:body.user_name,
+        user_sex:body.user_sex,
+        user_role:body.user_role,
+        user_sys:body.user_sys,
+        user_account:body.user_account,
+        user_password:body.user_password,
+        update_time:new Date()
+    };
+    userServices.editUserById(_id,params,function(err,msg){
+        if(err){
+            res.send({success:false,msg:"更新数据失败"});
+        }else{
+            res.send({success:true,msg:"更新数据成功"});
+        }
+    });
+});
+
+/**
  * 获取用户列表
  */
 router.get('/getUserList',function(req,res){

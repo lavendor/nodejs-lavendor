@@ -18,6 +18,20 @@ exports.addUser = function(params,callback){
 };
 
 /**
+ * 修改用户数据
+ * @param id
+ * @param callback
+ */
+exports.editUserById = function(id,params,callback){
+    var condition = {_id:id};
+    var newData = {$set:params};
+    var option = {};
+    userModel.$user.update(condition,newData,option,function(err){
+        callback(err,null);
+    });
+}
+
+/**
  * 获取用户列表
  * @param req
  * @param res
