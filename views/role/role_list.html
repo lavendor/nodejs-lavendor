@@ -1,40 +1,141 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>角色列表</title>
-    <!-- 引入jquery文件 -->
-    <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="static/bootstrap/css/bootstrap-responsive.css">
-    <script type="text/javascript" src="static/common/js/jquery-1.8.3.js"></script>
-    <script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
-</head>
-<body>
-    <h2>角色表单</h2>
-    <div>
-        <form id="userform">
-            <div>
-                <label>名称</label>
-                <input type="text" name="role_name" data-options="required:true" />
-            </div>
-            <div>
-                <label>编码</label>
-                <input type="text" name="role_code" data-options="require:true'" />
-            </div>
-            <div>
-                <label>类型</label>
-                <input type="text" name="role_type" data-options="require:true'" />
-            </div>
-            <div>
-                <input type="submit" id="submit" value="提交">
-            </div>
-        </form>
+<!--角色新增修改modal框-->
+<div id="roleInfo" class="modal fade" tabindex="-1">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title">角色信息</h4>
     </div>
-</body>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 form">
+                <form id="roleForm" class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <!--验证信息-->
+                        <div class="alert alert-danger display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写失败，请查看表单是否完整正确填写！
+                        </div>
+                        <div class="alert alert-success display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写填写正确！
+                        </div>
+                        <input type="hidden" id="_id" name="_id"/>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">角色编码</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="role_code"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">角色名称</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="role_name"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">角色类别</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="role_type"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">角色状态</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="role_status"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <button id="submit" type="submit" class="btn btn-primary">确定</button>
+                                <button id="cancel" class="btn btn-danger" data-dismiss="modal">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--角色列表页面-->
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span>角色列表</span>
+                </div>
+                <!--工具栏-->
+                <div id="toolbar" class="actions">
+                    <a id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#roleInfo">
+                        <i class="fa fa-plus"></i> 新增角色
+                    </a>
+                    <a id="btn_edit" class="btn btn-success">
+                        <i class="fa fa-edit"></i> 修改信息
+                    </a>
+                    <a id="btn_delete" class="btn btn-danger">
+                        <i class="fa fa-trash"></i> 批量删除
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table id="roleList"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    $(function(){
+        initTable();
+    });
+
+    /**
+     * 初始化角色列表
+     */
+    function initTable(){
+        $("#roleList").bootstrapTable({
+            url:'/role/getRoleList',
+            method:'get',
+            cache:false,
+            pagination:true,
+            sidePagination:'client',
+            pageNumber:1,
+            pageSize:10,
+            pageList:[10,20,30,40,50],
+            uniqueId:'_id',
+            toolbar:'#toolbar',
+            showColumns:true,
+            showRefresh:true,
+            clickToSelect:true,//点击行选中行
+            singleSelect:true,
+            showToggle:true,
+            search:true,
+            columns:[
+                {title:'ID',checkbox:true,width:'1%'},
+                {field:'role_code',title:'角色编码',width:'10%'},
+                {field:'role_name',title:'角色名称',width:'20%'},
+                {field:'role_type',title:'角色类型',width:'20%'},
+                {field:'role_type',title:'角色类型',width:'8%',align:'center'}
+            ]
+        });
+    }
 
     $("#submit").click(function(){
-        var dataObj = $('#userform').serializeArray();
+        var dataObj = $('#roleForm').serializeArray();
         $.ajax({
             url:'/role/addRole',
             type:'post',
@@ -42,26 +143,9 @@
             data:dataObj,
             success:function(data){
                 if(data.success){
-                    alert(data.msg);
+                    $("#roleList").bootstrapTable('refresh');
                 }
             }
         });
     });
-
-    /*$("#userform").form('submit',{
-        url:'/user/addUser',
-        onSubmit:function(){
-            var form = $(this).serialize();
-            console.log(form);
-        },
-        success:function(data){
-            if(data.success){
-                $.messager.show({
-                    title:'提交成功',
-                    msg:data.msg
-                })
-            }
-        }
-    })*/
 </script>
-</html>

@@ -17,4 +17,16 @@ exports.addRole = function(params,callback){
             callback('添加角色成功！');
         }
     });
+};
+
+/**
+ * 获取用户列表
+ * @param req
+ * @param res
+ * @param callback
+ */
+exports.getRoleList = function(req,res,callback){
+    roleModel.$role.find(function(err,roles){
+        callback(err,roles);
+    })
 }
