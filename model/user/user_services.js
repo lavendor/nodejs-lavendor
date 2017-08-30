@@ -27,9 +27,21 @@ exports.editUserById = function(id,params,callback){
     var newData = {$set:params};
     var option = {};
     userModel.$user.update(condition,newData,option,function(err){
-        callback(err,null);
+        callback(err);
     });
-}
+};
+
+/**
+ * 根据id删除用户数据
+ * @param id
+ * @param callback
+ */
+exports.deleteUserById = function(id,callback){
+    var condition = {_id:id};
+    userModel.$user.remove(condition,function(err){
+       callback(err);
+    });
+};
 
 /**
  * 获取用户列表

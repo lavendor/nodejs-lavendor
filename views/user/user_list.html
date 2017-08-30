@@ -306,7 +306,6 @@
             data:dataObj,
             success:function(data){
                 if(data.success){
-                    alert(data.msg);
                     $("#userForm").formRest();
                     $("#userInfo").modal('hide');
                     $("#gridList").bootstrapTable('refresh');
@@ -320,7 +319,7 @@
      * @param rows
      */
     function editData(rows){
-        if(rows.length>1){
+        if(rows.length != 1){
             alert('只能选择一条数据修改');
         }else{
             var form = $("#userForm");
@@ -334,7 +333,23 @@
      * @param rows
      */
     function deleteData(rows){
-        alert(JSON.stringify(rows));
+        if(rows.length>1){
+            alert('只能选择一条数据删除');
+        }else{
+            var _id = rows[0]._id;
+            $.ajax({
+                url:'/user/deleteUserById',
+                type:'get',
+                dataType:'json',
+                data:{_id:_id},
+                success:function(result){
+                    if(result.success){
+                        alert('删除数据成功');
+                        $("#gridList").bootstrapTable('refresh');
+                    }
+                }
+            })
+        }
     }
 
 </script>

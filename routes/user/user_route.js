@@ -50,13 +50,27 @@ router.post('/editUserById',function(req,res){
         user_password:body.user_password,
         update_time:new Date()
     };
-    userServices.editUserById(_id,params,function(err,msg){
+    userServices.editUserById(_id,params,function(err){
         if(err){
             res.send({success:false,msg:"更新数据失败"});
         }else{
             res.send({success:true,msg:"更新数据成功"});
         }
     });
+});
+
+/**
+ * 根据id删除用户信息
+ */
+router.get('/deleteUserById',function(req,res){
+    var id = req.query._id;
+    userServices.deleteUserById(id,function(err){
+        if(err){
+            res.send({success:false,msg:"删除数据失败"});
+        }else{
+            res.send({success:true,msg:"删除数据成功"});
+        }
+    })
 });
 
 /**
