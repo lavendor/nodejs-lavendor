@@ -26,6 +26,16 @@ router.post('/addRole',function(req,res){
 });
 
 /**
+ * 根据id删除一个角色
+ */
+router.get('/deleteRoleById',function(req,res){
+    var _id = req.body._id;//获取角色id
+    roleService.deleteRoleById(_id,function(result){
+
+    });
+});
+
+/**
  * 获取角色列表
  */
 router.get('/getRoleList',function(req,res){

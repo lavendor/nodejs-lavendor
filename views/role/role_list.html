@@ -87,7 +87,7 @@
                         <i class="fa fa-edit"></i> 修改信息
                     </a>
                     <a id="btn_delete" class="btn btn-danger">
-                        <i class="fa fa-trash"></i> 批量删除
+                        <i class="fa fa-trash"></i> 删除角色
                     </a>
                 </div>
             </div>
@@ -147,5 +147,23 @@
                 }
             }
         });
+    });
+
+    //删除角色按钮
+    $("#btn_delete").click(function(){
+        var row = $("#roleList").bootstrapTable('getAllSelections');
+        var _id = row[0]._id;
+        $.ajax({
+            url:'/role/deleteRoleById',
+            dataType:'json',
+            type:'get',
+            data:{_id:_id},
+            success:function(result){
+                if(result.success){
+                    alert('删除角色成功！');
+                    $("#roleList").bootstrapTable('refresh');
+                }
+            }
+        })
     });
 </script>
