@@ -26,12 +26,38 @@ router.post('/addRole',function(req,res){
 });
 
 /**
+ * 根据id修改一个角色
+ */
+router.post('/editRoleById',function(req,res){
+    var body = req.body;
+    var _id = body._id;
+    var params = {
+        role_code:body.role_code,
+        role_name:body.role_name,
+        role_type:body.role_type,
+        role_status:body.role_status
+    };
+
+    roleService.editRoleById(_id,params,function(err){
+        if(err){
+            res.send({success:false,msg:"修改数据失败"});
+        }else{
+            res.send({success:true,msg:"修改数据成功"});
+        }
+    });
+});
+
+/**
  * 根据id删除一个角色
  */
 router.get('/deleteRoleById',function(req,res){
-    var _id = req.body._id;//获取角色id
-    roleService.deleteRoleById(_id,function(result){
-
+    var _id = req.query._id;//获取角色id
+    roleService.deleteRoleById(_id,function(err){
+        if(err){
+            res.send({success:false,msg:"删除数据失败"});
+        }else{
+            res.send({success:true,msg:"删除数据成功"});
+        }
     });
 });
 

@@ -20,6 +20,34 @@ exports.addRole = function(params,callback){
 };
 
 /**
+ * 根据角色id修改角色信息
+ * @param id
+ * @param params
+ * @param callback
+ */
+exports.editRoleById = function(id,params,callback){
+    var condition = {_id:id};
+    var updateData = {$set:params};
+    var options = {};
+
+    roleModel.$role.update(condition,updateData,options,function(err){
+        callback(err);
+    });
+};
+
+/**
+ * 根据角色id删除角色信息
+ * @param id
+ * @param callback
+ */
+exports.deleteRoleById = function(id,callback){
+    var condition = {_id:id};
+    roleModel.$role.remove(condition,function(err){
+       callback(err);
+    });
+};
+
+/**
  * 获取用户列表
  * @param req
  * @param res
@@ -28,5 +56,5 @@ exports.addRole = function(params,callback){
 exports.getRoleList = function(req,res,callback){
     roleModel.$role.find(function(err,roles){
         callback(err,roles);
-    })
-}
+    });
+};
