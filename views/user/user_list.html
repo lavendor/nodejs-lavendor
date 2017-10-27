@@ -37,18 +37,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group form-md-radios">
                             <label class="col-md-3 control-label">用户性别</label>
                             <div class="col-md-9">
-                                <div class="mt-radio-inline">
-                                    <label class="mt-radio">
-                                        <input type="radio" name="user_sex" value="1"> 男
-                                        <span></span>
-                                    </label>
-                                    <label class="mt-radio">
-                                        <input type="radio" name="user_sex" value="2"> 女
-                                        <span></span>
-                                    </label>
+                                <div class="md-radio-inline">
+                                    <div class="md-radio has-warning">
+                                        <input id="male" class="md-radiobtn" type="radio" name="user_sex" value="1">
+                                        <label for="male">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> 男
+                                        </label>
+                                    </div>
+                                    <div class="md-radio has-error">
+                                        <input id="female" class="md-radiobtn" type="radio" name="user_sex" value="2">
+                                        <label for="female">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> 女
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
