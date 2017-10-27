@@ -5,7 +5,7 @@
 /**
  * 清除表单验证，回复表单到初始化状态
  */
-$.fn.formRest = function(){
+$.fn.formReset = function(){
     this.find('.form-group').removeClass('has-error').removeClass('has-success');
     this.find('.alert-danger').hide();
     this.find('.alert-success').hide();

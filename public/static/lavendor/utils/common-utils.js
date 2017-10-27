@@ -33,3 +33,24 @@ function dateTimeFormatter(time,format){
     }
     return format;
 }
+
+/**
+ * //提示消息 默认在div #alertContainer中显示
+ * @param type      类型，danger,success,info....
+ * @param msg       消息文本
+ * @param seconds   消息停留时间
+ * @param icon      消息显示图标
+ */
+function commonAlert(type,msg,seconds,icon){
+    App.alert({
+        container: '#alertContainer', // alerts parent container(by default placed after the page breadcrumbs)
+        place: 'append', // append or prepent in container
+        type: type,  // alert's type
+        message: msg,  // alert's message
+        close: true, // make alert closable
+        reset: true, // close all previouse alerts first
+        focus: true, // auto scroll to the alert after shown
+        closeInSeconds: seconds, // auto close after defined seconds
+        icon: icon // put icon before the message
+    });
+}
