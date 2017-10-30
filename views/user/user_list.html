@@ -42,7 +42,7 @@
                             <div class="col-md-9">
                                 <div class="md-radio-inline">
                                     <div class="md-radio has-warning">
-                                        <input id="male" class="md-radiobtn" type="radio" name="user_sex" value="1">
+                                        <input id="male" class="md-radiobtn" type="radio" name="user_sex" value="1" checked="checked">
                                         <label for="male">
                                             <span></span>
                                             <span class="check"></span>
@@ -186,7 +186,7 @@
                     formatter:function(value,row,index){
                         if(value == '1'){
                             return '男';
-                        }else{
+                        }else if(value == '2'){
                             return '女';
                         }
                     }},

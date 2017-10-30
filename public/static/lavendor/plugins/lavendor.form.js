@@ -1,19 +1,35 @@
 /**
- * Created by Administrator on 2017/8/24.
+ * Created by Yanghao on 2017/8/24.
  */
 
 /**
- * 清除表单验证，回复表单到初始化状态
+ * 清除表单验证，恢复表单到初始化状态
  */
 $.fn.formReset = function(){
+    //隐藏验证类
     this.find('.form-group').removeClass('has-error').removeClass('has-success');
     this.find('.alert-danger').hide();
     this.find('.alert-success').hide();
     this.find('.input-icon i').removeClass('fa-check');
     this.find('.input-icon i').removeClass('fa-warning');
     this.find('.input-icon span').remove();
-    this.find('input').val('');
-}
+
+    //清除form表单数据
+    this.find('input,select,textarea').each(function(){
+        var t = this.type,tag = this.tagName.toLowerCase();
+        if(t == 'hidden' || t == 'text' || tag == 'textarea' || t == 'password'){
+            this.value = '';
+        }else if(t == 'file'){
+            var file = $(this),newfile = file.clone().val('');
+            newfile.insertAfter(file);
+            file.remove();
+        }else if(t=='radio'||t=='checkbox'){
+            this.checked = false;
+        }else if(t == 'select'){
+            this.selectedIndex = -1;
+        }
+    });
+};
 
 $.fn._propAttr = $.fn.prop || $.fn.attr;
 
@@ -22,7 +38,7 @@ $.fn._propAttr = $.fn.prop || $.fn.attr;
  * @param data 对象
  */
 $.fn.loadForm = function(data){
-    var form = this;//form对象
+    var form = $(this);//form对象
     if(data.length<=1){
         data.forEach(function(value,index,array){
             for(var name in value){

@@ -49,7 +49,7 @@ function commonAlert(type,msg,seconds,icon){
         message: msg,  // alert's message
         close: true, // make alert closable
         reset: true, // close all previouse alerts first
-        focus: true, // auto scroll to the alert after shown
+        focus: false, // auto scroll to the alert after shown
         closeInSeconds: seconds, // auto close after defined seconds
         icon: icon // put icon before the message
     });
