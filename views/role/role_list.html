@@ -1,5 +1,5 @@
 <!--角色新增修改modal框-->
-<div id="roleInfo" class="modal fade" tabindex="-1">
+<div id="roleInfo" class="modal fade" data-backdrop="static" tabindex="-1">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
         <h4 class="modal-title">角色信息</h4>
@@ -85,12 +85,6 @@
                     <a id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#roleInfo">
                         <i class="fa fa-plus"></i> 新增角色
                     </a>
-                    <a id="btn_edit" class="btn btn-success">
-                        <i class="fa fa-edit"></i> 修改信息
-                    </a>
-                    <a id="btn_delete" class="btn btn-danger">
-                        <i class="fa fa-trash"></i> 删除角色
-                    </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -132,7 +126,17 @@
                 {field:'role_code',title:'角色编码',width:'10%'},
                 {field:'role_name',title:'角色名称',width:'20%'},
                 {field:'role_type',title:'角色类型',width:'20%'},
-                {field:'role_status',title:'角色状态',width:'8%',align:'center'}
+                {field:'role_status',title:'角色状态',width:'8%',align:'center'},
+                {field:'operator',title:'操作',width:'12%',align:'center',
+                    formatter:function(value,row,index){
+                        return "<a id='btn_edit' onclick='editData("+JSON.stringify(row)+")' class='btn btn-success'>"+
+                                "<i class='fa fa-edit'></i>"+
+                                "</a>"+
+                                "<a id='btn_delete' onclick='deleteData("+JSON.stringify(row)+")' class='btn btn-danger'>"+
+                                "<i class='fa fa-trash'></i>"+
+                                "</a>";
+                    }
+                }
             ]
         });
     }
@@ -213,7 +217,7 @@
                 if(data.success){
                     $("#roleForm").formReset();
                     $("#roleInfo").modal('hide');
-                    commonAlert('success','操作成功！',3,'check');
+                    successAlert('操作成功！');
                     $("#roleList").bootstrapTable('refresh');
                 }
             }
@@ -221,20 +225,23 @@
     }
 
     //编辑角色按钮
-    $("#btn_edit").click(function(){
-        var row = $("#roleList").bootstrapTable('getAllSelections');
-        if(row.length!=1){
-            commonAlert('warning','请选择一条数据编辑修改！',3,'warning');
+    function editData(row){
+        if(!row){
+            warnAlert('请选择一条数据编辑修改！');
+            return false;
         }else{
             $("#roleForm").loadForm(row);
             $("#roleInfo").modal('show');
         }
-    });
+    };
 
     //删除角色按钮
-    $("#btn_delete").click(function(){
-        var row = $("#roleList").bootstrapTable('getAllSelections');
-        var _id = row[0]._id;
+    function deleteData(row){
+        if(!row){
+            warnAlert('请选择一条数据删除！');
+            return false;
+        }
+        var _id = row._id;
         $.ajax({
             url:'/role/deleteRoleById',
             dataType:'json',
@@ -242,12 +249,12 @@
             data:{_id:_id},
             success:function(result){
                 if(result.success){
-                    commonAlert('success','删除角色成功！',3,'check');
+                    successAlert('删除角色成功！');
                     $("#roleList").bootstrapTable('refresh');
                 }
             }
         })
-    });
+    };
 
     //关闭模态框时的事件
     $("#cancel").click(function(){

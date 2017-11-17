@@ -17,3 +17,15 @@ var roleSchema = new Schema({
     collection:'tb_role_info'
 });
 exports.$role = mongoose.model('role',roleSchema);
+
+/**
+ * 用户角色中间表 用户跟角色是多多的关系
+ * @type {*|Schema}
+ */
+var userRoleSchema = new Schema({
+    role_id:{type:Schema.Types.ObjectId,ref:'role'},
+    user_id:{type:Schema.Types.ObjectId,ref:'user'}
+},{
+    collection:'tb_user_role_info'
+});
+exports.$userRole = mongoose.model('userRole',userRoleSchema);

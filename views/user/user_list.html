@@ -1,5 +1,5 @@
 <!--用户新增修改modal框-->
-<div id="userInfo" class="modal fade" tabindex="-1">
+<div id="userInfo" class="modal fade" role="dialog" data-backdrop="static" tabindex="-1">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
         <h4 class="modal-title">用户信息</h4>
@@ -126,12 +126,6 @@
                     <a id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#userInfo">
                         <i class="fa fa-plus"></i> 新增用户
                     </a>
-                    <a id="btn_edit" class="btn btn-success">
-                        <i class="fa fa-edit"></i> 修改信息
-                    </a>
-                    <a id="btn_delete" class="btn btn-danger">
-                        <i class="fa fa-trash"></i> 批量删除
-                    </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -180,9 +174,9 @@
             columns:[
                 {title:'ID',checkbox:true,width:'1%'},
                 {field:'user_no',title:'用户编码',width:'10%'},
-                {field:'user_name',title:'用户姓名',width:'20%'
+                {field:'user_name',title:'用户姓名',width:'10%'
                 },
-                {field:'user_sex',title:'用户性别',width:'8%',align:'center',
+                {field:'user_sex',title:'用户性别',width:'5%',align:'center',
                     formatter:function(value,row,index){
                         if(value == '1'){
                             return '男';
@@ -192,22 +186,20 @@
                     }},
                 {field:'user_account',title:'登录账号',width:'20%'},
                 {field:'user_role',title:'所属角色',width:'20%'},
-                {field:'user_sys',title:'所属系统',width:'10%'}
+                {field:'user_sys',title:'所属系统',width:'10%'},
+                {field:'operator',title:'操作',width:'12%',align:'center',
+                    formatter:function(value,row,index){
+                        return "<a id='btn_edit' onclick='editData("+JSON.stringify(row)+")' class='btn btn-success'>"+
+                                "<i class='fa fa-edit'></i>"+
+                                "</a>"+
+                                "<a id='btn_delete' onclick='deleteData("+JSON.stringify(row)+")' class='btn btn-danger'>"+
+                                "<i class='fa fa-trash'></i>"+
+                                "</a>";
+                    }
+                }
             ]
         });
     }
-
-    //编辑事件
-    $("#btn_edit").on('click',function(){
-        var rows = $("#gridList").bootstrapTable('getAllSelections');
-        editData(rows);
-    });
-
-    //删除事件
-    $("#btn_delete").on('click',function(){
-        var rows = $("#gridList").bootstrapTable('getAllSelections');
-        deleteData(rows)
-    });
 
     //取消模态框
     $("#cancel").click(function(){
@@ -301,7 +293,7 @@
                 if(data.success){
                     $("#userForm").formReset();
                     $("#userInfo").modal('hide');
-                    commonAlert('success','操作成功！',3,'check');
+                    successAlert('操作成功！');
                     $("#gridList").bootstrapTable('refresh');
                 }
             }
@@ -313,8 +305,9 @@
      * @param rows
      */
     function editData(rows){
-        if(rows.length != 1){
-            commonAlert('warning','请选择一条数据修改!',3,'warning');
+        if(!rows){
+            warnAlert('请选择一条数据修改!');
+            return false;
         }else{
             var form = $("#userForm");
             form.loadForm(rows);
@@ -327,10 +320,11 @@
      * @param rows
      */
     function deleteData(rows){
-        if(rows.length>1){
-            commonAlert('warning','请选择一条数据修改!',3,'warning');
+        if(!rows){
+            warnAlert('请选择一条数据修改!');
+            return false;
         }else{
-            var _id = rows[0]._id;
+            var _id = rows._id;
             $.ajax({
                 url:'/user/deleteUserById',
                 type:'get',
@@ -338,7 +332,7 @@
                 data:{_id:_id},
                 success:function(result){
                     if(result.success){
-                        commonAlert('success','数据删除成功!',3,'check');
+                        successAlert('数据删除成功!');
                         $("#gridList").bootstrapTable('refresh');
                     }
                 }

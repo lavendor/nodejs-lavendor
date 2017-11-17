@@ -54,3 +54,43 @@ function commonAlert(type,msg,seconds,icon){
         icon: icon // put icon before the message
     });
 }
+
+/**
+ * 普通消息提示
+ * @param msg
+ * @param second
+ */
+function infoAlert(msg,second){
+    second = second?second:5;
+    commonAlert('info',msg,second,'check');
+}
+
+/**
+ * 警告消息提示
+ * @param msg
+ * @param second
+ */
+function warnAlert(msg,second){
+    second = second?second:5;
+    commonAlert('warning',msg,second,'warning');
+}
+
+/**
+ * 成功消息提示
+ * @param msg
+ * @param second
+ */
+function successAlert(msg,second){
+    second = second?second:5;
+    commonAlert('success',msg,second,'check');
+}
+
+/**
+ * 错误消息提示
+ * @param msg
+ * @param second
+ */
+function dangerAlert(msg,second){
+    second = second?second:5;
+    commonAlert('danger',msg,second,'danger');
+}

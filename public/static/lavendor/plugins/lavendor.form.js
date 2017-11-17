@@ -35,11 +35,11 @@ $.fn._propAttr = $.fn.prop || $.fn.attr;
 
 /**
  * 加载form表单数据
- * @param data 对象
+ * @param data 对象或者数组
  */
 $.fn.loadForm = function(data){
     var form = $(this);//form对象
-    if(data.length<=1){
+    if(data instanceof Array){//传入数组
         data.forEach(function(value,index,array){
             for(var name in value){
                 var val = value[name];
@@ -50,6 +50,15 @@ $.fn.loadForm = function(data){
                 }
             }
         });
+    }else{//传入一个对象
+        for(var name in data){
+            var val = data[name];
+            if(!_checkedFields(name,val)){
+                form.find('input[name="'+name+'"]').val(val);
+                form.find('textarea[name="'+name+'"]').val(val);
+                form.find('select[name="'+name+'"]').val(val);
+            }
+        }
     }
 
     /**
