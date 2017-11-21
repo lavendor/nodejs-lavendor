@@ -17,4 +17,4 @@ var orgSchema = new Schema({
 },{
     collection:"tb_org_info"
 });
-exports.$org = mongoose.model('org',orgSchema);
+exports.Org = mongoose.model('org',orgSchema);

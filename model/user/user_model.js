@@ -23,4 +23,4 @@ var userSchema = new Schema({
     collection:'tb_user_info'
 });
 
-exports.$user = mongoose.model('user',userSchema);
+exports.User = mongoose.model('user',userSchema);

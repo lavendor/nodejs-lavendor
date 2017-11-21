@@ -1,7 +1,7 @@
 /**
  * Created by yanghao on 2017/7/12.
  */
-var userModel = require('./user_model');
+var userModel = require('./user_model').User;
 
 /**
  * 添加用户的方法
@@ -9,7 +9,7 @@ var userModel = require('./user_model');
  * @param callback
  */
 exports.addUser = function(params,callback){
-    userModel.$user(params).save(function(err){
+    userModel(params).save(function(err){
        if(err){
            callback('添加用户失败！');
        }
@@ -26,7 +26,7 @@ exports.editUserById = function(id,params,callback){
     var condition = {_id:id};
     var newData = {$set:params};
     var option = {};
-    userModel.$user.update(condition,newData,option,function(err){
+    userModel.update(condition,newData,option,function(err){
         callback(err);
     });
 };
@@ -38,7 +38,7 @@ exports.editUserById = function(id,params,callback){
  */
 exports.deleteUserById = function(id,callback){
     var condition = {_id:id};
-    userModel.$user.remove(condition,function(err){
+    userModel.remove(condition,function(err){
        callback(err);
     });
 };
@@ -51,7 +51,7 @@ exports.deleteUserById = function(id,callback){
  */
 exports.getUserList = function(req,res){
     var promise = new Promise(function(resolve,reject){
-        userModel.$user.find(function(err,users){
+        userModel.find(function(err,users){
             if(err){
                 reject('获取用户列表失败！');
             }else{
@@ -72,7 +72,7 @@ exports.getUserListPagination = function(params){
         var index = (params.page-1)*params.size;//设置分页起点下标
         var size = parseInt(params.size);
         //设置分页条件
-        var query = userModel.$user.find({});
+        var query = userModel.find({});
         query.limit(size);//条数
         query.skip(index);//下标
 
