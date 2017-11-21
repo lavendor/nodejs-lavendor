@@ -77,13 +77,12 @@ router.get('/deleteUserById',function(req,res){
  * 获取用户列表
  */
 router.get('/getUserList',function(req,res){
-    userServices.getUserList(req,res,function(err,users){
-        if(err){
-            res.send({success:false,msg:err,data:null});
-        }else{
+    userServices.getUserList(req,res)
+        .then(function(users){
             res.send({'success':true,'msg':"获取用户列表成功",'total':users.length,'data':users});
-        }
-    });
+        }).catch(function(err){
+            res.send({success:false,msg:err,data:null});
+        });
 });
 
 /**
@@ -95,18 +94,17 @@ router.get('/getUserListPagination',function(req,res){
         page:queryParams.page,
         size:queryParams.size
     };
-    userServices.getUserListPagination(params,function(err,users){//根据分页条件查询数据条数
-        if(err){
-            res.send({success:false,msg:err,data:null});
-        }else{
-            userServices.getUserList(req,res,function(err,allUsers){//查询所有数据总条数
-                if(err){
-                    res.send({success:false,msg:err,data:null});
-                }else{
-                    res.send({'success':true,'msg':"获取用户列表成功",'total':allUsers.length,'rows':users});
-                }
-            });
-        }
+    //按条件获取所有数据
+    var allUsers = userServices.getUserListPagination(params);
+    //获取所有数据
+    var user = userServices.getUserList(req,res);
+
+    //使用Promise并行执行两个方法，并且按照顺序返回值
+    Promise.all([allUsers,user]).then(function(values){
+        var total = values[0].length, rows = values[1];
+        res.send({'success':true,'msg':"获取用户列表成功",'total':total,'rows':rows});
+    }).catch(function(e){
+        res.send({success:false,msg:e,data:null});
     });
 });
 
