@@ -2,7 +2,9 @@
  * Created by yanghao on 2017/7/9.
  */
 var mongodb = require('mongoose');
-var URL = 'mongodb://localhost:27017/lavendor';
+var config = require('../../config');
+//获取mongodb url
+var URL = config.MONGODB.URL;
 
 var mongoose = null;
 

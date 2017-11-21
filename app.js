@@ -11,6 +11,9 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
 
+//增加配置文件
+var config = require('./config');
+
 app.use(logger('dev'));//日志中间件
 app.use(cookieParser());//解析cookie的中间件
 app.use(bodyParser());//请求体解析中间件
@@ -36,7 +39,7 @@ require('./model/utils/mongodb_utils').getConnection();
 
 
 //启动服务器端口
-var server = app.listen(8080,function(){
+var server = app.listen(config.PORT,function(){
     var address = server.address().address;
     var port = server.address().port;
     console.log('服务已经已经启动：http://'+address+':'+port);
