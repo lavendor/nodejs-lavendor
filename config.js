@@ -5,10 +5,14 @@
  */
 var config={
     //数据库配置
-    MONGODB:{
+    mongodb:{
         URL:'mongodb://localhost:27017/lavendor'
     },
-    PORT:8080
+    //服务器配置
+    domain:{
+        address:'127.0.0.1',
+        port:8080
+    }
 }
 
 module.exports = config;

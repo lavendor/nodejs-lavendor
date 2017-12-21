@@ -4,7 +4,7 @@
 var mongodb = require('mongoose');
 var config = require('../../config');
 //获取mongodb url
-var URL = config.MONGODB.URL;
+var URL = config.mongodb.URL;
 
 var mongoose = null;
 
