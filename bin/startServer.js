@@ -6,6 +6,7 @@
 
 var app = require('../app'),
     config = require('../config'),
+    logger = require('../common/logHelper'),
     http = require('http');
 
 //创建一个服务
@@ -35,12 +36,12 @@ WebServer.prototype = {
         server.listen(self._port, self._address);
 
         server.on('error', function (error) {
-            console.log('start web Server failed: ' + error);
+            logger.error('start web Server failed: ' + error);
         });
 
         server.on('listening', function () {
             var address = server.address();
-            console.log('start web Server succeed: listening on ' + address.address + ':' + address.port);
+            logger.info('start web Server succeed: listening on ' + address.address + ':' + address.port);
         });
     }
 }
