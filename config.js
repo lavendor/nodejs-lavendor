@@ -12,6 +12,10 @@ var config={
     domain:{
         address:'127.0.0.1',
         port:8080
+    },
+    //日志配置
+    logger:{
+        level:'DEBUG'
     }
 }
 
