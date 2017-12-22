@@ -1,8 +1,12 @@
 /**
  * Created by yanghao on 2017/7/9.
+ *
+ * MongoDB数据库连接
  */
-var mongodb = require('mongoose');
-var config = require('../config');
+var mongodb = require('mongoose'),
+    logger = require('./logHelper'),
+    config = require('../config');
+
 //获取mongodb url
 var URL = config.mongodb.URL;
 
@@ -28,21 +32,21 @@ exports.getConnection = function(){
          * 链接成功
          */
         db.on('connected',function(){
-            console.log('mongoose connected on '+URL);
+            logger.info('mongoose connected on '+URL);
         });
 
         /**
          * 断开连接
          */
         db.on('disconnected',function(){
-            console.warn('mongoose disconnected');
+            logger.warn('mongoose disconnected');
         });
 
         /**
          * 连接失败
          */
         db.on('error',function(error){
-            console.warn('mongoose connect error:'+error);
+            logger.error('mongoose connect error:'+error);
         });
 
         mongoose = $mongoose;
