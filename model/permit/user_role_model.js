@@ -1,7 +1,7 @@
 /**
  * Created by Yanghao on 2017/11/21.
  */
-var mongoose = require('../utils/mongodb_utils').getConnection();
+var mongoose = require('../../common/mongodb_utils').getConnection();
 var Schema = mongoose.Schema;
 
 /**

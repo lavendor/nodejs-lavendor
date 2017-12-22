@@ -5,13 +5,11 @@
  */
 var path = require('path');
 var hbs = require('hbs');
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
 
-app.use(logger('dev'));//日志中间件
 app.use(cookieParser());//解析cookie的中间件
 app.use(bodyParser());//请求体解析中间件
 app.use(bodyParser.urlencoded({extended: false}));//请求体转换成string/array型数据
@@ -32,7 +30,7 @@ var router = require('./routes');
 router(app);
 
 //链接数据库
-require('./model/utils/mongodb_utils').getConnection();
+require('./common/mongodb_utils').getConnection();
 
 
 module.exports = app;
