@@ -3,12 +3,12 @@
  *
  * 应用入口
  */
-var path = require('path');
-var hbs = require('hbs');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var express = require('express');
-var app = express();
+var path = require('path'),
+    hbs = require('hbs'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    express = require('express'),
+    app = express();
 
 app.use(cookieParser());//解析cookie的中间件
 app.use(bodyParser());//请求体解析中间件

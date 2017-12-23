@@ -5,22 +5,25 @@
  */
 var config = require('../config'),      //配置文件
     log4js = require('log4js'),         //log4js
-    logpath = __dirname+'/logs/';        //log4js文件位置
+    logpath = __dirname+'/logs/';        //log4js文件位置,当前路径下的/logs 目录下，没有会自动创建
 
+//配置log4js
 log4js.configure({
     appenders:{
-        warn:{
+        //error appender error以上日志写入到 error.log文件中
+        error:{
             type:'file',
-            filename:logpath+'/warn.log',
+            filename:logpath+'/error.log',
             maxLongSize:10*1024*1024,//10M
             numBackups:5,
             compress:true,
             encoding:'utf-8',
             layout:{
                 type:'pattern',
-                pattern: '%d{yyyy-MM-dd hh.mm.ss} %p %c %m%n',
+                pattern: '[%d{yyyy-MM-dd hh:mm:ss}] [%p] %c - %m',
             }
         },
+        //info appender info以上内容日志写入到info.log文件中
         info:{
             type:'file',
             filename:logpath+'/info.log',
@@ -30,20 +33,33 @@ log4js.configure({
             encoding:'utf-8',
             layout:{
                 type:'pattern',
-                pattern: '%d{yyyy-MM-dd hh.mm.ss} [%p] %c - %m%n',
+                pattern: '[%d{yyyy-MM-dd hh:mm:ss}] [%p] %c - %m',
             }
         },
+        //过滤日志，error级别以上的内容使用error appender
+        into_error_file:{
+            type:'logLevelFilter',
+            appender:'error',
+            level:"error"
+        },
+        //过滤日志，error级别以上的内容使用info appender
+        into_info_file:{
+            type:'logLevelFilter',
+            appender:'info',
+            level:'debug'
+        },
+        //日志打印到控制台
         console:{
             type:'console',
             layout:{
                 type:'pattern',
-                pattern: '[%d{yyyy-MM-dd hh:mm:ss}] [%p] %c - %m%n',
+                pattern: '%[[%d{yyyy-MM-dd hh:mm:ss}]]% [%p] %c - %m',
             }
         }
     },
     categories:{
         default:{
-            appenders:['console','info','warn'],
+            appenders:['console','into_info_file','into_error_file'],
             level:'debug'
         }
     }
@@ -52,10 +68,24 @@ log4js.configure({
 
 const logger = log4js.getLogger('console');
 
-logger.debug('Got cheese.');
-logger.info('Cheese is Gouda.');
-logger.warn('Cheese is quite smelly.');
-logger.error('Cheese is too ripe!');
-logger.fatal('Cheese was breeding ground for listeria.');
 
-module.exports = logger;
+//建立日志常用方法
+var loggerHelper = {
+    debug:function(msg){
+        logger.debug(msg);
+    },
+    info:function(msg){
+        logger.info(msg);
+    },
+    warn:function(msg){
+        logger.warn(msg);
+    },
+    error:function(msg){
+        logger.error(msg);
+    },
+    fatal:function(msg){
+        logger.fatal(msg);
+    }
+}
+
+module.exports = loggerHelper;
