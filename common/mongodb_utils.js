@@ -4,7 +4,7 @@
  * MongoDB数据库连接
  */
 var mongodb = require('mongoose'),
-    logger = require('./logHelper'),
+    logger = require('./logHelper').logger,
     config = require('../config');
 
 //获取mongodb url

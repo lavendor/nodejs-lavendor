@@ -88,4 +88,4 @@ var loggerHelper = {
     }
 }
 
-module.exports = loggerHelper;
+exports.logger = loggerHelper;

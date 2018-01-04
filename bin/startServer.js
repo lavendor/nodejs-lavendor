@@ -6,7 +6,7 @@
 
 var app = require('../app'),
     config = require('../config'),
-    logger = require('../common/logHelper'),
+    logger = require('../common/logHelper').logger,
     http = require('http');
 
 //创建一个服务
