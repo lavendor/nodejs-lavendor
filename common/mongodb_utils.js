@@ -24,9 +24,11 @@ exports.getConnection = function(){
          * 链接数据库
          * @type {Connection|Promise}
          */
-        var $mongoose = mongodb.connect(URL);
+        mongodb.connect(URL, {
+            useMongoClient: true
+        });
 
-        var db = $mongoose.connection;
+        var db = mongodb.connection;
 
         /**
          * 链接成功
@@ -49,7 +51,7 @@ exports.getConnection = function(){
             logger.error('mongoose connect error:'+error);
         });
 
-        mongoose = $mongoose;
+        mongoose = mongodb;
     }
     return mongoose;
 };
