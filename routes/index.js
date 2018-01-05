@@ -1,8 +1,13 @@
 /**
  * Created by yanghao on 2017/7/8.
  */
+var log4js = require('log4js'),
+    logger = require('../common/logHelper').logger;
 
 module.exports = function(app){
+
+    //路由路径添加日志
+    app.use(log4js.connectLogger(logger,{level:'info'}));
 
     //默认到index页面
     app.get('/',function(req,res){
