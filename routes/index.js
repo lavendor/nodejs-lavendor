@@ -9,9 +9,10 @@ module.exports = function(app){
     //路由路径添加日志
     app.use(log4js.connectLogger(logger,{level:'info'}));
 
-    //默认到index页面
+    //默认到登录页面
     app.get('/',function(req,res){
-        res.redirect('/index');
+        // 登录页面不需要其他渲染
+        res.render('login',{layout:null});
     });
 
     //路由配置
