@@ -11,6 +11,11 @@ module.exports = function(app){
 
     //默认到登录页面
     app.get('/',function(req,res){
+        res.redirect('login');
+    });
+
+    //登录页面
+    app.get('/login',function(req,res){
         // 登录页面不需要其他渲染
         res.render('login',{layout:null});
     });
@@ -29,4 +34,5 @@ module.exports = function(app){
 
     app.use('/user',require('./user/user_route'));//user
     app.use('/role',require('./role/role_route'));
+    app.use('/login',require('./login/login_route'));
 }

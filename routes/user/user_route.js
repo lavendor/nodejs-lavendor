@@ -29,8 +29,10 @@ router.post('/addUser',function(req,res){
         user_password:body.user_password,
         create_time:new Date()
     };
-    userServices.addUser(params,function(msg){
+    userServices.addUser(params).then(function(msg){
         res.send({success:true,msg:msg});
+    }).catch(function(err){
+        res.send({success:false,msg:err});
     });
 });
 

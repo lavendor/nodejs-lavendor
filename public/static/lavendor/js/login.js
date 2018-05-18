@@ -214,7 +214,9 @@ var Login = function () {
             },
 
             submitHandler: function (form) {
-                form.submit();
+                registerSubmit();
+                jQuery('.login-form').show();
+                jQuery('.register-form').hide();
             }
         });
 
@@ -261,6 +263,26 @@ var Login = function () {
     };
 
 }();
+
+/**
+ * 提交表单的方法
+ */
+function registerSubmit(){
+    var url = '/login/register';
+
+    var dataObj = $('#registerForm').serializeArray();
+    $.ajax({
+        url:url,
+        type:'post',
+        dataType:'json',
+        data:dataObj,
+        success:function(data){
+            if(data.success){
+                successAlert('注册成功！');
+            }
+        }
+    });
+}
 
 jQuery(document).ready(function() {
     Login.init();

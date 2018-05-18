@@ -24,9 +24,7 @@ exports.getConnection = function(){
          * 链接数据库
          * @type {Connection|Promise}
          */
-        mongodb.connect(URL, {
-            useMongoClient: true
-        });
+        mongodb.connect(URL);
 
         var db = mongodb.connection;
 

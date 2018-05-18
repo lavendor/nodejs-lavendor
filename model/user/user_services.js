@@ -8,13 +8,16 @@ var userModel = require('./user_model').User;
  * @param params
  * @param callback
  */
-exports.addUser = function(params,callback){
-    userModel(params).save(function(err){
-       if(err){
-           callback('添加用户失败！');
-       }
-        callback('添加用户成功！');
-    });
+exports.addUser = function(params){
+    return new Promise(function(resolve,reject){
+        userModel(params).save(function(err){
+            if(err){
+                reject('添加用户失败！');
+            }else{
+                resolve('添加用户成功！');
+            }
+        });
+    })
 };
 
 /**
