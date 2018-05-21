@@ -9,7 +9,15 @@ var express = require('express'),
  * 登录
  */
 router.post('/',function(req,res){
-   res.send(true)
+    var body = req.body;
+    var username = body.username;
+    var password = body.password;
+    if(username=='admin' && password=='123'){
+        req.session.user = username;
+        res.send({success:true});
+    }else{
+        res.send({success:false,msg:'用户名或密码错误，请重新登录.'});
+    }
 });
 
 /**

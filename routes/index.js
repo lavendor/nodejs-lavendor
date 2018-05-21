@@ -2,6 +2,7 @@
  * Created by yanghao on 2017/7/8.
  */
 var log4js = require('log4js'),
+    config = require('../config'),
     logger = require('../common/logHelper').logger;
 
 module.exports = function(app){
@@ -9,15 +10,35 @@ module.exports = function(app){
     //路由路径添加日志
     app.use(log4js.connectLogger(logger,{level:'info'}));
 
-    //默认到登录页面
-    app.get('/',function(req,res){
-        res.redirect('login');
+    /**
+     * 拦截过滤所有请求
+     */
+    app.use(function(req,res,next){
+        var url = req.originalUrl;
+        var exclude = config.route.exclude;
+        if(exclude.indexOf(url)>=0){
+            // 公共部分放行通过
+            next();
+        }else if(req.session.user){
+            //包含session的放行
+            next();
+        }else{
+            res.redirect('login');
+        }
     });
 
     //登录页面
     app.get('/login',function(req,res){
         // 登录页面不需要其他渲染
         res.render('login',{layout:null});
+    });
+
+    /**
+     * 退出登录
+     */
+    app.get('/logout',function(req,res){
+        req.session.user = null;
+        res.redirect('login');
     });
 
     //路由配置

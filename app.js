@@ -8,6 +8,8 @@ var path = require('path'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     express = require('express'),
+    session = require('express-session'),
+    config = require('./config'),
     app = express();
 
 //链接数据库
@@ -27,6 +29,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //注册partials路径
 hbs.registerPartials(__dirname + '/views/partials');
+
+app.use(session({
+    secret:config.session.secret,
+    resave:config.session.resave,
+    saveUninitialized:config.session.saveUninitialized,
+    cookie:{
+        maxAge:config.session.maxAge
+    }
+}));
 
 //挂载路由
 var router = require('./routes');

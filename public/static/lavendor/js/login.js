@@ -3,6 +3,9 @@
  */
 var Login = function () {
 
+    /**
+     * 登录处理
+     */
     var handleLogin = function() {
         $('.login-form').validate({
             errorElement: 'span', //default input error message container
@@ -48,7 +51,7 @@ var Login = function () {
             },
 
             submitHandler: function (form) {
-                form.submit();
+                formSubmit('login');
             }
         });
 
@@ -62,6 +65,9 @@ var Login = function () {
         });
     }
 
+    /**
+     * 忘记密码处理
+     */
     var handleForgetPassword = function () {
         $('.forget-form').validate({
             errorElement: 'span', //default input error message container
@@ -125,6 +131,9 @@ var Login = function () {
 
     }
 
+    /**
+     * 注册处理
+     */
     var handleRegister = function () {
 
         function format(state) {
@@ -214,7 +223,7 @@ var Login = function () {
             },
 
             submitHandler: function (form) {
-                registerSubmit();
+                formSubmit('reg');
                 jQuery('.login-form').show();
                 jQuery('.register-form').hide();
             }
@@ -267,10 +276,17 @@ var Login = function () {
 /**
  * 提交表单的方法
  */
-function registerSubmit(){
-    var url = '/login/register';
+function formSubmit(method){
+    var url = '',formTarget = '';
+    if(method=='reg'){
+        url = '/login/register';
+        formTarget = $('#registerForm');
+    }else if(method=='login'){
+        url = '/login';
+        formTarget = $('#loginForm');
+    }
 
-    var dataObj = $('#registerForm').serializeArray();
+    var dataObj = formTarget.serializeArray();
     $.ajax({
         url:url,
         type:'post',
@@ -278,7 +294,13 @@ function registerSubmit(){
         data:dataObj,
         success:function(data){
             if(data.success){
-                successAlert('注册成功！');
+                if(method=='login'){
+                    location.href='index';//跳转到首页
+                }else{
+                    successAlert('注册成功！');
+                }
+            }else{
+                dangerAlert(data.msg);
             }
         }
     });
