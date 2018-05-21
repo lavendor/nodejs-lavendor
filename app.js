@@ -43,6 +43,12 @@ app.use(session({
 var router = require('./routes');
 router(app);
 
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    res.render('error',{layout:null});
+});
 
 module.exports = app;
 

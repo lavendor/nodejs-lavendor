@@ -13,7 +13,7 @@ module.exports = function(app){
     /**
      * 拦截过滤所有请求
      */
-    app.use(function(req,res,next){
+    app.use(function(err,req,res,next){
         var url = req.originalUrl;
         var exclude = config.route.exclude;
         if(exclude.indexOf(url)>=0){
@@ -22,7 +22,8 @@ module.exports = function(app){
         }else if(req.session.user){
             //包含session的放行
             next();
-        }else{
+        }else if(!req.session.user){
+            //没有session，返回到登录页面
             res.redirect('login');
         }
     });

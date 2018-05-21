@@ -9,6 +9,7 @@ var config={
       exclude:[ //公共资源排除，不需要被拦截,任何人都能访问
           '/login',     //  登录
           '/logout',    //  退出
+          '/error',     //  错误页
       ],
     },
 
