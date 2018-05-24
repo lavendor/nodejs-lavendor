@@ -28,6 +28,13 @@ module.exports = function(app){
         }
     });
 
+    /**
+     * 默认到登录页面
+     */
+    app.get('/',function(req,res){
+        res.redirect('login');
+    })
+
     //登录页面
     app.get('/login',function(req,res){
         // 登录页面不需要其他渲染
@@ -42,7 +49,9 @@ module.exports = function(app){
         res.redirect('login');
     });
 
-    //路由配置
+    /**
+     * 到index页面
+     */
     app.use('/index',function(req,res){
         res.render('index');
     });

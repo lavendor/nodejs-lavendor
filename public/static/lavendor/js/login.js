@@ -254,7 +254,7 @@ var Login = function () {
         init: function () {
 
             handleLogin();
-            handleForgetPassword();
+            //handleForgetPassword();
             handleRegister();
 
             // init background slide images
