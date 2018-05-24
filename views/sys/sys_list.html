@@ -1,0 +1,283 @@
+<!--系统列表页面-->
+<!--系统新增修改modal框-->
+<div id="sysInfo" class="modal fade" role="dialog" data-backdrop="static" tabindex="-1">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title">系统信息</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 form">
+                <form id="sysForm" class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <!--验证信息-->
+                        <div class="alert alert-danger display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写失败，请查看表单是否完整正确填写！
+                        </div>
+                        <div class="alert alert-success display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写填写正确！
+                        </div>
+                        <input type="hidden" id="_id" name="_id"/>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="required"></span>系统名称</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="sys_name"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">首页地址</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="sys_url"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-md-radios">
+                            <label class="col-md-3 control-label">系统状态</label>
+                            <div class="col-md-9">
+                                <div class="md-radio-inline">
+                                    <div class="md-radio has-warning">
+                                        <input id="on" class="md-radiobtn" type="radio" name="sys_status" value="0" checked="checked">
+                                        <label for="on">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> 启用
+                                        </label>
+                                    </div>
+                                    <div class="md-radio has-error">
+                                        <input id="off" class="md-radiobtn" type="radio" name="sys_status" value="1">
+                                        <label for="off">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> 禁用
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <button id="submit" type="submit" class="btn btn-primary">确定</button>
+                                <button id="cancel" class="btn btn-danger" data-dismiss="modal">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--主要显示页面-->
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="portlet light bordered">
+            <!--消息提示显示区-->
+            <div id="alertContainer"></div>
+            <div class="portlet-title">
+                <div class="caption">
+                    <span>系统列表</span>
+                </div>
+                <!--工具栏-->
+                <div id="toolbar" class="actions">
+                    <a id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#sysInfo">
+                        <i class="fa fa-plus"></i> 新增系统
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <!--数据列表-->
+                <table id="gridList"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        initTable();
+        formValidate();
+    });
+
+    /**
+     * 初始化表格
+     */
+    function initTable(){
+        $("#gridList").bootstrapTable({
+            url:'/sys/sysList',
+            method:'get',
+            cache:false,
+            pagination:true,
+            sidePagination:'client',
+            pageNumber:1,
+            pageSize:10,
+            pageList:[10,20,30,40,50],
+            queryParamsType:'',
+            queryParams:function(params){
+                var param = {
+                    page:params.pageNumber,
+                    size:params.pageSize
+                }
+                return param;
+            },
+            uniqueId:'_id',
+            toolbar:'#toolbar',
+            showColumns:true,
+            showRefresh:true,
+            clickToSelect:true,//点击行选中行
+            singleSelect:true,
+            showToggle:true,
+            search:true,
+            columns:[
+                {title:'ID',checkbox:true,width:'1%'},
+                {field:'sys_name',title:'系统名称',width:'10%'},
+                {field:'sys_url',title:'首页地址',width:'30%'},
+                {field:'sys_status',title:'系统状态',width:'5%',align:'center',
+                    formatter:function(value,row,index){
+                        if(value == '0'){
+                            return '启用';
+                        }else if(value == '1'){
+                            return '禁用';
+                        }
+                    }},
+                {field:'operator',title:'操作',width:'12%',align:'center',
+                    formatter:function(value,row,index){
+                        return "<a id='btn_edit' onclick='editData("+JSON.stringify(row)+")' class='btn btn-success'>"+
+                                "<i class='fa fa-edit'></i>"+
+                                "</a>"+
+                                "<a id='btn_delete' onclick='deleteData("+JSON.stringify(row)+")' class='btn btn-danger'>"+
+                                "<i class='fa fa-trash'></i>"+
+                                "</a>";
+                    }
+                }
+            ]
+        });
+    }
+
+    //取消模态框
+    $("#cancel").click(function(){
+        $("#sysForm").formReset();
+        $("#sysInfo").modal('hide');
+    });
+
+    /**
+     * 表单验证插件
+     */
+    function formValidate(){
+        var form = $("#sysForm");
+        var error = $(".alert-danger",form);
+        var success = $(".alert-success",form);
+
+        form.validate({
+            errorElement:'span',
+            errorClass:'help-block help-block-error',
+            focusInvalid:false,
+            ignore:'',
+            rules:{
+                sys_name:{
+                    required:true
+                },
+                sys_url:{
+                    required:true
+                }
+            },
+
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                success.hide();
+                error.show();
+                App.scrollTo(error, -200);
+            },
+
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                        .closest('.form-group').removeClass("has-success").addClass('has-error');
+            },
+
+            success: function (label, element) {
+                var icon = $(element).parent('.input-icon').children('i');
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                icon.removeClass("fa-warning").addClass("fa-check");
+            },
+
+            submitHandler: function (form) {
+                success.show();
+                error.hide();
+                formSubmit();
+            }
+        })
+    }
+
+    /**
+     * 提交表单的方法
+     */
+    function formSubmit(){
+        var _id = $("#_id").val();
+        var url = '';
+        _id?url='/sys/editSysById':url='/sys/addSys';
+
+        var dataObj = $('#sysForm').serializeArray();
+        $.ajax({
+            url:url,
+            type:'post',
+            dataType:'json',
+            data:dataObj,
+            success:function(data){
+                if(data.success){
+                    $("#sysForm").formReset();
+                    $("#sysInfo").modal('hide');
+                    successAlert('操作成功！');
+                    $("#gridList").bootstrapTable('refresh');
+                }
+            }
+        });
+    }
+
+    /**
+     * 编辑表单数据
+     * @param rows
+     */
+    function editData(rows){
+        if(!rows){
+            warnAlert('请选择一条数据修改!');
+            return false;
+        }else{
+            var form = $("#sysForm");
+            form.loadForm(rows);
+            $("#sysInfo").modal('show');
+        }
+    }
+
+    /**
+     * 删除表单数据
+     * @param rows
+     */
+    function deleteData(rows){
+        if(!rows){
+            warnAlert('请选择一条数据修改!');
+            return false;
+        }else{
+            var _id = rows._id;
+            $.ajax({
+                url:'/sys/deleteSysById',
+                type:'get',
+                dataType:'json',
+                data:{_id:_id},
+                success:function(result){
+                    if(result.success){
+                        successAlert('数据删除成功!');
+                        $("#gridList").bootstrapTable('refresh');
+                    }
+                }
+            })
+        }
+    }
+
+</script>

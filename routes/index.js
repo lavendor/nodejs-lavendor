@@ -63,6 +63,8 @@ module.exports = function(app){
         res.render('index/dashboard');
     });
 
+    app.use('/sys',require('./sys/sys_route'));//系统管理
+    //app.use('/menu',require('./menu/menu_route'));//菜单管理
     app.use('/user',require('./user/user_route'));//user
     app.use('/role',require('./role/role_route'));
     app.use('/login',require('./login/login_route'));
