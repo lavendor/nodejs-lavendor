@@ -30,6 +30,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 //注册partials路径
 hbs.registerPartials(__dirname + '/views/partials');
 
+/**
+ * 用户session配置
+ */
 app.use(session({
     secret:config.session.secret,
     resave:config.session.resave,

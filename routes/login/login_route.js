@@ -6,18 +6,23 @@ var express = require('express'),
     userService = require('../../model/user/user_services');
 
 /**
- * 登录
+ * 用户登录，设置session
  */
 router.post('/',function(req,res){
     var body = req.body;
     var username = body.username;
     var password = body.password;
-    if(username=='admin' && password=='123'){
-        req.session.user = username;
-        res.send({success:true});
-    }else{
-        res.send({success:false,msg:'用户名或密码错误，请重新登录.'});
-    }
+    var search = {user_account:username,user_password:password};
+    userService.findUserBySearch(search).then(function(user){
+        if(user.length==1) {
+            req.session.user = user;//设置session
+            res.send({success:true});
+        }else{
+            res.send({success:false,msg:'用户名或密码错误，请重新登录.'})
+        }
+    }).catch(function(err){
+        res.send({success:false,msg:err});
+    });
 });
 
 /**

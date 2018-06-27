@@ -90,3 +90,26 @@ exports.getUserListPagination = function(params){
     });
     return promise;
 };
+
+/**
+ * 根据查询条件查询用户信息
+ * @param search
+ */
+exports.findUserBySearch = function(search){
+    var promise = new Promise(function(resolve,reject){
+        var query = userModel.find({});
+        if(search){
+            for(var key in search){
+                query.where(key,search[key]);
+            }
+        }
+        query.exec(function(err,users){
+            if(err){
+                reject(err)
+            }else{
+                resolve(users)
+            }
+        });
+    });
+    return promise;
+}
