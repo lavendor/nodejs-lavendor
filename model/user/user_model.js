@@ -10,6 +10,8 @@ var Schema = mongoose.Schema;
  */
 var userSchema = new Schema({
     user_no:String,         //用户编号
+    user_email:String,      //用户邮箱
+    user_phone:String,      //用户电话
     user_name:String,       //用户姓名
     user_sex:Number,        //用户性别
     user_account:String,    //登录账号

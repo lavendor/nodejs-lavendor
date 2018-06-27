@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+    <head>
+        <title>NODEJS-LAVENDOR</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+        <!--<link href="https://fonts.cat.net/css?family=Open+Sans" rel="stylesheet" type="text/css" />-->
+        <link href="static/global/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/global/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+        <link href="static/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+        <!-- END GLOBAL MANDATORY STYLES -->
+
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <link href="static/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- END PAGE LEVEL PLUGINS -->
+
+        <!-- BEGIN THEME GLOBAL STYLES -->
+        <link href="static/global/css/components-md.min.css" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="static/global/css/plugins-md.min.css" rel="stylesheet" type="text/css" />
+        <!-- END THEME GLOBAL STYLES -->
+
+        <!-- BEGIN THEME LAYOUT STYLES -->
+        <link href="static/global/layout/css/layout.min.css" rel="stylesheet" type="text/css" />
+        <link href="static/global/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />
+        <link href="static/global/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <!-- END THEME LAYOUT STYLES -->
+        <link rel="shortcut icon" href="static/global/img/favicon.ico" />
+
+        <!-- BEGIN PAGE LEVEL STYLES -->
+        <link href="static/lavendor/css/login.css" rel="stylesheet" type="text/css" />
+        <!-- END PAGE LEVEL STYLES -->
+
+    </head>
+    <!-- END HEAD -->
+
+    <body class=" login">
+    <!-- BEGIN LOGO -->
+        <div class="logo">
+            <a href=" ">
+                <img src="static/global/img/logo-big.png" alt="" />
+            </a>
+        </div>
+        <!-- END LOGO -->
+        <!-- BEGIN LOGIN -->
+        <div class="content">
+            <!-- BEGIN LOGIN FORM -->
+            <form id="loginForm" class="login-form">
+                <h3 class="form-title">用户登录</h3>
+                <!--消息提示显示区-->
+                <div id="alertContainer"></div>
+                <div class="alert alert-danger display-hide">
+                    <button class="close" data-close="alert"></button>
+                    <span> 请输入用户名和密码. </span>
+                </div>
+                <div class="form-group">
+                    <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                    <label class="control-label visible-ie8 visible-ie9">用户名</label>
+                    <div class="input-icon">
+                        <i class="fa fa-user"></i>
+                        <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名" name="username" /> </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">密码</label>
+                    <div class="input-icon">
+                        <i class="fa fa-lock"></i>
+                        <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="密码" name="password" /> </div>
+                </div>
+                <div class="form-actions">
+                    <label class="rememberme mt-checkbox mt-checkbox-outline">
+                        <input type="checkbox" name="remember" value="1" /> 记住密码
+                        <span></span>
+                    </label>
+                    <button type="submit" class="btn green pull-right"> 登录 </button>
+                </div>
+                <div class="login-options">
+                    <span> <a href="javascript:void(0);" id="forget-password"> 忘记密码? </a></span>
+                    <span class="pull-right"><a href="javascript:;" id="register-btn"> 注册用户 </a></span>
+                </div>
+
+                <div class="login-options">
+                    <h6>使用第三方登录</h6>
+                    <ul class="social-icons">
+                        <li>
+                            <a class="facebook" data-original-title="facebook" href="javascript:;"> </a>
+                        </li>
+                        <li>
+                            <a class="github" data-original-title="GitHub" href="javascript:;"> </a>
+                        </li>
+                        <li>
+                            <a class="googleplus" data-original-title="Goole Plus" href="javascript:;"> </a>
+                        </li>
+                        <li>
+                            <a class="linkedin" data-original-title="Linkedin" href="javascript:;"> </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </form>
+            <!-- END LOGIN FORM -->
+
+            <!-- BEGIN REGISTRATION FORM -->
+            <form id="registerForm" class="register-form">
+                <h3>用户注册</h3>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">姓名</label>
+                    <div class="input-icon">
+                        <i class="fa fa-font"></i>
+                        <input class="form-control placeholder-no-fix" type="text" placeholder="姓名" name="fullname" /> </div>
+                </div>
+                <div class="form-group">
+                    <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                    <label class="control-label visible-ie8 visible-ie9">邮箱</label>
+                    <div class="input-icon">
+                        <i class="fa fa-envelope"></i>
+                        <input class="form-control placeholder-no-fix" type="text" placeholder="邮箱" name="email" /> </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">账号</label>
+                    <div class="input-icon">
+                        <i class="fa fa-user"></i>
+                        <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="账号" name="username" /> </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">密码</label>
+                    <div class="input-icon">
+                        <i class="fa fa-lock"></i>
+                        <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="密码" name="password" /> </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">确认密码</label>
+                    <div class="controls">
+                        <div class="input-icon">
+                            <i class="fa fa-check"></i>
+                            <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="确认密码" name="rpassword" /> </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="mt-checkbox mt-checkbox-outline">
+                        <input type="checkbox" name="tnc" /> 我同意
+                        <a href="javascript:;">用户协议 </a> &
+                        <a href="javascript:;">隐私政策 </a>
+                        <span></span>
+                    </label>
+                    <div id="register_tnc_error"> </div>
+                </div>
+                <div class="form-actions">
+                    <button id="register-back-btn" type="button" class="btn red btn-outline"> 返回 </button>
+                    <button type="submit" id="register-submit-btn" class="btn green pull-right"> 注册 </button>
+                </div>
+            </form>
+            <!-- END REGISTRATION FORM -->
+
+        </div>
+        <!-- END LOGIN -->
+        <!-- BEGIN COPYRIGHT -->
+        <div class="copyright"> 2017 &copy; Lavendor. </div>
+
+            <!--[if lt IE 9]>
+    <script src="static/global/js/respond.min.js"></script>
+    <script src="static/global/js/excanvas.min.js"></script>
+    <![endif]-->
+            <!-- BEGIN CORE PLUGINS -->
+            <!--BASIC GLOBAL SCRIPTS-->
+            <script src="static/global/jquery/jquery.min.js" type="text/javascript"></script>
+            <script src="static/global/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+            <script src="static/global/jquery/js.cookie.min.js" type="text/javascript"></script>
+            <script src="static/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+            <script src="static/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+            <script src="static/global/jquery/jquery.blockui.min.js" type="text/javascript"></script>
+            <script src="static/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+            <script src="static/lavendor/utils/common-utils.js" type="text/javascript"></script>
+            <!-- END CORE PLUGINS -->
+
+            <!-- BEGIN PAGE LEVEL PLUGINS -->
+            <script src="static/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+            <script src="static/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
+            <script src="static/plugins/jquery-validation/js/localization/messages_zh.js" type="text/javascript"></script>
+            <script src="static/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+            <script src="static/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
+            <!-- END PAGE LEVEL PLUGINS -->
+
+            <script src="static/global/js/app.js" type="text/javascript"></script>
+
+            <!-- BEGIN PAGE LEVEL SCRIPTS -->
+            <script src="static/lavendor/js/login.js" type="text/javascript"></script>
+            <!-- END PAGE LEVEL SCRIPTS -->
+            <!-- BEGIN THEME LAYOUT SCRIPTS -->
+            <!-- END THEME LAYOUT SCRIPTS -->
+    </body>
+
+</html>

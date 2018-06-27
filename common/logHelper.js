@@ -82,10 +82,8 @@ var loggerHelper = {
     },
     error:function(msg){
         logger.error(msg);
-    },
-    fatal:function(msg){
-        logger.fatal(msg);
     }
 }
 
-module.exports = loggerHelper;
+exports.loggerHelper = loggerHelper;
+exports.logger = logger;
