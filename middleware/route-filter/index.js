@@ -3,6 +3,8 @@
  *
  * 路由拦截的中间件，可以拦截所有请求
  *
+ * 在app.js中设置排除的路由，设置登录路由
+ *
  */
 
 module.exports = routerFilter;
