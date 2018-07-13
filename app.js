@@ -12,9 +12,6 @@ var path = require('path'),
     config = require('./config'),
     app = express();
 
-//链接数据库
-require('./common/mongodb_utils').getConnection();
-
 app.use(cookieParser());//解析cookie的中间件
 app.use(bodyParser.json());//请求体解析中间件
 app.use(bodyParser.urlencoded({extended: false}));//请求体转换成string/array型数据
