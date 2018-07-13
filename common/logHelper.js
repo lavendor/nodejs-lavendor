@@ -5,7 +5,8 @@
  */
 var config = require('../config'),      //配置文件
     log4js = require('log4js'),         //log4js
-    logpath = __dirname+'/logs/';        //log4js文件位置,当前路径下的/logs 目录下，没有会自动创建
+    path   = require('path'),           //path
+    logpath = path.resolve('../logs') ;   //log4js 日志文件位置,项目路径下的/logs 目录下，没有会自动创建
 
 //配置log4js
 log4js.configure({
