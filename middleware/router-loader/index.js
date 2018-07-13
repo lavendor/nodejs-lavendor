@@ -3,66 +3,59 @@
  *
  * 给出路由路径， 自动装载路由
  *
- *
+ * https://blog.csdn.net/rcwukaka/article/details/54016642
  */
 
 var fs = require('fs'),
     path = require('path');
 
-
-module.exports = routerLoader;
-
-/**
- * 装载路由
- */
-function routerLoader(app){
-    //路由路径，默认当前目录下routes文件夹
-    var routerPath = path.resolve('../../routes');
-    if(app){
-        routerPath = app.get('routes');
-    }
-    if(!routerPath){
-        routerPath = path.resolve('../../routes');
-    }
-
-    geFileList(routerPath).then(function(files){
-        files.forEach(function(file){
-            var routeName = file.name.slice(0,file.name.length-3);
-            var routePath = path.resolve(file.path);
-            app.use(routeName,require(routePath));
-        })
-    }).catch(function(err){
-        throw Error('not found routes files. because '+err);
-    })
-}
-
-/**
- * 递归遍历源文件夹下的所有文件，并且返回一个文件数组
- * @param source
- */
-function geFileList(source) {
-    return new Promise(function (resolve, reject) {
-        var filesList = [];
-        readFile(source, filesList);
-        resolve(filesList);
-    })
-}
-
-//遍历读取文件
-function readFile(source, filesList) {
-    var files = fs.readdirSync(source);//需要用到同步读取
-    files.forEach(function (file) {
-        var filePath = path.join(source,file);
-        var states = fs.statSync(filePath);
-        if (states.isDirectory()) {
-            readFile(filePath, filesList);
-        } else {
-            //创建一个对象保存信息
-            var obj = new Object();
-            obj.size = states.size;//文件大小，以字节为单位
-            obj.name = file;//文件名
-            obj.path = filePath; //文件绝对路径
-            filesList.push(obj);//所有文件
+//动态加载路由
+var loadRoute = {
+    path : './routes/',
+    app : null,
+    listDir : function(dir){
+        var fileList = fs.readdirSync(dir,'utf-8');
+        for(var i=0;i<fileList.length;i++) {
+            var stat = fs.lstatSync(dir + fileList[i]);
+            if (stat.isDirectory()) {
+                this.listDir(dir + fileList[i]  + '/');
+            } else {
+                this.loadRoute(dir + fileList[i]);
+            }
         }
-    })
-}
+    },
+    loadRoute : function(routeFile){
+        var route = require(routeFile.substring(0,routeFile.lastIndexOf('.')));
+        console.log(route.basePath);
+        //完整的请求路径
+        var routePath = routeFile.substring(8,routeFile.lastIndexOf('.'));
+        if(routePath.length >= 5){
+            //除去index的有效路径
+            if(routePath.substring(routePath.length-5)=="index"){
+                var validPath = routePath.substring(0,routePath.length-5);
+                this.app.use(validPath,route);
+            }else{
+                this.app.use(routePath,route);
+            }
+        }else{
+            this.app.use(routePath,route);
+        }
+    },
+    /**
+     * 初始化
+     * @param app
+     * @param path
+     * @returns {boolean}
+     */
+    init : function(app,path){
+        if(!app){
+            console.error("系统主参数App未设置");
+            return false;
+        }
+        this.app = app;
+        this.path = path?path:this.path;
+        this.listDir(this.path);
+    }
+};
+
+module.exports = loadRoute;

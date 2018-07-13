@@ -48,9 +48,9 @@ function router (app){
     });
 
 
-    app.use('/sys',require('./sys/sys'));//系统管理
+    /*app.use('/sys',require('./sys/sys'));//系统管理
     app.use('/menu',require('./menu/menu'));//菜单管理
     app.use('/user',require('./user/user'));//user
     app.use('/role',require('./role/role'));
-    app.use('/login',require('./login/login'));
+    app.use('/login',require('./login/login'));*/
 }

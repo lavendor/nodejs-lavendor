@@ -46,10 +46,9 @@ app.set('exclude',config.route.exclude);//排除路由
 app.use(filter(app));//对此app实施拦截
 
 //挂载路由
-/*var routeLoader = require('./middleware/router-loader');
-app.use(routeLoader(app));*/
-var router = require('./routes');
-router(app);
+var routeLoader = require('./middleware/router-loader');
+routeLoader.init(app,path.join(__dirname+'/routes/'));
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
