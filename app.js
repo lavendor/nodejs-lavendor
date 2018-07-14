@@ -9,6 +9,8 @@ var path = require('path'),
     bodyParser = require('body-parser'),
     express = require('express'),
     session = require('express-session'),
+    log4js = require('log4js'),
+    logger = require('./common/logHelper').logger;
     config = require('./config'),
     app = express();
 
@@ -39,6 +41,10 @@ app.use(session({
     }
 }));
 
+
+//路由路径添加日志
+app.use(log4js.connectLogger(logger,{level:'info'}));
+
 //拦截器
 var filter = require('./middleware/route-filter');
 app.set('login','login');//登录路由
@@ -46,7 +52,7 @@ app.set('exclude',config.route.exclude);//排除路由
 app.use(filter(app));//对此app实施拦截
 
 //挂载路由
-var routeLoader = require('./middleware/router-loader');
+var routeLoader = require('./middleware/route-loader');
 routeLoader.init(app,path.join(__dirname+'/routes/'));
 
 

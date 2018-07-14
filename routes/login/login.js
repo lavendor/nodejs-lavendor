@@ -6,6 +6,14 @@ var express = require('express'),
     userService = require('../../model/user/user_services');
 
 /**
+ * 跳转到登录页面
+ */
+router.get('/',function(req,res){
+    // 登录页面不需要其他渲染
+    res.render('login', {layout: null});
+})
+
+/**
  * 用户登录，设置session
  */
 router.post('/',function(req,res){
@@ -45,5 +53,12 @@ router.post('/register',function(req,res){
     });
 })
 
+/**
+ * 退出登录
+ */
+router.get('/logout', function (req, res) {
+    req.session.user = null;
+    res.redirect('/login');
+});
 
 module.exports = router;

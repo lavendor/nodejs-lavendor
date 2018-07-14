@@ -224,8 +224,6 @@ var Login = function () {
 
             submitHandler: function (form) {
                 formSubmit('reg');
-                jQuery('.login-form').show();
-                jQuery('.register-form').hide();
             }
         });
 
@@ -295,9 +293,11 @@ function formSubmit(method){
         success:function(data){
             if(data.success){
                 if(method=='login'){
-                    location.href='index';//跳转到首页
+                    location.href='/index';//跳转到首页
                 }else{
                     successAlert('注册成功！');
+                    jQuery('.login-form').show();
+                    jQuery('.register-form').hide();
                 }
             }else{
                 dangerAlert(data.msg);

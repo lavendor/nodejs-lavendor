@@ -6,10 +6,11 @@
 var config={
     //路由配置
     route:{
-      exclude:[ //公共资源排除，不需要被拦截,任何人都能访问
-          '/login',     //  登录
-          '/logout',    //  退出
-          '/error',     //  错误页
+      exclude:[ //公共路由排除，不需要被拦截,任何人都能访问
+          '/login',             //  登录
+          '/login/register',          //  注册
+          '/login/logout',            //  退出
+          '/error',             //  错误页
       ],
     },
 

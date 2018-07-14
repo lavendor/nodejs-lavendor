@@ -1,0 +1,342 @@
+<!--用户新增修改modal框-->
+<div id="userInfo" class="modal fade" role="dialog" data-backdrop="static" tabindex="-1">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title">权限信息</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12 form">
+                <form id="userForm" class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <!--验证信息-->
+                        <div class="alert alert-danger display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写失败，请查看表单是否完整正确填写！
+                        </div>
+                        <div class="alert alert-success display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写填写正确！
+                        </div>
+                        <input type="hidden" id="_id" name="_id"/>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="required"></span>用户编码</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_no"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户姓名</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_name"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-md-radios">
+                            <label class="col-md-3 control-label">用户性别</label>
+                            <div class="col-md-9">
+                                <div class="md-radio-inline">
+                                    <div class="md-radio has-warning">
+                                        <input id="male" class="md-radiobtn" type="radio" name="user_sex" value="1" checked="checked">
+                                        <label for="male">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> 男
+                                        </label>
+                                    </div>
+                                    <div class="md-radio has-error">
+                                        <input id="female" class="md-radiobtn" type="radio" name="user_sex" value="2">
+                                        <label for="female">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> 女
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">登陆账号</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_account"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">登陆密码</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="password" class="form-control" name="user_password"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户角色</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_role" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">所属系统</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_sys"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <button id="submit" type="submit" class="btn btn-primary">确定</button>
+                                <button id="cancel" class="btn btn-danger" data-dismiss="modal">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--主要显示页面-->
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="portlet light bordered">
+            <!--消息提示显示区-->
+            <div id="alertContainer"></div>
+            <div class="portlet-title">
+                <div class="caption">
+                    <span>权限列表</span>
+                </div>
+                <!--工具栏-->
+                <div id="toolbar" class="actions">
+                    <a id="btn_add" class="btn btn-primary" data-toggle="modal" data-target="#userInfo">
+                        <i class="fa fa-plus"></i> 新增用户
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <!--数据列表-->
+                <table id="gridList"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        initTable();
+        formValidate();
+    });
+
+    /**
+     * 初始化表格
+     */
+    function initTable(){
+        $("#gridList").bootstrapTable({
+            url:'/user/getUserList',
+            method:'get',
+            cache:false,
+            pagination:true,
+            sidePagination:'client',
+            pageNumber:1,
+            pageSize:10,
+            pageList:[10,20,30,40,50],
+            queryParamsType:'',
+            queryParams:function(params){
+                var param = {
+                    page:params.pageNumber,
+                    size:params.pageSize
+                }
+                return param;
+            },
+            uniqueId:'_id',
+            toolbar:'#toolbar',
+            showColumns:true,
+            showRefresh:true,
+            clickToSelect:true,//点击行选中行
+            singleSelect:true,
+            showToggle:true,
+            search:true,
+            columns:[
+                {title:'ID',checkbox:true,width:'1%'},
+                {field:'user_no',title:'用户编码',width:'10%'},
+                {field:'user_name',title:'用户姓名',width:'10%'},
+                {field:'user_sex',title:'用户性别',width:'5%',align:'center',
+                    formatter:function(value,row,index){
+                        if(value == '1'){
+                            return '男';
+                        }else if(value == '2'){
+                            return '女';
+                        }
+                    }},
+                {field:'user_account',title:'登录账号',width:'20%'},
+                {field:'user_role',title:'所属角色',width:'20%'},
+                {field:'user_sys',title:'所属系统',width:'10%'},
+                {field:'operator',title:'操作',width:'12%',align:'center',
+                    formatter:function(value,row,index){
+                        return "<a id='btn_edit' onclick='editData("+JSON.stringify(row)+")' class='btn btn-success'>"+
+                                "<i class='fa fa-edit'></i>"+
+                                "</a>"+
+                                "<a id='btn_delete' onclick='deleteData("+JSON.stringify(row)+")' class='btn btn-danger'>"+
+                                "<i class='fa fa-trash'></i>"+
+                                "</a>";
+                    }
+                }
+            ]
+        });
+    }
+
+    //取消模态框
+    $("#cancel").click(function(){
+        $("#userForm").formReset();
+        $("#userInfo").modal('hide');
+    });
+
+    /**
+     * 表单验证插件
+     */
+    function formValidate(){
+        var form = $("#userForm");
+        var error = $(".alert-danger",form);
+        var success = $(".alert-success",form);
+
+        form.validate({
+            errorElement:'span',
+            errorClass:'help-block help-block-error',
+            focusInvalid:false,
+            ignore:'',
+            rules:{
+                user_name:{
+                    minlength:2,
+                    required:true
+                },
+                user_no:{
+                    minlength:5,
+                    required:true
+                },
+                user_account:{
+                    minlength:5,
+                    required:true
+                },
+                user_password:{
+                    minlength:5,
+                    required:true
+                },
+                user_sex:{
+                    required:true
+                },
+                user_role:{
+                    minlength:5,
+                    required:true
+                },
+                user_sys:{
+                    minlength:5,
+                    required:true
+                }
+            },
+
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                success.hide();
+                error.show();
+                App.scrollTo(error, -200);
+            },
+
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                        .closest('.form-group').removeClass("has-success").addClass('has-error');
+            },
+
+            success: function (label, element) {
+                var icon = $(element).parent('.input-icon').children('i');
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                icon.removeClass("fa-warning").addClass("fa-check");
+            },
+
+            submitHandler: function (form) {
+                success.show();
+                error.hide();
+                formSubmit();
+            }
+        })
+    }
+
+    /**
+     * 提交表单的方法
+     */
+    function formSubmit(){
+        var _id = $("#_id").val();
+        var url = '';
+        _id?url='/user/editUserById':url='/user/addUser';
+
+        var dataObj = $('#userForm').serializeArray();
+        $.ajax({
+            url:url,
+            type:'post',
+            dataType:'json',
+            data:dataObj,
+            success:function(data){
+                if(data.success){
+                    $("#userForm").formReset();
+                    $("#userInfo").modal('hide');
+                    successAlert('操作成功！');
+                    $("#gridList").bootstrapTable('refresh');
+                }
+            }
+        });
+    }
+
+    /**
+     * 编辑表单数据
+     * @param rows
+     */
+    function editData(rows){
+        if(!rows){
+            warnAlert('请选择一条数据修改!');
+            return false;
+        }else{
+            var form = $("#userForm");
+            form.loadForm(rows);
+            $("#userInfo").modal('show');
+        }
+    }
+
+    /**
+     * 删除表单数据
+     * @param rows
+     */
+    function deleteData(rows){
+        if(!rows){
+            warnAlert('请选择一条数据修改!');
+            return false;
+        }else{
+            var _id = rows._id;
+            $.ajax({
+                url:'/user/deleteUserById',
+                type:'get',
+                dataType:'json',
+                data:{_id:_id},
+                success:function(result){
+                    if(result.success){
+                        successAlert('数据删除成功!');
+                        $("#gridList").bootstrapTable('refresh');
+                    }
+                }
+            })
+        }
+    }
+
+</script>
