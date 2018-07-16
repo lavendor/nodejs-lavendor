@@ -1,119 +1,122 @@
 <!-- 菜单信息页 -->
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-    <h4 class="modal-title">菜单信息</h4>
-</div>
-<div class="modal-body">
-    <div class="row">
-        <div class="col-md-12 form">
-            <form id="menuForm" class="form-horizontal" role="form">
-                <div class="form-body">
-                    <!--验证信息-->
-                    <div class="alert alert-danger display-hide">
-                        <button class="close" data-close="alert"></button>
-                        表单填写失败，请查看表单是否完整正确填写！
-                    </div>
-                    <div class="alert alert-success display-hide">
-                        <button class="close" data-close="alert"></button>
-                        表单填写填写正确！
-                    </div>
-                    <input type="hidden" id="_id" name="_id"/>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label"><span class="required"></span>菜单编码</label>
-                        <div class="col-md-9">
-                            <div class="input-icon right">
-                                <i class="fa"></i>
-                                <input type="text" class="form-control" name="menu_code"/>
-                            </div>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span>菜单信息</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <form id="menuForm" class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <!--验证信息-->
+                        <div class="alert alert-danger display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写失败，请查看表单是否完整正确填写！
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">菜单名称</label>
-                        <div class="col-md-9">
-                            <div class="input-icon right">
-                                <i class="fa"></i>
-                                <input type="text" class="form-control" name="menu_name"/>
-                            </div>
+                        <div class="alert alert-success display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写填写正确！
                         </div>
-                    </div>
-                    <div class="form-group form-md-radios">
-                        <label class="col-md-3 control-label">菜单状态</label>
-                        <div class="col-md-9">
-                            <div class="md-radio-inline">
-                                <div class="md-radio has-warning">
-                                    <input id="male" class="md-radiobtn" type="radio" name="menu_status" value="1" checked="checked">
-                                    <label for="male">
-                                        <span></span>
-                                        <span class="check"></span>
-                                        <span class="box"></span> 开启
-                                    </label>
-                                </div>
-                                <div class="md-radio has-error">
-                                    <input id="female" class="md-radiobtn" type="radio" name="menu_status" value="2">
-                                    <label for="female">
-                                        <span></span>
-                                        <span class="check"></span>
-                                        <span class="box"></span> 禁用
-                                    </label>
+                        <input type="hidden" id="_id" name="_id"/>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="required"></span>菜单编码</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="menu_code"/>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">菜单URL</label>
-                        <div class="col-md-9">
-                            <div class="input-icon right">
-                                <i class="fa"></i>
-                                <input type="text" class="form-control" name="menu_url"/>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">菜单名称</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="menu_name"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-md-radios">
+                            <label class="col-md-3 control-label">菜单状态</label>
+                            <div class="col-md-9">
+                                <div class="md-radio-inline">
+                                    <div class="md-radio has-warning">
+                                        <input id="male" class="md-radiobtn" type="radio" name="menu_status" value="1" checked="checked">
+                                        <label for="male">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> 开启
+                                        </label>
+                                    </div>
+                                    <div class="md-radio has-error">
+                                        <input id="female" class="md-radiobtn" type="radio" name="menu_status" value="2">
+                                        <label for="female">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> 禁用
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">菜单URL</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="menu_url"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">上级菜单</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input id="parentMenu" type="text" class="form-control" name="menu_parent"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">菜单图标</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="menu_icon" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">菜单排序</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="menu_sort" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">所属系统</label>
+                            <div class="col-md-9">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <select id="menuSys" type="text" class="form-control" name="menu_sys"></select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">上级菜单</label>
-                        <div class="col-md-9">
-                            <div class="input-icon right">
-                                <i class="fa"></i>
-                                <input id="parentMenu" type="text" class="form-control" name="menu_parent"/>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <button id="submit" type="submit" class="btn btn-primary">确定</button>
+                                <button id="cancel" class="btn btn-danger" data-dismiss="modal">取消</button>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">菜单图标</label>
-                        <div class="col-md-9">
-                            <div class="input-icon right">
-                                <i class="fa"></i>
-                                <input type="text" class="form-control" name="menu_icon" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">菜单排序</label>
-                        <div class="col-md-9">
-                            <div class="input-icon right">
-                                <i class="fa"></i>
-                                <input type="text" class="form-control" name="menu_sort" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">所属系统</label>
-                        <div class="col-md-9">
-                            <div class="input-icon right">
-                                <i class="fa"></i>
-                                <select id="menuSys" type="text" class="form-control" name="menu_sys"></select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <button id="submit" type="submit" class="btn btn-primary">确定</button>
-                            <button id="cancel" class="btn btn-danger" data-dismiss="modal">取消</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
