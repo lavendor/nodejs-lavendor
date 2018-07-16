@@ -13,6 +13,13 @@ router.get('/',function(req,res){
 });
 
 /**
+ * 跳转到用户信息页面
+ */
+router.get('/menuInfo',function(req,res){
+    res.render('menu/menu_info');
+});
+
+/**
  * 获取菜单列表
  */
 router.get('/menuList',function(req,res){

@@ -3,7 +3,22 @@
  *
  * 配置文件
  */
+
+/**
+ *
+ * @type {{route: {exclude: [*]}
+ * session: {secret: string, resave: boolean, saveUninitialized: boolean, maxAge: number}
+ * mongodb: {URL: string},
+ * domain: {address: string, port: number},
+ * logger: {level: string}}}
+ */
 var config={
+    /**
+     * 整个项目，添加一个前缀，统一路径，避免项目跳转路径重定向失败的错误
+     * @type {string}
+     */
+    app_url_prefix : '/lavendor',
+
     //路由配置
     route:{
       exclude:[ //公共路由排除，不需要被拦截,任何人都能访问

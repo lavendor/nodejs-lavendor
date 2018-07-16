@@ -18,13 +18,16 @@ app.use(cookieParser());//解析cookie的中间件
 app.use(bodyParser.json());//请求体解析中间件
 app.use(bodyParser.urlencoded({extended: false}));//请求体转换成string/array型数据
 
+//配置文件传入APP的本地文件
+app.locals.config = config;
+
 //设置模版引擎
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
-app.engine('.html', hbs.__express);
+app.set('view engine', 'hbs');
+app.engine('.hbs', hbs.__express);
 
 //引入静态资源
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(config.app_url_prefix, express.static(path.join(__dirname, 'public')));
 
 //注册partials路径
 hbs.registerPartials(__dirname + '/views/partials');
