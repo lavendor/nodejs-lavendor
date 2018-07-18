@@ -34,7 +34,7 @@ var config={
         secret:'lavendor',          //secret id
         resave:true,                //重复保存
         saveUninitialized:false,    //未初始化是否保存
-        maxAge:1000 * 60 * 5,       //session有效期 5分钟
+        maxAge:1000 * 60 * 60,       //session有效期 一小时
     },
 
     //数据库配置
