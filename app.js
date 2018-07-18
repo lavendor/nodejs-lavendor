@@ -50,7 +50,7 @@ app.use(log4js.connectLogger(logger,{level:'info'}));
 
 //拦截器
 var filter = require('./middleware/route-filter');
-app.set('login','login');//登录路由
+app.set('login','/login');//登录路由
 app.set('exclude',config.route.exclude);//排除路由
 app.use(filter(app));//对此app实施拦截
 
