@@ -16,7 +16,18 @@ router.get('/',function(req,res){
  * 跳转到用户信息页面
  */
 router.get('/menuInfo',function(req,res){
-    res.render('menu/menu_info');
+    var id = req.query.id;
+    if(id){
+        //修改，返回对象渲染到页面中
+        menuServices.getMenuById(id).then(function(menu){
+            res.render('menu/menu_info',{menu:menu[0]})
+        }).catch(function(err){
+            res.render('menu/menu_info',{error:err});
+        });
+    }else{
+        //新增
+        res.render('menu/menu_info');
+    }
 });
 
 /**
@@ -36,14 +47,25 @@ router.get('/menuList',function(req,res){
 router.get('/sysList',function(req,res){
     var params = req.query.q;//自动补全查询条件
     menuServices.sysList(params).then(function(menus){
-        res.send({success:true,data:menus});
+        res.send(menus);
     }).catch(function(err){
         res.send({success:false,msg:err});
     })
 });
 
 /**
- * 新增系统
+ * 加载菜单树
+ */
+router.get('/menuTree',function(req,res){
+    menuServices.menuTree().then(function(menuTree){
+        res.send([{id:0,text:'Root',children:menuTree}]);
+    }).catch(function(err){
+        res.send(err);
+    })
+});
+
+/**
+ * 新增菜单
  */
 router.post('/addMenu',function(req,res){
     var body = req.body;
@@ -55,10 +77,32 @@ router.post('/addMenu',function(req,res){
         menu_icon:body.menu_icon,
         menu_sort:body.menu_sort,
         menu_url:body.menu_url,
-        menu_status:body.menu_status
+        menu_status:0
     };
     menuServices.addMenu(params).then(function(r){
         res.send({success:true,msg:r})
+    }).catch(function(err){
+        res.send({success:false,msg:err});
+    })
+});
+
+/**
+ * 修改菜单
+ */
+router.post('/editMenuById',function(req,res){
+    var body = req.body,id = req.body._id;
+    var params = {
+        menu_name:body.menu_name,
+        menu_code:body.menu_code,
+        menu_sys:body.menu_sys,
+        menu_parent:body.menu_parent,
+        menu_icon:body.menu_icon,
+        menu_sort:body.menu_sort,
+        menu_url:body.menu_url,
+        menu_status:0
+    };
+    menuServices.updateMenuById(id,params).then(function(){
+        res.send({success:true,msg:'修改成功!'});
     }).catch(function(err){
         res.send({success:false,msg:err});
     })
