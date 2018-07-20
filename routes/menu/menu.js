@@ -119,6 +119,19 @@ router.get('/deleteMenuById',function(req,res){
     }).catch(function(err){
         res.send({success:false,msg:err});
     })
+});
+
+/**
+ * 修改状态
+ */
+router.get('/changeMenuStatusById',function(req,res){
+    var id = req.query._id,menu_status = req.query.status;
+    var params = {menu_status:menu_status};
+    menuServices.updateMenuById(id,params).then(function(result){
+        res.send({success:true,msg:result})
+    }).catch(function(err){
+        res.send({success:false,msg:err});
+    })
 })
 
 
