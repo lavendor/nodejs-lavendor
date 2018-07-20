@@ -44,8 +44,11 @@ app.use(session({
     }
 }));
 
+/**
+ * 当前登录session加入全局变量中
+ */
 app.use(function(req,res,next){
-    app.locals.current_user = req.session.user;
+    app.locals.session = req.session;
     next();
 });
 
