@@ -41,8 +41,9 @@ exports.updateMenuById = function(id,params){
  * 获取菜单列表
  */
 exports.getMenuList = function () {
+    var condition = {},fields = {},option = {sort:{'menu_sort':1}};
     return new Promise(function (resolve, reject) {
-        menuModel.find().then(function (result) {
+        menuModel.find(condition,fields,option).then(function (result) {
             resolve(result);
         }).catch(function (err) {
             reject(err);
@@ -97,6 +98,20 @@ exports.getMenuById = function(id){
     return new Promise(function(resolve,reject){
         menuModel.find(search).then(function(menu){
             resolve(menu)
+        }).catch(function(err){
+            reject(err);
+        })
+    })
+}
+
+/**
+ * 删除一个菜单
+ * @param id
+ */
+exports.deleteMenuById = function(id){
+    return new Promise(function(resolve,reject){
+        menuModel.remove({_id:id}).then(function(){
+            resolve();
         }).catch(function(err){
             reject(err);
         })

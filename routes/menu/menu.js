@@ -3,6 +3,7 @@
  */
 var express = require('express'),
     router = express.Router(),
+    config = require('../../config'),
     menuServices = require('../../model/menu/menu_services');
 
 /**
@@ -58,7 +59,7 @@ router.get('/sysList',function(req,res){
  */
 router.get('/menuTree',function(req,res){
     menuServices.menuTree().then(function(menuTree){
-        res.send([{id:0,text:'Root',children:menuTree}]);
+        res.send([{id:config.tree.id,text:config.tree.text,children:menuTree}]);
     }).catch(function(err){
         res.send(err);
     })
@@ -107,6 +108,18 @@ router.post('/editMenuById',function(req,res){
         res.send({success:false,msg:err});
     })
 });
+
+/**
+ * 删除一个菜单
+ */
+router.get('/deleteMenuById',function(req,res){
+    var id = req.query._id;
+    menuServices.deleteMenuById(id).then(function(){
+        res.send({success:true})
+    }).catch(function(err){
+        res.send({success:false,msg:err});
+    })
+})
 
 
 module.exports = router;

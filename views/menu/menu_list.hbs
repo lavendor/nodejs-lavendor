@@ -25,9 +25,7 @@
 
 <script>
     $(function() {
-        initForm();
         initTable();
-        formValidate();
     });
 
     /**
@@ -38,71 +36,6 @@
     }
 
     /**
-     *  初始化表单
-     * */
-    function initForm(){
-        //选择系统
-        $.ajax({
-            url:'/menu/sysList',
-            type:'get',
-            dataType:'json',
-            delay:'250',
-            cache:true,
-            success:function(data){
-                if(data.success){
-                    $.each(data.data,function(i){
-                        $('#menuSys').append("<option value="+data.data[i]._id+">"+data.data[i].sys_name+"</option>");
-                    })
-                    //$('#menuSys').selectpicker('refresh');
-                }else{
-                    dangerAlert(err.msg);
-                }
-            }
-        });
-        //上级菜单，菜单树
-        $('#parentMenu').jstree({
-            "core":{
-                "themes":{
-                    "responsive":true
-                },
-                'check_callback':true,
-                'data':function(obj,callback){
-                    var jsonstr = "[]";
-                    var jsonArray = eval('('+jsonstr+')');
-                    $.ajax({
-                        url:'/menu/menuList',
-                        type:'get',
-                        dataType:'json',
-                        success:function(result){
-                            if(result.success){
-                                var arrays = result.data;
-                                for(var i=0 ; i<arrays.length; i++){
-                                    var arr = {
-                                        "id":arrays[i]._id,
-                                        "parent":arrays[i].menu_parent=="root"?"#":arrays[i].menu_parent,
-                                        "text":arrays[i].menu_name
-                                    }
-                                    jsonArray.push(arr);
-                                }
-                            }
-                        }
-                    });
-                    callback.call(this, jsonArray);
-                }
-            },
-            "types" : {
-                "default" : {
-                    "icon" : "fa fa-folder icon-state-warning icon-lg"
-                },
-                "file" : {
-                    "icon" : "fa fa-file icon-state-warning icon-lg"
-                }
-            },
-            "plugins": ["types"]
-        })
-    }
-
-    /**
      * 初始化表格
      */
     function initTable(){
@@ -110,6 +43,15 @@
             url:'/menu/menuList',
             method:'get',
             cache:false,
+            //uniqueId:'_id',
+            idField:'_id',
+            toolbar:'#toolbar',
+            showColumns:true,
+            showRefresh:true,
+            clickToSelect:true,//点击行选中行
+            singleSelect:true,
+            showToggle:true,
+            search:true,
             pagination:true,
             sidePagination:'client',
             pageNumber:1,
@@ -123,138 +65,62 @@
                 }
                 return param;
             },
-            uniqueId:'_id',
-            toolbar:'#toolbar',
-            showColumns:true,
-            showRefresh:true,
-            clickToSelect:true,//点击行选中行
-            singleSelect:true,
-            showToggle:true,
-            search:true,
+            treeShowField:'menu_name',
+            parentIdField:'menu_parent',
             columns:[
-                {title:'ID',checkbox:true,width:'1%'},
+                {title:'ID',title:'序号',width:'1%',align:'center',
+                    formatter:function(value,row,index){
+                        return index+1;
+                    }
+                },
                 {field:'menu_code',title:'菜单编码',width:'10%'},
                 {field:'menu_name',title:'菜单名称',width:'10%'},
                 {field:'menu_url',title:'菜单URL',width:'20%'},
+                {field:'menu_sort',title:'菜单序号',width:'5%',align:'center',sortable:true},
                 {field:'menu_status',title:'菜单状态',width:'5%',align:'center',
                     formatter:function(value,row,index){
-                        if(value == '1'){
+                        if(value == '0'){
                             return '启用';
-                        }else if(value == '2'){
+                        }else if(value == '1'){
                             return '禁用';
                         }
                     }},
                 {field:'operator',title:'操作',width:'12%',align:'center',
                     formatter:function(value,row,index){
-                        return "<a id='btn_edit' onclick='editData("+JSON.stringify(row)+")' class='btn btn-success'>"+
+                        return "<a id='btn_edit' onclick='editData(\""+row._id+"\")' class='btn btn-success'>"+
                                 "<i class='fa fa-edit'></i>"+
                                 "</a>"+
-                                "<a id='btn_delete' onclick='deleteData("+JSON.stringify(row)+")' class='btn btn-danger'>"+
+                                "<a id='btn_delete' onclick='deleteData(\""+row._id+"\")' class='btn btn-danger'>"+
                                 "<i class='fa fa-trash'></i>"+
                                 "</a>";
                     }
                 }
-            ]
-        });
-    }
-
-    //取消模态框
-    $("#cancel").click(function(){
-        $("#menuForm").formReset();
-        $("#menuInfo").modal('hide');
-    });
-
-    /**
-     * 表单验证插件
-     */
-    function formValidate(){
-        var form = $("#menuForm");
-        var error = $(".alert-danger",form);
-        var success = $(".alert-success",form);
-
-        form.validate({
-            errorElement:'span',
-            errorClass:'help-block help-block-error',
-            focusInvalid:false,
-            ignore:'',
-            rules:{
-                menu_name:{
-                    minlength:2,
-                    required:true
-                },
-                menu_code:{
-                    required:true
-                },
-                menu_url:{
-                    required:true
-                },
-                menu_sys:{
-                    required:true
-                }
-            },
-
-            invalidHandler: function (event, validator) { //display error alert on form submit
-                success.hide();
-                error.show();
-                App.scrollTo(error, -200);
-            },
-
-            highlight: function (element) { // hightlight error inputs
-                $(element)
-                        .closest('.form-group').removeClass("has-success").addClass('has-error');
-            },
-
-            success: function (label, element) {
-                var icon = $(element).parent('.input-icon').children('i');
-                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-                icon.removeClass("fa-warning").addClass("fa-check");
-            },
-
-            submitHandler: function (form) {
-                success.show();
-                error.hide();
-                formSubmit();
-            }
-        })
-    }
-
-    /**
-     * 提交表单的方法
-     */
-    function formSubmit(){
-        var _id = $("#_id").val();
-        var url = '';
-        _id?url='/menu/editMenuById':url='/menu/addMenu';
-
-        var dataObj = $('#menuForm').serializeArray();
-        $.ajax({
-            url:url,
-            type:'post',
-            dataType:'json',
-            data:dataObj,
-            success:function(data){
-                if(data.success){
-                    $("#menuForm").formReset();
-                    $("#menuInfo").modal('hide');
-                    successAlert('操作成功！');
-                    $("#gridList").bootstrapTable('refresh');
-                }
+            ],
+            onLoadSuccess:function(data){
+                $("#gridList").treeGridList({
+                    initialState: 'collapsed',
+                    treeColumn: 1,
+                    //expanderExpandedClass: 'glyphicon glyphicon-minus',
+                    //expanderCollapsedClass: 'glyphicon glyphicon-plus',
+                    onChange:function(){
+                        $("#gridList").bootstrapTable('resetWidth');
+                    }
+                })
             }
         });
     }
+
 
     /**
      * 编辑表单数据
      * @param rows
      */
-    function editData(rows){
-        if(!rows){
+    function editData(id){
+        if(!id){
             warnAlert('请选择一条数据修改!');
             return false;
         }else{
-            var form = $("#menuForm");
-            form.loadForm(rows);
-            $("#menuInfo").modal('show');
+            window.location='/menu/menuInfo?id='+id;
         }
     }
 
@@ -262,12 +128,12 @@
      * 删除表单数据
      * @param rows
      */
-    function deleteData(rows){
-        if(!rows){
+    function deleteData(id){
+        if(!id){
             warnAlert('请选择一条数据修改!');
             return false;
         }else{
-            var _id = rows._id;
+            var _id = id;
             $.ajax({
                 url:'/menu/deleteMenuById',
                 type:'get',
@@ -277,6 +143,8 @@
                     if(result.success){
                         successAlert('数据删除成功!');
                         $("#gridList").bootstrapTable('refresh');
+                    }else{
+                        dangerAlert(result.msg.message);
                     }
                 }
             })
