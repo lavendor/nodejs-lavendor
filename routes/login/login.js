@@ -23,7 +23,7 @@ router.post('/',function(req,res){
     var search = {user_account:username,user_password:password};
     userService.findUserBySearch(search).then(function(user){
         if(user.length==1) {
-            req.session.user = user;//设置session
+            req.session.user = user[0];//设置session
             res.send({success:true});
         }else{
             res.send({success:false,msg:'用户名或密码错误，请重新登录.'})

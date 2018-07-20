@@ -56,7 +56,52 @@
   <!--BEGIN HEADER开始页面布局中头部分-->
   <div class="page-header navbar navbar-fixed-top">
     <!--引入头文件navbar-->
-    {{>default/navbar}}
+      <!--页面header-->
+      <div class="page-header-inner">
+          <!-- BEGIN LOGO -->
+          <div class="page-logo">
+              <a href="index">
+                  <img src="{{config.app_url_prefix}}/static/global/layout/img/logo.png" alt="logo" class="logo-default" /> </a>
+              <div class="menu-toggler sidebar-toggler">
+                  <span></span>
+              </div>
+          </div>
+          <!-- END LOGO -->
+
+          <!-- BEGIN RESPONSIVE MENU TOGGLER响应式菜单toggler -->
+          <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+              <span></span>
+          </a>
+          <!-- END RESPONSIVE MENU TOGGLER -->
+
+          <!-- BEGIN TOP NAVIGATION MENU 导航菜单 -->
+          <div class="top-menu">
+              <ul class="nav navbar-nav pull-right">
+                  <!-- BEGIN USER LOGIN DROPDOWN -->
+                  <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                  <li class="dropdown dropdown-user">
+                      <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                          <img alt="" class="img-circle" src="{{config.app_url_prefix}}/static/global/layout/img/avatar3_small.jpg" />
+                          <span class="username username-hide-on-mobile">{{current_user.user_name}}</span>
+                          <i class="fa fa-angle-down"></i>
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-default">
+                          <li class="divider"> </li>
+                          <li>
+                              <a href="page_user_lock_1.html">
+                                  <i class="icon-lock"></i> 锁屏 </a>
+                          </li>
+                          <li>
+                              <a href="login/logout">
+                                  <i class="icon-key"></i> 退出登录 </a>
+                          </li>
+                      </ul>
+                  </li>
+                  <!-- END USER LOGIN DROPDOWN -->
+              </ul>
+          </div>
+          <!-- END TOP NAVIGATION MENU -->
+      </div>
   </div>
 
   <!-- BEGIN HEADER & CONTENT DIVIDER -->
