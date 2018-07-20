@@ -48,6 +48,12 @@ var config={
         port:8080
     },
 
+    //树型结构根节点设置，ID为空
+    tree:{
+        id:'',
+        text:'Root'
+    },
+
     //日志配置
     logger:{
         level:'DEBUG'
