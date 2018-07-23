@@ -24,6 +24,13 @@
 </div>
 
 <script>
+    /**
+     * js加载顺序
+     * 1.当前页面script 代码，整个页面加载之前
+     * 2.引用的第三方js 页面基础架构定型
+     * 3.$(function(){})/document.ready 页面特效准备
+     * 4.window.load    页面收尾工作
+     * */
     $(function() {
         initTable();
     });
@@ -80,13 +87,13 @@
                 {field:'menu_status',title:'菜单状态',width:'5%',align:'center',
                     formatter:function(value,row,index){
                         if(value == '0'){ //启用状态
-                            var btn = '<span><input type="checkbox" data-on-text="启用" data-off-text="禁用" checked ' +
+                            var btn = '<div><input type="checkbox" data-on-text="启用" data-off-text="禁用" checked ' +
                                     ' data-off-color="danger" value='+value+' idValue='+row._id+' name="status" ' +
-                                    'class="make-switch" data-size="mini"/></span>';
+                                    'class="make-switch" data-size="mini"/></div>';
                         }else if(value == '1'){ //禁用状态
-                            var btn = '<span><input type="checkbox" data-on-text="启用" data-off-text="禁用"  ' +
+                            var btn = '<div><input type="checkbox" data-on-text="启用" data-off-text="禁用"  ' +
                                     ' data-off-color="danger" value='+value+' idValue='+row._id+' name="status" ' +
-                                    'class="make-switch" data-size="mini"/></span>';
+                                    'class="make-switch" data-size="mini"/></div>';
                         }
                         return btn;
                     }},
@@ -102,6 +109,7 @@
                 }
             ],
             onLoadSuccess:function(data){
+                //渲染成treetable
                 $("#gridList").treeGridList({
                     initialState: 'collapsed',
                     treeColumn: 1,
@@ -110,7 +118,13 @@
                     onChange:function(){
                         $("#gridList").bootstrapTable('resetWidth');
                     }
-                })
+                });
+
+                //table加载成功之后渲染switch组件
+                $('.make-switch').bootstrapSwitch();
+                $('input[type=checkbox]').on('switchChange.bootstrapSwitch',function(e,data){
+                    changeStatus(this,$(this).attr('idValue'));
+                });
             }
         });
     }
