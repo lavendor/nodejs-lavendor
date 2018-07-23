@@ -10,7 +10,7 @@ var userServices = require('../../model/user/user_services');
  * 用户列表页
  */
 router.get('/',function(req,res){
-    res.render('user/user_list');
+    res.render('app/user/user_list');
 });
 
 /**

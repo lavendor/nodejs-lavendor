@@ -9,7 +9,7 @@ var express = require('express'),
  * 跳转到权限页面
  */
 router.get('/',function(req,res){
-    res.render('permit/permit_list');
+    res.render('app/permit/permit_list');
 })
 
 module.exports = router;

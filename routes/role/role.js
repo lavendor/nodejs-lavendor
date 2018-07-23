@@ -6,7 +6,7 @@ var router = express.Router();
 var roleService = require('../../model/role/role_services');
 
 router.get('/',function(req,res){
-    res.render('role/role_list');
+    res.render('app/role/role_list');
 });
 
 /**

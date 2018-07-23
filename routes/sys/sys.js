@@ -9,7 +9,7 @@ var express = require('express'),
  * 跳转到系统列表页
  */
 router.get('/',function(req,res){
-    res.render('sys/sys_list');
+    res.render('app/sys/sys_list');
 });
 
 /**

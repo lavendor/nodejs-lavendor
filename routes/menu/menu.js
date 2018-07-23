@@ -10,7 +10,7 @@ var express = require('express'),
  * 跳转到系统列表页
  */
 router.get('/',function(req,res){
-    res.render('menu/menu_list');
+    res.render('app/menu/menu_list');
 });
 
 /**
@@ -21,13 +21,13 @@ router.get('/menuInfo',function(req,res){
     if(id){
         //修改，返回对象渲染到页面中
         menuServices.getMenuById(id).then(function(menu){
-            res.render('menu/menu_info',{menu:menu[0]})
+            res.render('app/menu/menu_info',{menu:menu[0]})
         }).catch(function(err){
-            res.render('menu/menu_info',{error:err});
+            res.render('app/menu/menu_info',{error:err});
         });
     }else{
         //新增
-        res.render('menu/menu_info');
+        res.render('app/menu/menu_info');
     }
 });
 

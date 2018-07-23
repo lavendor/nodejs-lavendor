@@ -9,7 +9,7 @@ var express = require('express'),
  * 仪表盘页面
  */
 router.get('/', function (req, res) {
-    res.render('dashboard/dashboard');
+    res.render('app/dashboard/dashboard');
 });
 
 module.exports = router;

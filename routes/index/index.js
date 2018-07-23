@@ -13,11 +13,11 @@ var express = require('express'),
 router.get('/', function (req, res) {
     menuService.getMenuList().then(function(lists){
         var menuTrees = commonUtlis.getArrToTree(lists,'_id','menu_parent');
-        res.render('index/index',{
+        res.render('app/index/index',{
             menuTrees:menuTrees
         });
     }).catch(function(err){
-        res.render('index/index',{
+        res.render('app/index/index',{
             menuTrees:null,
             message:err.message
         });
