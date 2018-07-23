@@ -115,7 +115,37 @@
     <!--sidebar 侧边导航栏-->
     <div class="page-sidebar-wrapper">
       <!--引入侧边菜单-->
-      {{>default/sidebar}}
+        <!--sidebar 侧边菜单页面 -->
+        <div class="page-sidebar navbar-collapse collapse">
+            <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-light " data-keep-expanded="false"
+                data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
+                {{#each menuTrees}}
+                <li class="nav-item">
+                    <a href="{{menu_url}}" class="nav-link nav-toggle">
+                        <i class="{{menu_icon}}"></i>
+                        <span class="title">{{menu_name}}</span>
+                        {{#if children}}
+                         <span class="arrow"></span>
+                        {{/if}}
+                    </a>
+                    {{#if children}}
+                        <ul class="sub-menu">
+                            {{#each children}}
+                                <li class="nav-item">
+                                    <a href="{{menu_url}}" class="nav-link">
+                                        <i class="{{menu_icon}}"></i>
+                                        <span class="title">{{menu_name}}</span>
+                                    </a>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
+                </li>
+                {{/each}}
+            </ul>
+            <!-- END SIDEBAR MENU -->
+        </div>
+        <!-- END SIDEBAR -->
     </div>
 
     <!--主页面内容-->
