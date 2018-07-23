@@ -29,17 +29,6 @@
     });
 
     /**
-     * 页面加载完成之后，渲染boostrap-switch
-     */
-    $(window).load(function(){
-        $('.make-switch').bootstrapSwitch();
-
-        $('input[type=checkbox]').on('switchChange.bootstrapSwitch',function(e,data){
-            changeStatus(this,$(this).attr('idValue'));
-        });
-    });
-
-    /**
      * 跳转到新增页面
      * */
     function add(){
@@ -100,11 +89,6 @@
                                     'class="make-switch" data-size="mini"/></span>';
                         }
                         return btn;
-                        /*if(value == '0'){
-                            return '启用';
-                        }else if(value == '1'){
-                            return '禁用';
-                        }*/
                     }},
                 {field:'operator',title:'操作',width:'8%',align:'center',
                     formatter:function(value,row,index){
@@ -194,4 +178,14 @@
         })
     }
 
+    /**
+     * 页面加载完成之后，渲染boostrap-switch
+     */
+    window.onload = function(){
+        $('input.make-switch').bootstrapSwitch();
+
+        /*$('input[type=checkbox]').on('switchChange.bootstrapSwitch',function(e,data){
+            changeStatus(this,$(this).attr('idValue'));
+        });*/
+    };
 </script>
