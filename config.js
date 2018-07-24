@@ -13,6 +13,9 @@
  * logger: {level: string}}}
  */
 var config={
+
+    app_name : 'lavendor后台管理系统',
+
     /**
      * 整个项目，添加一个前缀，统一路径，避免项目跳转路径重定向失败的错误
      * @type {string}

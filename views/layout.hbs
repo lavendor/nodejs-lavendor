@@ -5,7 +5,7 @@
 <!--[if !IE]><!-->
 <html>
     <head>
-      <title>NODEJS-LAVENDOR</title>
+      <title>{{config.app_name}}</title>
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta content="width=device-width, initial-scale=1" name="viewport" />
 
@@ -26,7 +26,7 @@
       <!-- END THEME GLOBAL STYLES -->
 
       <!-- BEGIN THEME LAYOUT STYLES -->
-      <link href="{{config.app_url_prefix}}/static/global/layout/css/layout.min.css" rel="stylesheet" type="text/css" />
+      <link href="{{config.app_url_prefix}}/static/global/layout/css/layout.css" rel="stylesheet" type="text/css" />
       <link href="{{config.app_url_prefix}}/static/global/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />
       <link href="{{config.app_url_prefix}}/static/global/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
       <!-- END THEME LAYOUT STYLES -->
@@ -51,7 +51,7 @@
     </head>
     <!--End head-->
 
-    <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-md">
+    <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-md page-sidebar-fixed">
 
   <!--BEGIN HEADER开始页面布局中头部分-->
   <div class="page-header navbar navbar-fixed-top">
@@ -87,10 +87,14 @@
                           <i class="fa fa-angle-down"></i>
                       </a>
                       <ul class="dropdown-menu dropdown-menu-default">
-                          <li class="divider"> </li>
+                          <li class="divider"></li>
                           <li>
                               <a href="page_user_lock_1.html">
                                   <i class="icon-lock"></i> 锁屏 </a>
+                          </li>
+                          <li>
+                              <a href="#">
+                                  <i class="icon-grid"></i> 系统设置 </a>
                           </li>
                           <li>
                               <a href="login/logout">
@@ -125,21 +129,22 @@
     <!--主页面内容-->
     <div class="page-content-wrapper">
       <div class="page-content">
-        <!--page body-->
-        {{{body}}}
+          <!--page body-->
+          {{{body}}}
       </div>
     </div>
 
-    <!--页脚版权信息展示区-->
-    <div class="page-footer">
+  </div>
+
+  <!--页脚版权信息展示区-->
+  <div class="page-footer">
       <!-- 页面footer -->
       <div class="page-footer-inner"> 2017 &copy; Lavendor
-        <a href="https://gitlab.com/lavendor" title="这是我的github" target="_blank">GitLib</a>
+          <a href="https://gitlab.com/lavendor" title="这是我的github" target="_blank">GitLib</a>
       </div>
       <div class="scroll-to-top">
-        <i class="icon-arrow-up"></i>
+          <i class="icon-arrow-up"></i>
       </div>
-    </div>
   </div>
 
   <!--引入脚本-->
@@ -171,7 +176,6 @@
   <script src="{{config.app_url_prefix}}/static/plugins/bootstrap-table/extensions/export/bootstrap-table-export.js"></script>
   <script src="{{config.app_url_prefix}}/static/plugins/bootstrap-table/extensions/treegrid/bootstrap-table-treegrid.js"></script>
   <script src="{{config.app_url_prefix}}/static/plugins/jquery-treegrid-0.2.0/js/jquery.treegrid.js"></script>
-  <!--<script src="https://cdn.bootcss.com/jquery-treegrid/0.2.0/js/jquery.treegrid.min.js"></script>-->
   <script src="{{config.app_url_prefix}}/static/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
   <script src="{{config.app_url_prefix}}/static/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
   <script src="{{config.app_url_prefix}}/static/plugins/jquery-validation/js/localization/messages_zh.js" type="text/javascript"></script>
@@ -185,101 +189,6 @@
   <script src="{{config.app_url_prefix}}/static/plugins/jstree/dist/jstree.js" type="text/javascript"></script>
   <script src="{{config.app_url_prefix}}/static/plugins/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
   <script src="{{config.app_url_prefix}}/static/plugins/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
+  <script src="{{config.app_url_prefix}}/static/lavendor/js/layout-init.js"></script>
 </body>
-<script>
-//初始化系统菜单
-    $(function(){
-        initMenuTree();
-    });
-
-    /**
-     * 生成菜单,下级菜单toggle事件监听
-     * */
-    $(document).on('click','.nav-toggle',function(e){
-        var that = $(this).closest('.nav-item').children('.nav-link');
-        //关闭下级菜单
-        if(that.parent().hasClass('open')){
-            that.parent('.nav-item').removeClass('open');
-            that.children('.arrow').removeClass('open');
-            that.next('ul').css({display:"none"});
-        }else{
-            //开启下级菜单
-            that.parent('.nav-item').addClass('open');
-            that.children('.arrow').addClass('open');
-            that.next('.sub-menu').css({display:"block"});
-        }
-    });
-
-    /**
-     * 初始化菜单
-     */
-    function initMenuTree(){
-        $.ajax({
-            url:'/menu/menuList',
-            method:'get',
-            success:function(result){
-                var menus = result.data;
-                var menuTrees = arrToTree(menus);
-                var html = '<ul class="page-sidebar-menu page-header-fixed page-sidebar-menu-light " ' +
-                        'data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">';
-                for(var i=0;i<menuTrees.length;i++){
-                    var current = menuTrees[i];
-                    if(current.children){
-                        //含有子菜单
-                        var menuHtml = '<li class="nav-item"><a target="_self" href="'+current.menu_url+'" class="nav-link nav-toggle">' +
-                                '<i class="'+current.menu_icon+'"></i><span class="title">'+current.menu_name+'</span>' +
-                                '<span class="arrow"></span></a><ul class="sub-menu">';
-                        for(var j=0;j<current.children.length;j++){
-                            var child = current.children[j];
-                            var childHtml = '<li class="nav-item"><a target="_self"  href="'+child.menu_url+'" class="nav-link">' +
-                                    '<i class="'+child.menu_icon+'"></i><span class="title">'+child.menu_name+'</span>' +
-                                    '</a></li>';
-                            menuHtml += childHtml;
-                        }
-                        menuHtml += '</ul></li>';
-
-                        html += menuHtml;
-                    }else{
-                        //不含子菜单
-                        var menuHtml = '<li class="nav-item"><a target="_self"  href="'+current.menu_url+'" class="nav-link">' +
-                                '<i class="'+current.menu_icon+'"></i><span class="title">'+current.menu_name+'</span>' +
-                                '</a></li>';
-
-                        html += menuHtml;
-                    }
-                }
-                html += '</ul>';
-
-                $('.page-sidebar').append(html);
-
-                //当前页面路径
-                var pathname = location.pathname;
-                var urls = pathname.substr(1).split('/');
-                var ahref = '/'.concat(urls[0]);
-                var alink = $('a[href="'+ahref+'"]');
-                alink.parents('.nav-item').addClass('active');//所有父菜单激活
-                alink.parents('.nav-item').find('.arrow').addClass('open');//打开箭头
-            }
-        })
-    }
-
-    //数组转树型结构
-    function arrToTree(arr){
-        var resultTree = [],hash = {};
-        for(var i=0;i<arr.length;i++){
-            hash[arr[i]._id] = arr[i];//ID和值对应
-        }
-        for(var j=0;j<arr.length;j++){
-            var currentValue = arr[j],parentValue = hash[arr[j].menu_parent];
-            if(parentValue){
-                //有父节点，保存到父节点
-                !parentValue.children && (parentValue.children = []);
-                parentValue.children.push(currentValue);
-            }else{
-                resultTree.push(currentValue);
-            }
-        }
-        return resultTree;
-    }
-</script>
 </html>
