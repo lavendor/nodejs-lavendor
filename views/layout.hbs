@@ -251,6 +251,14 @@
                 html += '</ul>';
 
                 $('.page-sidebar').append(html);
+
+                //当前页面路径
+                var pathname = location.pathname;
+                var urls = pathname.substr(1).split('/');
+                var ahref = '/'.concat(urls[0]);
+                var alink = $('a[href="'+ahref+'"]');
+                alink.parents('.nav-item').addClass('active');//所有父菜单激活
+                alink.parents('.nav-item').find('.arrow').addClass('open');//打开箭头
             }
         })
     }
