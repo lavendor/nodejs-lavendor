@@ -21,7 +21,7 @@ router.post('/',function(req,res){
     var username = body.username;
     var password = body.password;
     var search = {user_account:username,user_password:password};
-    userService.findUserBySearch(search).then(function(user){
+    userService.getUserList(search,null,null).then(function(user){
         if(user.length==1) {
             req.session.user = user[0];//设置session
             res.send({success:true});

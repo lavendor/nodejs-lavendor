@@ -1,29 +1,222 @@
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="portlet bordered light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span>用户详情</span>
+                </div>
+                <div class="clearfix pull-right">
+                    <a id="cancel" class="btn btn-info"><i class="fa fa-reply"></i>返回</a>
+                </div>
+            </div>
 
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-    <h4 class="modal-title">用户信息</h4>
-</div>
-<div class="modal-body">
-    <div class="row">
-        <div class="col-md-12">
-            <form class="form-horizontal" role="form">
-                <div class="form-group">
-                    <label class="col-md-3">用户编码</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" name="user_no" placeholder="用户编码······"/>
+            <div class="portlet-body">
+                <form id="userForm" class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <!--验证信息-->
+                        <div class="alert alert-danger display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写失败，请查看表单是否完整正确填写！
+                        </div>
+                        <div class="alert alert-success display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写填写正确！
+                        </div>
+                        <input type="hidden" id="_id" name="_id"/>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="required"></span>用户编码</label>
+                            <div class="col-md-6">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_no" value="{{user.user_no}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户姓名</label>
+                            <div class="col-md-6">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_name" value="{{user.user_name}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-md-radios">
+                            <label class="col-md-3 control-label">用户性别</label>
+                            <div class="col-md-6">
+                                <div class="md-radio-inline">
+                                    <div class="md-radio has-warning">
+                                        <input id="male" class="md-radiobtn" type="radio" name="user_sex" value="1" checked="checked">
+                                        <label for="male">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> 男
+                                        </label>
+                                    </div>
+                                    <div class="md-radio has-error">
+                                        <input id="female" class="md-radiobtn" type="radio" name="user_sex" value="2">
+                                        <label for="female">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> 女
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">登陆账号</label>
+                            <div class="col-md-6">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_account" value="{{user.user_account}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">登陆密码</label>
+                            <div class="col-md-6">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="password" class="form-control" name="user_password" value="{{user.user_password}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">用户角色</label>
+                            <div class="col-md-6">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_role" value="{{user.user_role}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">所属系统</label>
+                            <div class="col-md-6">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="user_sys" value="{{user.user_sys}}"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-3">用户姓名</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" name="user_name" placeholder="用户姓名······"/>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button id="submit" type="submit" class="btn btn-primary">确定</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-primary">确定</button>
-    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-</div>
+<script>
+    $(function(){
+        formValidate();
+        initForm();
+    });
+
+    function initForm(){
+
+        //返回
+        $('#cancel').click(function(){
+            window.location = '/user';
+        })
+    }
+
+    /**
+     * 表单验证插件
+     */
+    function formValidate(){
+        var form = $("#userForm");
+        var error = $(".alert-danger",form);
+        var success = $(".alert-success",form);
+
+        form.validate({
+            errorElement:'span',
+            errorClass:'help-block help-block-error',
+            focusInvalid:false,
+            ignore:'',
+            rules:{
+                user_name:{
+                    minlength:2,
+                    required:true
+                },
+                user_no:{
+                    minlength:5,
+                    required:true
+                },
+                user_account:{
+                    minlength:5,
+                    required:true
+                },
+                user_password:{
+                    minlength:5,
+                    required:true
+                },
+                user_sex:{
+                    required:true
+                },
+                user_role:{
+                    minlength:5,
+                    required:true
+                },
+                user_sys:{
+                    minlength:5,
+                    required:true
+                }
+            },
+
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                success.hide();
+                error.show();
+                App.scrollTo(error, -200);
+            },
+
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                        .closest('.form-group').removeClass("has-success").addClass('has-error');
+            },
+
+            success: function (label, element) {
+                var icon = $(element).parent('.input-icon').children('i');
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                icon.removeClass("fa-warning").addClass("fa-check");
+            },
+
+            submitHandler: function (form) {
+                success.show();
+                error.hide();
+                formSubmit();
+            }
+        })
+    }
+
+    /**
+     * 提交表单的方法
+     */
+    function formSubmit(){
+        var _id = $("#_id").val();
+        var url = '';
+        url=_id? '/user/editUserById':'/user/addUser';
+
+        var dataObj = $('#userForm').serializeArray();
+        $.ajax({
+            url:url,
+            type:'post',
+            dataType:'json',
+            data:dataObj,
+            success:function(data){
+                if(data.success){
+                    $("#userForm").formReset();
+                    $("#userInfo").modal('hide');
+                    successAlert('操作成功！');
+                    $("#gridList").bootstrapTable('refresh');
+                }
+            }
+        });
+    }
+</script>
