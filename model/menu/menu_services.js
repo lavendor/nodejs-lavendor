@@ -3,6 +3,7 @@
  */
 var commonUtils = require('../../common/common_utils'),
     menuModel = require('./menu_model').Menu,
+    mongooseUtils = require('../../common/mongoose_utils'),
     sysModel = require('../sys/sys_model').Sys;
 
 /**
@@ -41,9 +42,8 @@ exports.updateMenuById = function(id,params){
  * 获取菜单列表
  */
 exports.getMenuList = function () {
-    var condition = {},fields = {},option = {sort:{'menu_sort':1}};
     return new Promise(function (resolve, reject) {
-        menuModel.find(condition,fields,option).then(function (result) {
+        mongooseUtils.getAllWithoutPage(menuModel,{},null,{'menu_sort':1}).then(function(result){
             resolve(result);
         }).catch(function (err) {
             reject(err);
