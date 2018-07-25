@@ -63,7 +63,7 @@ app.use(filter(app));//对此app实施拦截
 
 //挂载路由
 var routeLoader = require('./middleware/route-loader');
-routeLoader.init(app,path.join(__dirname+'/routes/'));
+routeLoader.init(app,path.join(__dirname+'/lavendor/routes/'));
 
 
 // catch 404 and forward to error handler
