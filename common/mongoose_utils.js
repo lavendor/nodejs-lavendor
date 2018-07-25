@@ -61,7 +61,7 @@ exports.getPageAll = function (modelInst,searchMap,page,size,populate,sort){
  * @param populate  联查字段 "id1 id2 "
  * @param sort      排序字段 {id:-1,id2:1} -1倒序，1升序
  */
-exports.getAllWithoutPage = function(modelInst,searchMap,populate,sort){
+exports.getAllNoPage = function(modelInst,searchMap,populate,sort){
     return new Promise(function(resolve,reject){
         var query = modelInst.find({});
 

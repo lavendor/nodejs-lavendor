@@ -43,7 +43,7 @@ exports.updateMenuById = function(id,params){
  */
 exports.getMenuList = function (searchMap,populate,sort) {
     return new Promise(function (resolve, reject) {
-        mongooseUtils.getAllWithoutPage(menuModel,searchMap,populate,sort).then(function(result){
+        mongooseUtils.getAllNoPage(menuModel,searchMap,populate,sort).then(function(result){
             resolve(result);
         }).catch(function (err) {
             reject(err);
