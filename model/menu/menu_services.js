@@ -41,9 +41,9 @@ exports.updateMenuById = function(id,params){
 /**
  * 获取菜单列表
  */
-exports.getMenuList = function () {
+exports.getMenuList = function (searchMap,populate,sort) {
     return new Promise(function (resolve, reject) {
-        mongooseUtils.getAllWithoutPage(menuModel,{},null,{'menu_sort':1}).then(function(result){
+        mongooseUtils.getAllWithoutPage(menuModel,searchMap,populate,sort).then(function(result){
             resolve(result);
         }).catch(function (err) {
             reject(err);

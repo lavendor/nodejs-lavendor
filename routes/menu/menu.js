@@ -32,10 +32,24 @@ router.get('/menuInfo',function(req,res){
 });
 
 /**
- * 获取菜单列表
+ * 获取菜单列表，生成菜单树
  */
 router.get('/menuList',function(req,res){
-    menuServices.getMenuList().then(function(menus){
+    var searchMap = {},populate = null,sort = {'menu_sort':1};
+    searchMap.menu_status = 0;//有效
+    menuServices.getMenuList(searchMap,populate,sort).then(function(menus){
+        res.send({success:true,msg:'',total:menus.length,data:menus});
+    }).catch(function(err){
+        res.send({success:false,msg:err});
+    })
+});
+
+/**
+ * 获取菜单列表,数据表格
+ */
+router.get('/menuGridList',function(req,res){
+    var searchMap = {},populate = null,sort = {'menu_sort':1};
+    menuServices.getMenuList(searchMap,populate,sort).then(function(menus){
         res.send({success:true,msg:'',total:menus.length,data:menus});
     }).catch(function(err){
         res.send({success:false,msg:err});
