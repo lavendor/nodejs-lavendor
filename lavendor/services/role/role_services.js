@@ -2,7 +2,8 @@
  * Created by yanghao on 2017/7/12.
  */
 
-var roleModel = require('../../models/role/role_model').Role;
+var roleModel = require('../../models/role/role_model').Role,
+    mongooseUtils = require('../../../common/mongoose_utils');
 
 /**
  * 添加一个角色
@@ -48,13 +49,36 @@ exports.deleteRoleById = function(id,callback){
 };
 
 /**
- * 获取用户列表
- * @param req
- * @param res
- * @param callback
+ * 获取用户列表-不分页
+ * @param searchMap 查询条件
+ * @param populate  联查字段
+ * @param sort      排序字段
  */
-exports.getRoleList = function(req,res,callback){
-    roleModel.find(function(err,roles){
-        callback(err,roles);
-    });
+exports.getRoleList = function(searchMap,populate,sort){
+    return new Promise(function(resolve,reject){
+        mongooseUtils.getAllNoPage(roleModel,searchMap,populate,sort).then(function(result){
+            resolve(result)
+        }).catch(function(err){
+            reject(err);
+        })
+    })
 };
+
+/**
+ * 分页查询
+ * @param page
+ * @param size
+ * @param search
+ * @param populate
+ * @param sort
+ */
+
+exports.getRoleListWithPage = function(page,size,search,populate,sort){
+    return new Promise(function(resolve,reject){
+        mongooseUtils.getPageAll(roleModel,search,page,size,populate,sort).then(function(result){
+            resolve(reject);
+        }).catch(function(err){
+            reject(err);
+        })
+    })
+}

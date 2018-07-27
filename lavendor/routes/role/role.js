@@ -10,6 +10,13 @@ router.get('/',function(req,res){
 });
 
 /**
+ * 跳转到角色详情页
+ */
+router.get('/roleInfo',function(req,res){
+    res.render('app/role/role_info');
+})
+
+/**
  * 添加一个角色
  */
 router.post('/addRole',function(req,res){
@@ -17,7 +24,7 @@ router.post('/addRole',function(req,res){
     var params = {
         role_name:body.role_name,
         role_code:body.role_code,
-        role_type:body.role_type,
+        role_sys:body.role_sys,
         role_status:body.role_status
     };
     roleService.addRole(params,function(msg){
@@ -34,7 +41,7 @@ router.post('/editRoleById',function(req,res){
     var params = {
         role_code:body.role_code,
         role_name:body.role_name,
-        role_type:body.role_type,
+        role_sys:body.role_sys,
         role_status:body.role_status
     };
 
@@ -65,12 +72,11 @@ router.get('/deleteRoleById',function(req,res){
  * 获取角色列表
  */
 router.get('/getRoleList',function(req,res){
-    roleService.getRoleList(req,res,function(err,roles){
-       if(err){
-           res.send({success:false,msg:'获取数据失败',data:null});
-       }else{
-           res.send({success:true,msg:'获取数据成功',data:roles});
-       }
+    var search = {},populate = 'role_sys';
+    roleService.getRoleList(search,populate,null).then(function(roles){
+        res.send({success:true,msg:'获取数据成功',data:roles});
+    }).catch(function(err){
+        res.send({success:false,msg:err.message,data:null});
     });
 });
 

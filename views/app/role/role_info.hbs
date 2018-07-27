@@ -1,0 +1,173 @@
+<!-- 菜单信息页 -->
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span>角色信息</span>
+                </div>
+                <div class="clearfix pull-right">
+                    <a id="cancel" class="btn btn-info"><i class="fa fa-reply"></i>返回</a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <form id="roleForm" class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <!--消息提示显示区-->
+                        <div id="alertContainer"></div>
+                        <!--验证信息-->
+                        <div class="alert alert-danger display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写失败，请查看表单是否完整正确填写！
+                        </div>
+                        <div class="alert alert-success display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写正确！
+                        </div>
+                        <input type="hidden" id="_id" name="_id" value="{{menu._id}}"/>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="required"></span>角色编码</label>
+                            <div class="col-md-6">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="role_code" value="{{role.role_code}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">角色名称</label>
+                            <div class="col-md-6">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="role_name" value="{{role.role_name}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">所属系统</label>
+                            <div class="col-md-6">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input id="roleSys" type="text" class="form-control" name="role_sys" style="height:34px"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button id="submit" type="submit" class="btn btn-primary">保存</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+       initForm();
+       formValidate();
+    });
+
+    /**
+     * 初始化表单
+     */
+    function initForm(){
+        //所属系统
+        $('#roleSys').combobox({
+            url:'/menu/sysList',
+            method:'get',
+            valueField:'_id',
+            textField:'sys_name',
+            value : '{{role.role_sys}}',
+            editable:false  //不可编辑
+        });
+
+        //返回
+        $('#cancel').click(function(){
+            window.location = '/role';
+        })
+    }
+
+    /**
+     * 表单验证插件
+     */
+    function formValidate(){
+        var form = $("#roleForm");
+        var error = $(".alert-danger",form);
+        var success = $(".alert-success",form);
+
+        form.validate({
+            errorElement:'span',
+            errorClass:'help-block help-block-error',
+            focusInvalid:false,
+            ignore:'',
+            rules:{
+                menu_name:{
+                    minlength:2,
+                    required:true
+                },
+                menu_code:{
+                    required:true
+                },
+                menu_url:{
+                    required:true
+                },
+                menu_sys:{
+                    required:true
+                }
+            },
+
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                success.hide();
+                error.show();
+                App.scrollTo(error, -200);
+            },
+
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                        .closest('.form-group').removeClass("has-success").addClass('has-error');
+            },
+
+            success: function (label, element) {
+                var icon = $(element).parent('.input-icon').children('i');
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                icon.removeClass("fa-warning").addClass("fa-check");
+            },
+
+            submitHandler: function (form) {
+                //success.show();
+                //error.hide();
+                formSubmit();
+            }
+        });
+    }
+
+    /**
+     * 提交表单的方法
+     */
+    function formSubmit(){
+        var _id = $("#_id").val();
+        var url = '';
+        url=_id?'/role/editRoleById':'/role/addRole';
+
+        var dataObj = $('#roleForm').serializeArray();
+        $.ajax({
+            url:url,
+            type:'post',
+            dataType:'json',
+            data:dataObj,
+            success:function(data){
+                if(data.success){
+                    window.location='/role';
+                }else{
+                    dangerAlert(data.msg.message);
+                }
+            }
+        });
+    }
+
+
+</script>
