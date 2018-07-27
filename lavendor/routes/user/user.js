@@ -61,7 +61,7 @@ router.post('/editUserById',function(req,res){
     var params = {
         user_no:body.user_no,
         user_name:body.user_name,
-        user_sex:body.user_sex,
+        user_sex:body.sex,
         user_role:body.user_role,
         user_sys:body.user_sys,
         user_account:body.user_account,

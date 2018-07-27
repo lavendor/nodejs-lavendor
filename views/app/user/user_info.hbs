@@ -8,11 +8,14 @@
                 <div class="clearfix pull-right">
                     <a id="cancel" class="btn btn-info"><i class="fa fa-reply"></i>返回</a>
                 </div>
+
             </div>
 
             <div class="portlet-body">
                 <form id="userForm" class="form-horizontal" role="form">
                     <div class="form-body">
+                        <!--消息提示显示区-->
+                        <div id="alertContainer"></div>
                         <!--验证信息-->
                         <div class="alert alert-danger display-hide">
                             <button class="close" data-close="alert"></button>
@@ -22,7 +25,7 @@
                             <button class="close" data-close="alert"></button>
                             表单填写填写正确！
                         </div>
-                        <input type="hidden" id="_id" name="_id"/>
+                        <input type="hidden" id="_id" name="_id" value="{{user._id}}"/>
                         <div class="form-group">
                             <label class="col-md-3 control-label"><span class="required"></span>用户编码</label>
                             <div class="col-md-6">
@@ -41,27 +44,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group form-md-radios">
+                        <div class="form-group">
                             <label class="col-md-3 control-label">用户性别</label>
                             <div class="col-md-6">
-                                <div class="md-radio-inline">
-                                    <div class="md-radio has-warning">
-                                        <input id="male" class="md-radiobtn" type="radio" name="user_sex" value="1" checked="checked">
-                                        <label for="male">
-                                            <span></span>
-                                            <span class="check"></span>
-                                            <span class="box"></span> 男
-                                        </label>
-                                    </div>
-                                    <div class="md-radio has-error">
-                                        <input id="female" class="md-radiobtn" type="radio" name="user_sex" value="2">
-                                        <label for="female">
-                                            <span></span>
-                                            <span class="check"></span>
-                                            <span class="box"></span> 女
-                                        </label>
-                                    </div>
-                                </div>
+                                <input type="checkbox" class="make-switch" name="user_sex" data-on-text="男"
+                                       data-off-text="女" data-off-color="success" checked>
                             </div>
                         </div>
                         <div class="form-group">
@@ -96,7 +83,7 @@
                             <div class="col-md-6">
                                 <div class="input-icon right">
                                     <i class="fa"></i>
-                                    <input type="text" class="form-control" name="user_sys" value="{{user.user_sys}}"/>
+                                    <input id="userSys" type="text" class="form-control" name="user_sys" style="height: 34px;"/>
                                 </div>
                             </div>
                         </div>
@@ -120,6 +107,22 @@
     });
 
     function initForm(){
+        //初始化性别
+        if("{{user.user_sex}}" == "2"){ //女
+            $('input[name="user_sex"]').bootstrapSwitch('state',false);
+        }else{
+            $('input[name="user_sex"]').bootstrapSwitch('state',true);
+        }
+
+        //所属系统
+        $('#userSys').combobox({
+            url:'/menu/sysList',
+            method:'get',
+            valueField:'_id',
+            textField:'sys_name',
+            value : '{{user.user_sys}}',
+            editable:false  //不可编辑
+        });
 
         //返回
         $('#cancel').click(function(){
@@ -157,9 +160,6 @@
                     minlength:5,
                     required:true
                 },
-                user_sex:{
-                    required:true
-                },
                 user_role:{
                     minlength:5,
                     required:true
@@ -188,7 +188,6 @@
             },
 
             submitHandler: function (form) {
-                success.show();
                 error.hide();
                 formSubmit();
             }
@@ -202,8 +201,12 @@
         var _id = $("#_id").val();
         var url = '';
         url=_id? '/user/editUserById':'/user/addUser';
+        //性别
+        var sex = $('input[name="user_sex"]').bootstrapSwitch('state')?1:2;//true 男1， false 女2
 
         var dataObj = $('#userForm').serializeArray();
+        var obj={name:'sex',value:sex};
+        dataObj.push(obj);
         $.ajax({
             url:url,
             type:'post',
@@ -211,10 +214,9 @@
             data:dataObj,
             success:function(data){
                 if(data.success){
-                    $("#userForm").formReset();
-                    $("#userInfo").modal('hide');
-                    successAlert('操作成功！');
-                    $("#gridList").bootstrapTable('refresh');
+                    window.location = '/user';//跳转回列表
+                }else{
+                    dangerAlert(data.msg.message);
                 }
             }
         });
