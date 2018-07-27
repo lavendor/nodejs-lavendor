@@ -112,8 +112,8 @@ router.get('/getUserListPagination',function(req,res){
         page:queryParams.page,
         size:queryParams.size
     };
-    var searchMap = {};
-    userServices.getUserListPagination(searchMap,params.page,params.size,null,null).then(function(result){
+    var searchMap = {},populate = 'user_sys ';
+    userServices.getUserListPagination(searchMap,params.page,params.size,populate,null).then(function(result){
         res.send({'success':true,'msg':"获取用户列表成功",'total':result.total,'rows':result.data});
     }).catch(function(err){
         res.send({success:false,msg:err,data:null});

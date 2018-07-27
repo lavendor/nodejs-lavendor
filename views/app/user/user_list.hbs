@@ -82,7 +82,11 @@
                     }},
                 {field:'user_account',title:'登录账号',width:'20%'},
                 {field:'user_role',title:'所属角色',width:'20%'},
-                {field:'user_sys',title:'所属系统',width:'10%'},
+                {field:'user_sys',title:'所属系统',width:'10%',
+                    formatter:function(value,row,index){
+                        return value.sys_name;
+                    }
+                },
                 {field:'user_status',title:'用户状态',width:'5%',align:'center',
                     formatter:function(value,row,index){
                         if(value == '1'){ //启用状态
