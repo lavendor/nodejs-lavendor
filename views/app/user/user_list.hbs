@@ -81,7 +81,11 @@
                         }
                     }},
                 {field:'user_account',title:'登录账号',width:'20%'},
-                {field:'user_role',title:'所属角色',width:'20%'},
+                {field:'user_role',title:'所属角色',width:'10%',align:'center',
+                    formatter:function(value,row,index){
+                        return value?value.role_name:'';
+                    }
+                },
                 {field:'user_sys',title:'所属系统',width:'10%',
                     formatter:function(value,row,index){
                         return value.sys_name;

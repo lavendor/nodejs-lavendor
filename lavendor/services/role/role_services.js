@@ -65,6 +65,20 @@ exports.getRoleList = function(searchMap,populate,sort){
 };
 
 /**
+ * 根据ID查询角色
+ * @param id
+ */
+exports.getRoleById = function(id){
+    return new Promise(function(resolve,reject){
+        roleModel.findOne({_id:id}).then(function(role){
+            resolve(role);
+        }).catch(function(err){
+            reject(err);
+        })
+    })
+}
+
+/**
  * 分页查询
  * @param page
  * @param size
@@ -77,6 +91,24 @@ exports.getRoleListWithPage = function(page,size,search,populate,sort){
     return new Promise(function(resolve,reject){
         mongooseUtils.getPageAll(roleModel,search,page,size,populate,sort).then(function(result){
             resolve(reject);
+        }).catch(function(err){
+            reject(err);
+        })
+    })
+};
+
+/**
+ * 根据ID更新角色状态
+ * @param id
+ * @param param
+ */
+exports.updateRoleById = function(id,param){
+    var condition = {_id:id};
+    var setData = {$set:param};
+    var option = null;
+    return new Promise(function(resolve,reject){
+        roleModel.update(condition,setData,option).then(function(){
+            resolve();
         }).catch(function(err){
             reject(err);
         })

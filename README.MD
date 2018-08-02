@@ -4,6 +4,6 @@
 
 
 # 项目框架
-    nodejs：使用6.x版本，
+    nodejs：使用6.x版本
     express：express 4.x
     数据库：MongoDB
