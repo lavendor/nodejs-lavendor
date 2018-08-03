@@ -91,7 +91,7 @@
                 //table加载成功之后渲染switch组件
                 $('.make-switch').bootstrapSwitch();
                 $('input[type=checkbox]').on('switchChange.bootstrapSwitch',function(e,data){
-                    changeUserStatus(this,$(this).attr('idValue'));
+                    changeRoleStatus(this,$(this).attr('idValue'));
                 });
             }
         });
@@ -131,7 +131,7 @@
     /**
      * 修改状态
      **/
-    function changeUserStatus(obj,id){
+    function changeRoleStatus(obj,id){
         var statusValue = $(obj).val();
         var status = statusValue==1?2:1;
         var _id = id;

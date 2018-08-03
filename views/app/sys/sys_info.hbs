@@ -1,0 +1,141 @@
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="portlet bordered light">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span>系统详情</span>
+                </div>
+                <div class="clearfix pull-right">
+                    <a id="cancel" class="btn btn-info"><i class="fa fa-reply"></i>返回</a>
+                </div>
+
+            </div>
+
+            <div class="portlet-body">
+                <form id="sysForm" class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <!--消息提示显示区-->
+                        <div id="alertContainer"></div>
+                        <!--验证信息-->
+                        <div class="alert alert-danger display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写失败，请查看表单是否完整正确填写！
+                        </div>
+                        <div class="alert alert-success display-hide">
+                            <button class="close" data-close="alert"></button>
+                            表单填写填写正确！
+                        </div>
+                        <input type="hidden" id="_id" name="_id" value="{{sys._id}}"/>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="required"></span>系统名称</label>
+                            <div class="col-md-6">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="sys_name" value="{{sys.sys_name}}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">系统首页</label>
+                            <div class="col-md-6">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" class="form-control" name="sys_url" value="{{sys.sys_url}}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button id="submit" type="submit" class="btn btn-primary">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        formValidate();
+        initForm();
+    });
+
+    function initForm(){
+        //返回
+        $('#cancel').click(function(){
+            window.location = '/sys';
+        })
+    }
+
+    /**
+     * 表单验证插件
+     */
+    function formValidate(){
+        var form = $("#sysForm");
+        var error = $(".alert-danger",form);
+        var success = $(".alert-success",form);
+
+        form.validate({
+            errorElement:'span',
+            errorClass:'help-block help-block-error',
+            focusInvalid:false,
+            ignore:'',
+            rules:{
+                sys_name:{
+                    required:true
+                },
+                sys_url:{
+                    required:true
+                }
+            },
+
+            invalidHandler: function (event, validator) { //display error alert on form submit
+                success.hide();
+                error.show();
+                App.scrollTo(error, -200);
+            },
+
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                        .closest('.form-group').removeClass("has-success").addClass('has-error');
+            },
+
+            success: function (label, element) {
+                var icon = $(element).parent('.input-icon').children('i');
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                icon.removeClass("fa-warning").addClass("fa-check");
+            },
+
+            submitHandler: function (form) {
+                error.hide();
+                formSubmit();
+            }
+        })
+    }
+
+    /**
+     * 提交表单的方法
+     */
+    function formSubmit(){
+        var _id = $("#_id").val();
+        var url= _id ? '/sys/editSysById':'/sys/addSys';
+
+        var dataObj = $('#sysForm').serializeArray();
+        $.ajax({
+            url:url,
+            type:'post',
+            dataType:'json',
+            data:dataObj,
+            success:function(data){
+                if(data.success){
+                    window.location = '/sys';
+                }else{
+                    dangerAlert(data.msg.message);
+                }
+            }
+        });
+    }
+</script>

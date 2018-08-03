@@ -29,4 +29,49 @@ exports.getSysList = function(){
             reject(err);
         })
     })
+};
+
+/**
+ * 更新系统信息
+ * @param id
+ * @param params
+ */
+exports.updateSysById = function(id,params){
+    var condition = {_id:id},setData = {$set:params},options = {};
+    return new Promise(function(resolve,reject){
+        sysModel.update(condition,setData,options).then(function(res){
+            resolve(res)
+        }).catch(function(err){
+            reject(err);
+        })
+    })
+}
+
+/**
+ * 根据条件查询系统信息
+ * @param id
+ * @param params
+ */
+exports.getSysById = function(id){
+    return new Promise(function(resolve,reject){
+        sysModel.findOne({_id:id}).then(function(sys){
+            resolve(sys);
+        }).catch(function(err){
+            reject(err);
+        })
+    })
+};
+
+/**
+ * 根据ID删除系统信息
+ * @param id
+ */
+exports.deleteSysById = function(id){
+    return new Promise(function(resolve,reject){
+        sysModel.remove({_id:id}).then(function(result){
+            resolve(result);
+        }).catch(function(err){
+            reject(err);
+        })
+    })
 }
