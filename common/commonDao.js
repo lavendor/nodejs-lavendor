@@ -1,9 +1,41 @@
 /**
  * Created by admin on 2018/7/24.
  *
- * 封装mongoose的一些操作
+ * 封装mongoose的一些操作，并且使用Promise实现同步
  */
 
+/**
+ * 根据ID查询一个实例
+ * @param modelInst
+ * @param id
+ * @returns {Query}
+ */
+exports.findOneById = function(modelInst,id){
+  return modelInst.findOne({_id:id});
+};
+
+/**
+ * 更新数据
+ * @param modelInst 更新的实例
+ * @param id        ID
+ * @param newData   更新的数据
+ * @param options   更新选项
+ */
+exports.updateById = function(modelInst,id,newData,options){
+    var condition = {_id:id};
+    var data = {$set:newData};
+    var options = options?options:{};
+    return modelInst.update(condition,data,options);
+};
+
+/**
+ * 根据ID删除一个实例
+ * @param modelInst
+ * @param id
+ */
+exports.deleteOneById = function(modelInst,id){
+    return modelInst.remove({_id:id});
+}
 
 /**
  * 分页查询

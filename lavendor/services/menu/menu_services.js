@@ -3,7 +3,7 @@
  */
 var commonUtils = require('../../../common/common_utils'),
     menuModel = require('../../models/menu/menu_model').Menu,
-    mongooseUtils = require('../../../common/mongoose_utils'),
+    commonDao = require('../../../common/commonDao'),
     sysModel = require('../../models/sys/sys_model').Sys;
 
 /**
@@ -43,7 +43,7 @@ exports.updateMenuById = function(id,params){
  */
 exports.getMenuList = function (searchMap,populate,sort) {
     return new Promise(function (resolve, reject) {
-        mongooseUtils.getAllNoPage(menuModel,searchMap,populate,sort).then(function(result){
+        commonDao.getAllNoPage(menuModel,searchMap,populate,sort).then(function(result){
             resolve(result);
         }).catch(function (err) {
             reject(err);

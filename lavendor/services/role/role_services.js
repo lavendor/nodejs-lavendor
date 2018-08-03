@@ -3,7 +3,7 @@
  */
 
 var roleModel = require('../../models/role/role_model').Role,
-    mongooseUtils = require('../../../common/mongoose_utils');
+    commonDao = require('../../../common/commonDao');
 
 /**
  * 添加一个角色
@@ -56,7 +56,7 @@ exports.deleteRoleById = function(id,callback){
  */
 exports.getRoleList = function(searchMap,populate,sort){
     return new Promise(function(resolve,reject){
-        mongooseUtils.getAllNoPage(roleModel,searchMap,populate,sort).then(function(result){
+        commonDao.getAllNoPage(roleModel,searchMap,populate,sort).then(function(result){
             resolve(result)
         }).catch(function(err){
             reject(err);
@@ -89,7 +89,7 @@ exports.getRoleById = function(id){
 
 exports.getRoleListWithPage = function(page,size,search,populate,sort){
     return new Promise(function(resolve,reject){
-        mongooseUtils.getPageAll(roleModel,search,page,size,populate,sort).then(function(result){
+        commonDao.getPageAll(roleModel,search,page,size,populate,sort).then(function(result){
             resolve(reject);
         }).catch(function(err){
             reject(err);

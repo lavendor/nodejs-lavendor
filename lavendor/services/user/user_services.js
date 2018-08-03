@@ -2,7 +2,7 @@
  * Created by yanghao on 2017/7/12.
  */
 var userModel = require('../../models/user/user_model').User,
-    mongooseUtils = require('../../../common/mongoose_utils');
+    commonDao = require('../../../common/commonDao');
 
 /**
  * 添加用户的方法
@@ -54,7 +54,7 @@ exports.deleteUserById = function(id,callback){
  */
 exports.getUserListPagination = function(searchMap,page,size,populate,sort){
     var promise = new Promise(function(resolve,reject){
-        mongooseUtils.getPageAll(userModel,searchMap,page,size,populate,sort).then(function(result){
+        commonDao.getPageAll(userModel,searchMap,page,size,populate,sort).then(function(result){
             resolve(result);
         }).catch(function(err){
             reject(err);
@@ -69,7 +69,7 @@ exports.getUserListPagination = function(searchMap,page,size,populate,sort){
  */
 exports.getUserList = function(searchMap,populate,sort){
     var promise = new Promise(function(resolve,reject){
-        mongooseUtils.getAllNoPage(userModel,searchMap,populate,sort).then(function(result){
+        commonDao.getAllNoPage(userModel,searchMap,populate,sort).then(function(result){
             resolve(result);
         }).catch(function(err){
             reject(err);
