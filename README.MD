@@ -4,6 +4,11 @@
 
 
 # 项目框架
+    
     nodejs：使用6.x版本
     express：express 4.x
     数据库：MongoDB
+
+# 功能简介
+  
+    用户管理、菜单管理、权限管理
