@@ -4,6 +4,7 @@
 var express = require('express');
 var router = express.Router();
 var roleService = require('../../services/role/role_services');
+var commonUtils = require('../../../common/commonUtils');
 
 /**
  * 跳转到角色列表页
@@ -39,9 +40,7 @@ router.post('/addRole',function(req,res){
         role_sys:body.role_sys,
         role_status:1           //初始状态都是启用
     };
-    roleService.addRole(params,function(msg){
-        res.send({success:true,msg:msg});
-    })
+    commonUtils.respJSONArray(res,roleService.addRole(params));
 });
 
 /**
@@ -56,13 +55,7 @@ router.post('/editRoleById',function(req,res){
         role_sys:body.role_sys
     };
 
-    roleService.editRoleById(_id,params,function(err){
-        if(err){
-            res.send({success:false,msg:"修改数据失败"});
-        }else{
-            res.send({success:true,msg:"修改数据成功"});
-        }
-    });
+    commonUtils.respJSONArray(res,roleService.editRoleById(_id,params));
 });
 
 /**
@@ -70,13 +63,7 @@ router.post('/editRoleById',function(req,res){
  */
 router.get('/deleteRoleById',function(req,res){
     var _id = req.query._id;//获取角色id
-    roleService.deleteRoleById(_id,function(err){
-        if(err){
-            res.send({success:false,msg:"删除数据失败"});
-        }else{
-            res.send({success:true,msg:"删除数据成功"});
-        }
-    });
+    commonUtils.respJSONArray(res,roleService.deleteRoleById(_id));
 });
 
 /**
@@ -84,11 +71,7 @@ router.get('/deleteRoleById',function(req,res){
  */
 router.get('/getRoleList',function(req,res){
     var search = {},populate = 'role_sys';
-    roleService.getRoleList(search,populate,null).then(function(roles){
-        res.send({success:true,msg:'获取数据成功',data:roles});
-    }).catch(function(err){
-        res.send({success:false,msg:err.message,data:null});
-    });
+    commonUtils.respJSONArray(res,roleService.getRoleList(search,populate,null));
 });
 
 /**
@@ -97,11 +80,7 @@ router.get('/getRoleList',function(req,res){
 router.get('/changeRoleStatusById',function(req,res){
     var id = req.query._id,role_status = req.query.status;
     var params = {role_status:role_status};
-    roleService.updateRoleById(id,params).then(function(result){
-        res.send({success:true,msg:result})
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
+    commonUtils.respJSONArray(res,roleService.updateRoleById(id,params));
 })
 
 /**
@@ -109,11 +88,7 @@ router.get('/changeRoleStatusById',function(req,res){
  */
 router.get('/roleListApi',function(req,res){
     var search = {role_status:1};//状态为启用
-    roleService.getRoleList(search,null,null).then(function(roles){
-        res.send(roles);
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
+    commonUtils.respJSONArray(res,roleService.getRoleList(search,null,null));
 });
 
 module.exports = router;

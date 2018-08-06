@@ -10,14 +10,8 @@ var roleModel = require('../../models/role/role_model').Role,
  * @param params
  * @param callback
  */
-exports.addRole = function(params,callback){
-    roleModel(params).save(function(err){
-        if(err){
-            callback('添加角色失败！');
-        }else{
-            callback('添加角色成功！');
-        }
-    });
+exports.addRole = function(params){
+    return commonDao.addModel(roleModel,params);
 };
 
 /**
@@ -26,14 +20,8 @@ exports.addRole = function(params,callback){
  * @param params
  * @param callback
  */
-exports.editRoleById = function(id,params,callback){
-    var condition = {_id:id};
-    var updateData = {$set:params};
-    var options = {};
-
-    roleModel.update(condition,updateData,options,function(err){
-        callback(err);
-    });
+exports.editRoleById = function(id,params){
+    return commonDao.updateById(roleModel,id,params);
 };
 
 /**
@@ -41,11 +29,8 @@ exports.editRoleById = function(id,params,callback){
  * @param id
  * @param callback
  */
-exports.deleteRoleById = function(id,callback){
-    var condition = {_id:id};
-    roleModel.remove(condition,function(err){
-       callback(err);
-    });
+exports.deleteRoleById = function(id){
+    return commonDao.deleteOneById(roleModel,id);
 };
 
 /**
@@ -55,13 +40,7 @@ exports.deleteRoleById = function(id,callback){
  * @param sort      排序字段
  */
 exports.getRoleList = function(searchMap,populate,sort){
-    return new Promise(function(resolve,reject){
-        commonDao.getAllNoPage(roleModel,searchMap,populate,sort).then(function(result){
-            resolve(result)
-        }).catch(function(err){
-            reject(err);
-        })
-    })
+    return commonDao.getAllNoPage(roleModel,searchMap,populate,sort);
 };
 
 /**
@@ -69,14 +48,8 @@ exports.getRoleList = function(searchMap,populate,sort){
  * @param id
  */
 exports.getRoleById = function(id){
-    return new Promise(function(resolve,reject){
-        roleModel.findOne({_id:id}).then(function(role){
-            resolve(role);
-        }).catch(function(err){
-            reject(err);
-        })
-    })
-}
+    return commonDao.findOneById(roleModel,id);
+};
 
 /**
  * 分页查询
@@ -88,13 +61,7 @@ exports.getRoleById = function(id){
  */
 
 exports.getRoleListWithPage = function(page,size,search,populate,sort){
-    return new Promise(function(resolve,reject){
-        commonDao.getPageAll(roleModel,search,page,size,populate,sort).then(function(result){
-            resolve(reject);
-        }).catch(function(err){
-            reject(err);
-        })
-    })
+    return commonDao.getAllPage(roleModel,search,page,size,populate,sort)
 };
 
 /**
@@ -103,14 +70,5 @@ exports.getRoleListWithPage = function(page,size,search,populate,sort){
  * @param param
  */
 exports.updateRoleById = function(id,param){
-    var condition = {_id:id};
-    var setData = {$set:param};
-    var option = null;
-    return new Promise(function(resolve,reject){
-        roleModel.update(condition,setData,option).then(function(){
-            resolve();
-        }).catch(function(err){
-            reject(err);
-        })
-    })
-}
+    return commonDao.updateById(roleModel,id,param);
+};
