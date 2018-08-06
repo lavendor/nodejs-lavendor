@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 
 var userServices = require('../../services/user/user_services');
+var commonUtils = require('../../../common/commonUtils');
 
 /**
  * 用户列表页
@@ -45,11 +46,7 @@ router.post('/addUser',function(req,res){
         user_password:body.user_password,
         create_time:new Date()
     };
-    userServices.addUser(params).then(function(msg){
-        res.send({success:true,msg:msg});
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    });
+    commonUtils.respJSONArray(res,userServices.addUser(params));
 });
 
 /**
@@ -68,13 +65,7 @@ router.post('/editUserById',function(req,res){
         user_password:body.user_password,
         update_time:new Date()
     };
-    userServices.editUserById(_id,params,function(err){
-        if(err){
-            res.send({success:false,msg:"更新数据失败"});
-        }else{
-            res.send({success:true,msg:"更新数据成功"});
-        }
-    });
+    commonUtils.respJSONArray(res,userServices.editUserById(_id,params));
 });
 
 /**
@@ -82,13 +73,7 @@ router.post('/editUserById',function(req,res){
  */
 router.get('/deleteUserById',function(req,res){
     var id = req.query._id;
-    userServices.deleteUserById(id,function(err){
-        if(err){
-            res.send({success:false,msg:"删除数据失败"});
-        }else{
-            res.send({success:true,msg:"删除数据成功"});
-        }
-    })
+    commonUtils.respJSONArray(res,userServices.deleteUserById(id));
 });
 
 /**
@@ -96,11 +81,7 @@ router.get('/deleteUserById',function(req,res){
  */
 router.get('/getUserList',function(req,res){
     var searchMap = {},populate = null,sort = {};
-    userServices.getUserList(searchMap,populate,sort).then(function(users){
-        res.send({'success':true,'msg':"获取用户列表成功",'total':users.length,'data':users});
-    }).catch(function(err){
-        res.send({success:false,msg:err,data:null});
-    });
+    commonUtils.respJSONArray(res,userServices.getUserList(searchMap,populate,sort));
 });
 
 /**
@@ -113,11 +94,7 @@ router.get('/getUserListPagination',function(req,res){
         size:queryParams.size
     };
     var searchMap = {},populate = 'user_sys user_role ';
-    userServices.getUserListPagination(searchMap,params.page,params.size,populate,null).then(function(result){
-        res.send({'success':true,'msg':"获取用户列表成功",'total':result.total,'rows':result.data});
-    }).catch(function(err){
-        res.send({success:false,msg:err,data:null});
-    });
+    commonUtils.resJSONPage(res,userServices.getUserListPagination(searchMap,params.page,params.size,populate,null));
 });
 
 

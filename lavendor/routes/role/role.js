@@ -88,7 +88,7 @@ router.get('/changeRoleStatusById',function(req,res){
  */
 router.get('/roleListApi',function(req,res){
     var search = {role_status:1};//状态为启用
-    commonUtils.respJSONArray(res,roleService.getRoleList(search,null,null));
+    commonUtils.respJSON(res,roleService.getRoleList(search,null,null));
 });
 
 module.exports = router;

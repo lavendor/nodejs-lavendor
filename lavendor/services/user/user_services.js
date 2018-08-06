@@ -10,15 +10,7 @@ var userModel = require('../../models/user/user_model').User,
  * @param callback
  */
 exports.addUser = function(params){
-    return new Promise(function(resolve,reject){
-        userModel(params).save(function(err){
-            if(err){
-                reject('添加用户失败！');
-            }else{
-                resolve('添加用户成功！');
-            }
-        });
-    })
+    return commonDao.addModel(userModel,params);
 };
 
 /**
@@ -26,13 +18,8 @@ exports.addUser = function(params){
  * @param id
  * @param callback
  */
-exports.editUserById = function(id,params,callback){
-    var condition = {_id:id};
-    var newData = {$set:params};
-    var option = {};
-    userModel.update(condition,newData,option,function(err){
-        callback(err);
-    });
+exports.editUserById = function(id,params){
+    return commonDao.updateById(userModel,id,params);
 };
 
 /**
@@ -40,11 +27,8 @@ exports.editUserById = function(id,params,callback){
  * @param id
  * @param callback
  */
-exports.deleteUserById = function(id,callback){
-    var condition = {_id:id};
-    userModel.remove(condition,function(err){
-       callback(err);
-    });
+exports.deleteUserById = function(id){
+    return commonDao.deleteOneById(userModel,id);
 };
 
 /**
@@ -53,14 +37,7 @@ exports.deleteUserById = function(id,callback){
  * @param callback
  */
 exports.getUserListPagination = function(searchMap,page,size,populate,sort){
-    var promise = new Promise(function(resolve,reject){
-        commonDao.getPageAll(userModel,searchMap,page,size,populate,sort).then(function(result){
-            resolve(result);
-        }).catch(function(err){
-            reject(err);
-        })
-    });
-    return promise;
+    return commonDao.getAllPage(userModel,searchMap,page,size,populate,sort);
 };
 
 /**
@@ -68,12 +45,5 @@ exports.getUserListPagination = function(searchMap,page,size,populate,sort){
  * @param search
  */
 exports.getUserList = function(searchMap,populate,sort){
-    var promise = new Promise(function(resolve,reject){
-        commonDao.getAllNoPage(userModel,searchMap,populate,sort).then(function(result){
-            resolve(result);
-        }).catch(function(err){
-            reject(err);
-        })
-    });
-    return promise;
+    return commonDao.getAllNoPage(userModel,searchMap,populate,sort);
 }
