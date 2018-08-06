@@ -10,14 +10,8 @@ var sysModel = require('../../models/sys/sys_model').Sys,
  * @param res
  */
 exports.addSys = function(params){
-    return new Promise(function(resolve,reject){
-        sysModel(params).save().then(function(){
-            resolve('增加系统成功');
-        }).catch(function(err){
-            reject(err);
-        })
-    })
-}
+    return commonDao.addModel(sysModel,params);
+};
 
 /**
  * 获取系统列表
@@ -33,7 +27,7 @@ exports.getSysList = function(){
  */
 exports.updateSysById = function(id,params){
     return commonDao.updateById(sysModel,id,params);
-}
+};
 
 /**
  * 根据条件查询系统信息
@@ -50,4 +44,4 @@ exports.getSysById = function(id){
  */
 exports.deleteSysById = function(id){
     return commonDao.deleteOneById(sysModel,id);
-}
+};

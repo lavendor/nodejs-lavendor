@@ -5,6 +5,8 @@ var express = require('express'),
     router = express.Router(),
     sysServices = require('../../services/sys/sys_services');
 
+var commonUtils = require('../../../common/commonUtils');
+
 /**
  * 跳转到系统列表页
  */
@@ -32,11 +34,7 @@ router.get('/sysInfo',function(req,res){
  * 获取系统列表
  */
 router.get('/sysList',function(req,res){
-    sysServices.getSysList().then(function(syss){
-        res.send({success:true,msg:'',total:syss.length,data:syss});
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
+    commonUtils.respJSONArray(res,sysServices.getSysList());
 });
 
 /**
@@ -49,11 +47,7 @@ router.post('/addSys',function(req,res){
         sys_url:body.sys_url,
         sys_status:1            //默认启用
     };
-    sysServices.addSys(params).then(function(r){
-        res.send({success:true,msg:r})
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
+    commonUtils.respJSONArray(res,sysServices.addSys(params));
 });
 
 /**
@@ -66,11 +60,7 @@ router.post('/editSysById',function(req,res){
         sys_name:body.sys_name,
         sys_url:body.sys_url
     };
-    sysServices.updateSysById(id,params).then(function(result){
-        res.send({success:true,data:result});
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
+    commonUtils.respJSONArray(res,sysServices.updateSysById(id,params));
 });
 
 /**
@@ -79,23 +69,17 @@ router.post('/editSysById',function(req,res){
 router.get('/changeSysStatusById',function(req,res){
     var id = req.query._id,sys_status = req.query.status;
     var params = {sys_status:sys_status};
-    sysServices.updateSysById(id,params).then(function(result){
-        res.send({success:true,msg:result})
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
+    commonUtils.respJSONArray(res,sysServices.updateSysById(id,params));
 });
 
 /**
  * 删除系统
  */
 router.get('/deleteSysById',function(req,res){
-    sysServices.deleteSysById().then(function(result){
-        res.send({success:false,data:result});
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
-})
+    var id = req.query._id;
+    var p = sysServices.deleteSysById(id);
+    commonUtils.respJSONArray(res,p);
+});
 
 
 module.exports = router;
