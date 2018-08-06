@@ -1,7 +1,7 @@
 /**
  * Created by admin on 2018/5/28.
  */
-var commonUtils = require('../../../common/common_utils'),
+var commonUtils = require('../../../common/commonUtils'),
     menuModel = require('../../models/menu/menu_model').Menu,
     commonDao = require('../../../common/commonDao'),
     sysModel = require('../../models/sys/sys_model').Sys;
@@ -11,13 +11,7 @@ var commonUtils = require('../../../common/common_utils'),
  * @param params
  */
 exports.addMenu = function (params) {
-    return new Promise(function (resolve, reject) {
-        menuModel(params).save().then(function () {
-            resolve('增加系统成功');
-        }).catch(function (err) {
-            reject(err);
-        })
-    })
+    return commonDao.addModel(menuModel,params);
 }
 
 /**
@@ -26,29 +20,14 @@ exports.addMenu = function (params) {
  * @param params
  */
 exports.updateMenuById = function(id,params){
-    var condition = {_id:id};
-    var data = {$set:params};
-    var option = {};
-    return new Promise(function(resolve,reject){
-        menuModel.update(condition,data,option).then(function(){
-            resolve(true);
-        }).catch(function(err){
-            reject(err);
-        })
-    })
+    return commonDao.updateById(menuModel,id,params);
 }
 
 /**
  * 获取菜单列表
  */
 exports.getMenuList = function (searchMap,populate,sort) {
-    return new Promise(function (resolve, reject) {
-        commonDao.getAllNoPage(menuModel,searchMap,populate,sort).then(function(result){
-            resolve(result);
-        }).catch(function (err) {
-            reject(err);
-        })
-    })
+    return commonDao.getAllNoPage(menuModel,searchMap,populate,sort);
 }
 
 /**
@@ -60,13 +39,7 @@ exports.sysList = function (params) {
     if (params) {
         search = {sys_name: params};
     }
-    return new Promise(function (resolve, reject) {
-        sysModel.find(search).then(function (result) {
-            resolve(result);
-        }).catch(function (err) {
-            reject(err);
-        })
-    })
+    return commonDao.getAllNoPage(sysModel,search,null,null);
 }
 
 /**
@@ -93,15 +66,13 @@ exports.menuTree = function () {
     })
 }
 
+/**
+ * 根据ID查询一个菜单
+ * @param id
+ * @returns {Query}
+ */
 exports.getMenuById = function(id){
-    var search = {_id:id};
-    return new Promise(function(resolve,reject){
-        menuModel.find(search).then(function(menu){
-            resolve(menu)
-        }).catch(function(err){
-            reject(err);
-        })
-    })
+    return commonDao.findOneById(menuModel,id);
 }
 
 /**
@@ -109,11 +80,5 @@ exports.getMenuById = function(id){
  * @param id
  */
 exports.deleteMenuById = function(id){
-    return new Promise(function(resolve,reject){
-        menuModel.remove({_id:id}).then(function(){
-            resolve();
-        }).catch(function(err){
-            reject(err);
-        })
-    })
+    return commonDao.deleteOneById(menuModel,id);
 }

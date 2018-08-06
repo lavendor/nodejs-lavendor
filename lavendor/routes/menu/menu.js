@@ -4,6 +4,7 @@
 var express = require('express'),
     router = express.Router(),
     config = require('../../../config'),
+    commonUtils = require('../../../common/commonUtils'),
     menuServices = require('../../services/menu/menu_services');
 
 /**
@@ -21,7 +22,7 @@ router.get('/menuInfo',function(req,res){
     if(id){
         //修改，返回对象渲染到页面中
         menuServices.getMenuById(id).then(function(menu){
-            res.render('app/menu/menu_info',{menu:menu[0]})
+            res.render('app/menu/menu_info',{menu:menu})
         }).catch(function(err){
             res.render('app/menu/menu_info',{error:err});
         });
@@ -37,11 +38,7 @@ router.get('/menuInfo',function(req,res){
 router.get('/menuList',function(req,res){
     var searchMap = {},populate = null,sort = {'menu_sort':1};
     searchMap.menu_status = 0;//有效
-    menuServices.getMenuList(searchMap,populate,sort).then(function(menus){
-        res.send({success:true,msg:'',total:menus.length,data:menus});
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
+    commonUtils.respJSONArray(res,menuServices.getMenuList(searchMap,populate,sort))
 });
 
 /**
@@ -49,11 +46,7 @@ router.get('/menuList',function(req,res){
  */
 router.get('/menuGridList',function(req,res){
     var searchMap = {},populate = null,sort = {'menu_sort':1};
-    menuServices.getMenuList(searchMap,populate,sort).then(function(menus){
-        res.send({success:true,msg:'',total:menus.length,data:menus});
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
+    commonUtils.respJSONArray(res,menuServices.getMenuList(searchMap,populate,sort));
 });
 
 /**
@@ -61,11 +54,8 @@ router.get('/menuGridList',function(req,res){
  */
 router.get('/sysList',function(req,res){
     var params = req.query.q;//自动补全查询条件
-    menuServices.sysList(params).then(function(menus){
-        res.send(menus);
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
+
+    commonUtils.respJSON(res,menuServices.sysList(params));
 });
 
 /**
@@ -94,11 +84,7 @@ router.post('/addMenu',function(req,res){
         menu_url:body.menu_url,
         menu_status:0
     };
-    menuServices.addMenu(params).then(function(r){
-        res.send({success:true,msg:r})
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
+    return commonUtils.respJSONArray(res,menuServices.addMenu(params));
 });
 
 /**
@@ -116,11 +102,7 @@ router.post('/editMenuById',function(req,res){
         menu_url:body.menu_url,
         menu_status:0
     };
-    menuServices.updateMenuById(id,params).then(function(){
-        res.send({success:true,msg:'修改成功!'});
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
+    commonUtils.respJSONArray(res,menuServices.updateMenuById(id,params),'修改成功');
 });
 
 /**
@@ -128,11 +110,7 @@ router.post('/editMenuById',function(req,res){
  */
 router.get('/deleteMenuById',function(req,res){
     var id = req.query._id;
-    menuServices.deleteMenuById(id).then(function(){
-        res.send({success:true})
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
+    return commonUtils.respJSONArray(res,menuServices.deleteMenuById(id));
 });
 
 /**
@@ -141,11 +119,7 @@ router.get('/deleteMenuById',function(req,res){
 router.get('/changeMenuStatusById',function(req,res){
     var id = req.query._id,menu_status = req.query.status;
     var params = {menu_status:menu_status};
-    menuServices.updateMenuById(id,params).then(function(result){
-        res.send({success:true,msg:result})
-    }).catch(function(err){
-        res.send({success:false,msg:err});
-    })
+    return commonUtils.respJSONArray(res,menuServices.updateMenuById(id,params));
 })
 
 
