@@ -4,6 +4,17 @@
  * 封装mongoose的一些操作，并且使用Promise实现同步
  */
 
+
+/**
+ * 保存一个实例
+ * @param modelInst
+ * @param params
+ * @returns {*|Promise}
+ */
+exports.addModel = function(modelInst,params){
+    return modelInst(params).save();
+};
+
 /**
  * 根据ID查询一个实例
  * @param modelInst
@@ -46,7 +57,7 @@ exports.deleteOneById = function(modelInst,id){
  * @param populate  联查字段 "id1 id2 "
  * @param sort      排序字段 {id:-1,id2:1} -1倒序，1升序
  */
-exports.getPageAll = function (modelInst,searchMap,page,size,populate,sort){
+exports.getAllPage = function (modelInst,searchMap,page,size,populate,sort){
     return new Promise(function(resolve,reject){
         var query = modelInst.find({});
 
