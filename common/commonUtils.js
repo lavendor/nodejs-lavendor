@@ -49,6 +49,24 @@ exports.respJSON = function(res,promise){
 };
 
 /**
+ * 返回一个分页查询列表
+ * @param res
+ * @param promise
+ */
+exports.resJSONPage = function(res,promise,successMsg,errorMessage){
+    var sucMsg = successMsg?successMsg:'';
+    //传过来的是不是一个promise对象
+    if(!promise instanceof Promise){
+        res.send({success:false,msg:'执行的方法不是一个Promise方法.'});
+    }
+    promise.then(function(result){
+        res.send({'success':true,'msg':successMsg,'total':result.total,'rows':result.data});
+    }).catch(function(err){
+        res.send({success:false,msg:errorMessage?errorMessage:err,data:null});
+    });
+};
+
+/**
  * 数组转树型数据结构
  * @param a 数组
  * @param idStr ID字段
