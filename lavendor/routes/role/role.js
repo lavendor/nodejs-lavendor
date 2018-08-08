@@ -84,7 +84,7 @@ router.get('/changeRoleStatusById',function(req,res){
 })
 
 /**
- * 获取用户列表的公用
+ * 获取角色列表的公用
  */
 router.get('/roleListApi',function(req,res){
     var search = {role_status:1};//状态为启用
