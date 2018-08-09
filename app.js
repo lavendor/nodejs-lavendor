@@ -70,7 +70,7 @@ routeLoader.init(app,path.join(__dirname+'/lavendor/routes/'));
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
-    res.render('error',{layout:null});
+    res.render('common/error',{layout:null});
 });
 
 module.exports = app;

@@ -12,7 +12,7 @@ var express = require('express'),
  */
 router.get('/',function(req,res){
     // 登录页面不需要其他渲染
-    res.render('login', {layout: null});
+    res.render('common/login', {layout: null});
 });
 
 /**
