@@ -7,12 +7,12 @@ var LayoutInit = function(){
     /**
      * 初始化菜单
      */
-    var initMenu = function initMenuTree(){
+    var initMenu = function initMenuTree(currentRoleId){
         $.ajax({
-            url:'/menu/menuList',
+            url:'/login/initMenuByRoleId/'+currentRoleId,
             method:'get',
             success:function(result){
-                var menus = result.data;
+                var menus = result.data[0].menu_id;
                 var menuTrees = arrToTree(menus);
                 var html = '<ul class="page-sidebar-menu page-sidebar-menu-fixed page-header-fixed page-sidebar-menu-light " ' +
                     'data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">';
@@ -58,8 +58,8 @@ var LayoutInit = function(){
     }
 
     return {
-        init: function(){
-            initMenu();
+        init: function(currentRoleId){
+            initMenu(currentRoleId);
         }
     }
 }();
@@ -99,8 +99,4 @@ $(document).on('click','.nav-toggle',function(e){
         that.children('.arrow').addClass('open');
         that.next('.sub-menu').css({display:"block"});
     }
-});
-
-$(function(){
-    LayoutInit.init()
 });

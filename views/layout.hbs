@@ -191,4 +191,10 @@
   <script src="{{config.app_url_prefix}}/static/plugins/jquery-easyui-1.4.4/locale/easyui-lang-zh_CN.js"></script>
   <script src="{{config.app_url_prefix}}/static/lavendor/js/layout-init.js"></script>
 </body>
+<script>
+    $(function(){
+        var currentRoleId = '{{session.user.user_role}}';
+        LayoutInit.init(currentRoleId);
+    })
+</script>
 </html>

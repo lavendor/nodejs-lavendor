@@ -6,7 +6,17 @@ var commonDao = require('../../../common/commonDao'),
 
 
 /**
- *
+ * 获取权限列表
+ * @param searchMap
+ * @param populate
+ * @param sort
+ */
+exports.getRoleMenuList = function(searchMap,populate,sort){
+    return commonDao.getAllNoPage(permitModel,searchMap,populate,sort);
+};
+
+/**
+ * 增加权限设置
  * @param params
  * @returns {*|Promise}
  */

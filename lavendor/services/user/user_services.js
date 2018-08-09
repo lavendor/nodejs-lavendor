@@ -14,6 +14,15 @@ exports.addUser = function(params){
 };
 
 /**
+ * 根据其他条件查询用户
+ * @param search
+ * @returns {Query}
+ */
+exports.getUserByOther = function(search){
+    return commonDao.findOneByOther(userModel,search);
+};
+
+/**
  * 修改用户数据
  * @param id
  * @param callback
