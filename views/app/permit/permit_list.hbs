@@ -165,7 +165,11 @@
                         var menus = results.data.menu_id;
                         //选中对应的节点
                         menus.forEach(function(menu){
-                            $('#menuTrees').jstree('select_node',$('#menuTrees').jstree('get_node',menu));
+                            var isLeaf = $('#menuTrees').jstree('is_leaf',$('#menuTrees').jstree('get_node',menu));
+                            //是叶子节点才能被选中
+                            if(isLeaf){
+                                $('#menuTrees').jstree('select_node',$('#menuTrees').jstree('get_node',menu));
+                            }
                         })
                     }else{
                         dangerAlert('获取菜单列表失败:'+results.msg);
