@@ -107,11 +107,6 @@
                 "file" : {
                     "icon" : "fa fa-file icon-state-warning icon-lg"
                 }
-            },
-            'checkbox':{
-                'three_state'			: false,
-                'cascade':'undetermined',
-
             }
         });
 
@@ -134,6 +129,19 @@
                 var pid = $(e).closest('a').parent().attr('id');
                 selectedIds.push(pid);
             });
+
+            $.ajax({
+                url:'/permit/commitPermit',
+                method:'post',
+                data:{role_id:roleId,menu_ids:JSON.stringify(selectedIds)},
+                success:function(result){
+                    if(result.success){
+                        successAlert('授权成功！');
+                    }else{
+                        dangerAlert('授权失败：'+result.msg);
+                    }
+                }
+            });
         }else{
             dangerAlert('请选择角色！');
         }
@@ -144,6 +152,26 @@
      * @param roleId
      */
     function initRolePermit(roleId){
-        alert(roleId);
+        $('#menuTrees').jstree('deselect_all');//清除前一次的选择
+        if(!roleId){
+            dangerAlert('获取角色信息失败，可能是没有角色ID。');
+        }else{
+            $.ajax({
+                url:'/permit/getMenusByRoleId',
+                method:'get',
+                data:{roleId:roleId},
+                success:function(results){
+                    if(results.success){
+                        var menus = results.data.menu_id;
+                        //选中对应的节点
+                        menus.forEach(function(menu){
+                            $('#menuTrees').jstree('select_node',$('#menuTrees').jstree('get_node',menu));
+                        })
+                    }else{
+                        dangerAlert('获取菜单列表失败:'+results.msg);
+                    }
+                }
+            })
+        }
     }
 </script>
