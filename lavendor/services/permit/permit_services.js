@@ -24,11 +24,11 @@ exports.saveOrUpdateMenu = function(roleId,menuIds){
         commonDao.findOneByOther(permitModel,{role_id:roleId}).then(function(role){
             if(role){
                 //包含此角色，做更新
-                return commonDao.updateByOther(permitModel,{role_id:roleId},{menu_id:menuIds});
+                resolve(commonDao.updateByOther(permitModel,{role_id:roleId},{menu_id:menuIds}));
             }else{
                 //不包含此角色，做新增
                 var params = {role_id:roleId,menu_id:menuIds};
-                return commonDao.addModel(permitModel,params);
+                resolve(commonDao.addModel(permitModel,params));
             }
         }).catch(function(err){
             reject(err);
