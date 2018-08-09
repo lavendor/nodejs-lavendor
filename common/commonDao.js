@@ -50,6 +50,19 @@ exports.updateById = function(modelInst,id,newData,options){
 };
 
 /**
+ * 根据条件更新实例
+ * @param modelInst
+ * @param condition {key:vale}
+ * @param data
+ * @param option
+ */
+exports.updateByOther = function(modelInst,condition,data,options){
+    var data = {$set:data};
+    var options = options?options:{};
+    return modelInst.update(condition,data,options);
+};
+
+/**
  * 根据ID删除一个实例
  * @param modelInst
  * @param id
