@@ -26,6 +26,16 @@ exports.findOneById = function(modelInst,id){
 };
 
 /**
+ * 根据其他条件查询一个实例
+ * @param modelInst
+ * @param search
+ * @returns {Query}
+ */
+exports.findOneByOther = function(modelInst,search){
+    return modelInst.findOne(search);
+};
+
+/**
  * 更新数据
  * @param modelInst 更新的实例
  * @param id        ID
