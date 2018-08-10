@@ -53,6 +53,7 @@ router.post('/',function(req,res){
 router.post('/register',function(req,res){
     var body = req.body;
     var params = {
+        user_no : commonUtils.getUUID(),
         user_name:body.fullname,
         user_account:body.username,
         user_password:body.password,

@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2017/8/25.
  */
-
+var cuid = require('cuid');
 
 /**
  * 返回一个JSON数组 形式如下 {success：true,data:result,total:result.length,msg:message}
@@ -98,4 +98,12 @@ exports.getArrToTree  = function(a,idStr,pidStr){
         }
     }
     return result;
+};
+
+/**
+ * 获取UUID
+ * @returns {*}
+ */
+exports.getUUID = function(){
+    return cuid();
 };
