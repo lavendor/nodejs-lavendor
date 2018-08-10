@@ -35,7 +35,9 @@ router.post('/',function(req,res){
     userService.getUserByOther(search).then(function(user){
         if(user) {
             req.session.user = user;//设置session
-            res.send({success:true});
+
+            //登录成功之后返回首页，使用默认的渲染页面
+            res.render('app/index/index');
         }else{
             res.send({success:false,msg:"用户["+username+']不存在.'});
         }
