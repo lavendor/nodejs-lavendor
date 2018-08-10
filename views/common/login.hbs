@@ -53,11 +53,11 @@
         <!-- END LOGO -->
         <!-- BEGIN LOGIN -->
         <div class="content">
+            <!--消息提示显示区-->
+            <div id="alertContainer"></div>
             <!-- BEGIN LOGIN FORM -->
             <form id="loginForm" class="login-form" action="/login" method="post">
                 <h3 class="form-title">用户登录</h3>
-                <!--消息提示显示区-->
-                <div id="alertContainer"></div>
                 <div class="alert alert-danger display-hide">
                     <button class="close" data-close="alert"></button>
                     <span> 请输入用户名和密码. </span>
@@ -116,6 +116,16 @@
                     <div class="input-icon">
                         <i class="fa fa-font"></i>
                         <input class="form-control placeholder-no-fix" type="text" placeholder="姓名" name="fullname" /> </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">性别</label>
+                    <div class="input-icon">
+                        <i class="fa fa-mars"></i>
+                        <select class="form-control placeholder-no-fix" type="text" placeholder="性别" name="gender" >
+                            <option value="1">男</option>
+                            <option value="2" selected>女</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
@@ -362,6 +372,10 @@
                 });
             }
 
+            $('input[name="gender"]').change(function() {
+                $('.register-form').validate().element($(this)); //revalidate the chosen dropdown value and show error or success message for the input
+            });
+
 
             $('.register-form').validate({
                 errorElement: 'span', //default input error message container
@@ -490,7 +504,7 @@
                     jQuery('.login-form').show();
                     jQuery('.register-form').hide();
                 }else{
-                    dangerAlert(data.msg);
+                    dangerAlert(data.msg.message);
                 }
             }
         });

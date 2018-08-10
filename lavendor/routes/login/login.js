@@ -58,6 +58,7 @@ router.post('/register',function(req,res){
         user_password:body.password,
         user_email:body.email,
         user_role:config.initSys.user_role,//初始角色 普通用户
+        user_sex : body.gender,
         user_status:'1',//默认为启动状态
         create_time:new Date()
     };
