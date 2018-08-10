@@ -88,7 +88,7 @@
                 },
                 {field:'user_sys',title:'所属系统',width:'15%',
                     formatter:function(value,row,index){
-                        return value.sys_name;
+                        return value?value.sys_name:'';
                     }
                 },
                 {field:'user_status',title:'用户状态',width:'5%',align:'center',
