@@ -423,7 +423,7 @@
                 },
 
                 submitHandler: function (form) {
-                    formSubmit('reg');
+                    formRegSubmit();
                 }
             });
 
@@ -472,17 +472,11 @@
     }();
 
     /**
-     * 提交表单的方法
+     * 注册用户表单的方法
      */
-    function formSubmit(method){
-        var url = '',formTarget = '';
-        if(method=='reg'){
-            url = '/login/register';
-            formTarget = $('#registerForm');
-        }else if(method=='login'){
-            url = '/login';
-            formTarget = $('#loginForm');
-        }
+    function formRegSubmit(){
+        var url = '/login/register';
+        var formTarget = $('#registerForm');
 
         var dataObj = formTarget.serializeArray();
         $.ajax({
@@ -492,13 +486,9 @@
             data:dataObj,
             success:function(data){
                 if(data.success){
-                    if(method=='login'){
-                        location.href='/index';//跳转到首页
-                    }else{
-                        successAlert('注册成功！');
-                        jQuery('.login-form').show();
-                        jQuery('.register-form').hide();
-                    }
+                    successAlert('注册成功！');
+                    jQuery('.login-form').show();
+                    jQuery('.register-form').hide();
                 }else{
                     dangerAlert(data.msg);
                 }

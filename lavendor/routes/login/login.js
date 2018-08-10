@@ -3,6 +3,7 @@
  */
 var express = require('express'),
     router = express.Router(),
+    config = require('../../../config'),
     commonUtils = require('../../../common/commonUtils'),
     permitServices = require('../../services/permit/permit_services'),
     userService = require('../../services/user/user_services');
@@ -56,6 +57,7 @@ router.post('/register',function(req,res){
         user_account:body.username,
         user_password:body.password,
         user_email:body.email,
+        user_role:config.initSys.user_role,//初始角色 普通用户
         user_status:'1',//默认为启动状态
         create_time:new Date()
     };

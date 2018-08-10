@@ -22,6 +22,17 @@ var config={
      */
     app_url_prefix : '/lavendor',
 
+    //数据库配置
+    mongodb:{
+        URL:'mongodb://localhost:27017/lavendor'
+    },
+
+    //服务器配置
+    domain:{
+        address:'127.0.0.1',
+        port:8080
+    },
+
     //路由配置
     route:{
       exclude:[ //公共路由排除，不需要被拦截,任何人都能访问
@@ -40,15 +51,10 @@ var config={
         maxAge:1000 * 60 * 60,       //session有效期 一小时
     },
 
-    //数据库配置
-    mongodb:{
-        URL:'mongodb://localhost:27017/lavendor'
-    },
-
-    //服务器配置
-    domain:{
-        address:'127.0.0.1',
-        port:8080
+    //系统初始化配置
+    initSys : {
+        //用户注册初始角色（普通用户）
+        user_role : '5b62d98d9a58221dac0547d0'
     },
 
     //树型结构根节点设置，ID为空
@@ -61,6 +67,6 @@ var config={
     logger:{
         level:'DEBUG'
     }
-}
+};
 
 module.exports = config;
