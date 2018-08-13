@@ -46,7 +46,7 @@ var config={
     //session配置
     session:{
         secret:'lavendor',          //secret id
-        resave:true,                //重复保存
+        resave:false,                //重复保存
         saveUninitialized:false,    //未初始化是否保存
         maxAge:1000 * 60 * 60,       //session有效期 一小时
     },

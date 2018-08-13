@@ -40,7 +40,8 @@ app.use(session({
     resave:config.session.resave,
     saveUninitialized:config.session.saveUninitialized,
     cookie:{
-        maxAge:config.session.maxAge
+        maxAge:config.session.maxAge,
+        originalMaxAge:config.session.maxAge
     }
 }));
 
