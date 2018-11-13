@@ -41,20 +41,6 @@ var loadRoute = {
         var routePath = routeFile.substring(dir.length,routeFile.lastIndexOf('.'));
         routePath = "/"+routePath;
         this.app.use(routePath,route);
-
-        //判断index文件，可以做排除
-        /*if(routePath.length >= 5){
-            var p = routePath.substring(routePath.length-5);//取最后面五个字符，判断是不是index文件
-
-            if(p=="index"){ //是index 则路由路径为 /
-                var validPath = routePath.substring(0,routePath.length-5);
-                this.app.use(validPath,route);
-            }else{ //不是index 则 为 /+当前文件名
-                this.app.use(routePath,route);
-            }
-        }else{
-            this.app.use(routePath,route);
-        }*/
     },
 
     /**
