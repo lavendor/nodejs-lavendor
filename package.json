@@ -4,17 +4,20 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lavendor": "node ./bin/startServer"
   },
   "author": "yanghao",
   "license": "ISC",
   "dependencies": {
     "amqplib-rpc": "^3.1.0",
+    "body-parser": "^1.19.0",
     "connect-mongo": "^2.0.1",
+    "cookie-parser": "^1.4.4",
     "cuid": "^2.1.1",
     "events": "^1.1.1",
     "express": "^4.15.3",
     "express-session": "^1.15.6",
+    "fs": "0.0.1-security",
     "hbs": "^4.0.1",
     "log4js": "^2.4.1",
     "mongoose": "^5.1.1"
