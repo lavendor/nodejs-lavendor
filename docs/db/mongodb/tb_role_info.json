@@ -1,0 +1,16 @@
+{ 
+    "_id" : ObjectId("5e7b14845f2415490074769f"), 
+    "role_name" : "开发人员", 
+    "role_code" : "dev_admin", 
+    "role_sys" : ObjectId("5e7b14465f2415490074769e"), 
+    "role_status" : NumberInt(1), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5e7b26ff5f241549007476a9"), 
+    "role_name" : "管理员", 
+    "role_code" : "user_admin", 
+    "role_sys" : ObjectId("5e7b14465f2415490074769e"), 
+    "role_status" : NumberInt(1), 
+    "__v" : NumberInt(0)
+}

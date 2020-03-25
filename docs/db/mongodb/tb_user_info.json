@@ -1,0 +1,30 @@
+{ 
+    "_id" : ObjectId("5d5f4ed617542841944f6320"), 
+    "user_status" : NumberInt(1), 
+    "user_no" : "cjznhuc380000ycvritahqf7p", 
+    "user_name" : "杨豪", 
+    "user_account" : "yanghao", 
+    "user_password" : "yanghao", 
+    "user_email" : "1490508946@qq.com", 
+    "user_role" : ObjectId("5e7b26ff5f241549007476a9"), 
+    "user_sex" : NumberInt(1), 
+    "create_time" : ISODate("2019-08-23T02:26:30.453+0000"), 
+    "__v" : NumberInt(0), 
+    "user_sys" : ObjectId("5e7b14465f2415490074769e"), 
+    "update_time" : ISODate("2020-03-25T09:41:04.590+0000")
+}
+{ 
+    "_id" : ObjectId("5e183962a58de04988665516"), 
+    "user_status" : NumberInt(1), 
+    "user_no" : "ck57wzgim0000iwvrjy43oeie", 
+    "user_name" : "管理人员", 
+    "user_account" : "admin", 
+    "user_password" : "admin", 
+    "user_email" : "1490508946@qq.com", 
+    "user_role" : ObjectId("5e7b14845f2415490074769f"), 
+    "user_sex" : NumberInt(1), 
+    "create_time" : ISODate("2020-01-10T08:44:18.910+0000"), 
+    "__v" : NumberInt(0), 
+    "user_sys" : ObjectId("5e7b14465f2415490074769e"), 
+    "update_time" : ISODate("2020-03-25T08:21:42.739+0000")
+}

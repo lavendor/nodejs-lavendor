@@ -1,0 +1,24 @@
+{ 
+    "_id" : ObjectId("5e7b15345f241549007476a3"), 
+    "menu_id" : [
+        ObjectId("5e7b14de5f241549007476a0"), 
+        ObjectId("5e7b15015f241549007476a1"), 
+        ObjectId("5e7b15225f241549007476a2"), 
+        ObjectId("5e7b22cb5f241549007476a5"), 
+        ObjectId("5e7b216a5f241549007476a4"), 
+        ObjectId("5e7b24115f241549007476a6"), 
+        ObjectId("5e7b24845f241549007476a7"), 
+        ObjectId("5e7b25095f241549007476a8")
+    ], 
+    "role_id" : ObjectId("5e7b14845f2415490074769f"), 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5e7b27485f241549007476aa"), 
+    "menu_id" : [
+        ObjectId("5e7b14de5f241549007476a0"), 
+        ObjectId("5e7b15015f241549007476a1")
+    ], 
+    "role_id" : ObjectId("5e7b26ff5f241549007476a9"), 
+    "__v" : NumberInt(0)
+}
