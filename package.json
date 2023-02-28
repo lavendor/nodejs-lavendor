@@ -18,7 +18,7 @@
     "express": "^4.15.3",
     "express-session": "^1.15.6",
     "fs": "0.0.1-security",
-    "hbs": "^4.0.1",
+    "hbs": "^4.2.0",
     "log4js": "^6.4.0",
     "mongoose": "^5.7.5"
   }
